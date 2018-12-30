@@ -1,7 +1,6 @@
 {
-  "name": "test2",
-  "version": "1.0.0",
-  "description": "",
+  "name": "scorekeeprv3-server",
+  "version": "0.1.0",
   "main": "index.js",
   "scripts": {
     "build": "tsc",
@@ -14,15 +13,22 @@
   "license": "ISC",
   "dependencies": {
     "@types/express": "^4.16.0",
+    "@types/graphql": "^14.0.3",
+    "@types/mongoose": "^5.3.5",
     "apollo-server": "^2.3.1",
     "apollo-server-express": "^2.3.1",
     "body-parser": "^1.18.3",
     "express": "^4.16.4",
     "graphql": "^14.0.2",
-    "mongoose": "^5.4.1",
-    "nodemon": "^1.18.9"
+    "graphql-tools": "^4.0.3",
+    "mongoose": "^5.4.1"
   },
   "devDependencies": {
-    "@types/graphql": "^14.0.3"
+    "prettier": "^1.15.3",
+    "tslint": "^5.12.0",
+    "tslint-config-prettier": "^1.17.0",
+    "tslint-eslint-rules": "^5.4.0",
+    "nodemon": "^1.18.9",
+    "typescript": "^3.2.2"
   }
 }
