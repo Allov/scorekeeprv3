@@ -5,7 +5,7 @@ import { IStore } from '../types';
 export function game(state: IStore, action: ICreateGame): IStore {
   switch (action.type) {
     case CREATE_GAME:
-      return { ...state, game: action.name };
+      return { ...state, me: { id: '', name: action.name }};
   }
   return state;
 }
