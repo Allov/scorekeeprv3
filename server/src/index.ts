@@ -1,9 +1,9 @@
 import express from 'express';
 import cors from 'cors';
-import { ApolloServer, gql, makeExecutableSchema } from 'apollo-server-express';
+import { ApolloServer, makeExecutableSchema } from 'apollo-server-express';
 import mongoose from 'mongoose';
-import rootTypeDefs from 'graphql/rootTypeDefs';
-import resolvers from 'graphql/resolvers';
+import rootTypeDefs from './graphql/rootTypeDefs';
+import resolvers from './graphql/resolvers';
 
 mongoose.connect(
   'mongodb://localhost/scorekeepr',
@@ -18,7 +18,7 @@ const schema = makeExecutableSchema({
 
 const server = new ApolloServer({
   schema,
-  formatError(error) {
+  formatError(error: any) {
     if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
       // logging the errors can help in development
       console.log(error);

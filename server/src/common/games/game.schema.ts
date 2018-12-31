@@ -57,6 +57,7 @@ export const gameResolvers = {
   },
   Mutation: {
     addUser: async (_, { input }) => {
+      input.createdAt = Date.now();
       const game: any = await Game.create(input);
       return game;
     },

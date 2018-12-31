@@ -23,7 +23,8 @@
     "graphql": "^14.0.2",
     "graphql-iso-date": "^3.6.1",
     "graphql-tools": "^4.0.3",
-    "mongoose": "^5.4.1"
+    "mongoose": "^5.4.1",
+    "sillyname": "^0.1.0"
   },
   "devDependencies": {
     "prettier": "^1.15.3",

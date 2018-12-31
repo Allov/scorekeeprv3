@@ -1,5 +1,5 @@
 import { gql } from "apollo-server-express";
-import { gameTypeDefs } from "common/games/game.schema";
+import { gameTypeDefs } from "../common/games/game.schema";
 
 const rootTypeDefs = gql`
   type Query
