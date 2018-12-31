@@ -5,11 +5,21 @@ export interface ICreateGame {
   name: string;
 }
 
-export type ScorekeeprActions = ICreateGame;
+export interface IFetchHelloworld {
+  type: constants.FETCH_HELLOWORLD;
+}
 
-export function createGame(name: string): ICreateGame {
+export type ScorekeeprActions = ICreateGame | IFetchHelloworld;
+
+export function createGame(name: string) : ICreateGame {
   return {
     name,
     type: constants.CREATE_GAME,
+  }
+}
+
+export function fetchHelloworld() : IFetchHelloworld {
+  return {
+    type: constants.FETCH_HELLOWORLD,
   }
 }

@@ -1,8 +1,8 @@
-import { ICreateGame } from '../actions';
+import { ICreateGame, IFetchHelloworld } from '../actions';
 import { CREATE_GAME } from '../constants';
 import { IStore } from '../types';
 
-export function game(state: IStore, action: ICreateGame): IStore {
+export function game(state: IStore, action: ICreateGame | IFetchHelloworld): IStore {
   switch (action.type) {
     case CREATE_GAME:
       return { ...state, me: { id: '', name: action.name }};
