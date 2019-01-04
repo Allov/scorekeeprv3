@@ -2,23 +2,20 @@ language: node_js
 
 node_js:
   - 'node'
-  - '10'
-  - '6'
 
-sudo: false
+script:
+  - cd client && npm install && cd ..
+  - cd client && npm run build && cd ..
+  - cd client && npm test && cd ..
 
 branches:
   only:
   - master
 
-install:
-  - npm uninstall typescript --no-save
-  - npm uninstall tslint --no-save
-  - npm install
-
 cache:
   directories:
-    - node_modules
+    - client/node_modules
+    - server/node_modules
 
 git:
   depth: 1
