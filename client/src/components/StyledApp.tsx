@@ -1,5 +1,5 @@
-import App from './App';
-import styled from './styled-components';
+import App from '../containers/App';
+import styled from '../styled-components';
 
 export default styled(App)`
   .App {

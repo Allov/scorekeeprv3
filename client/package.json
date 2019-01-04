@@ -8,9 +8,11 @@
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
     "react-redux": "^6.0.0",
+    "react-router-dom": "^4.3.1",
     "react-scripts-ts": "^4.0.8",
     "redux": "^4.0.1",
     "redux-saga": "^0.16.2",
+    "reselect": "^4.0.0",
     "styled-components": "^4.1.3"
   },
   "scripts": {
@@ -26,6 +28,7 @@
     "@types/react": "^16.7.18",
     "@types/react-dom": "^16.0.11",
     "@types/react-redux": "^6.0.11",
+    "@types/react-router-dom": "^4.3.1",
     "@types/styled-components": "^4.1.4",
     "typescript": "^3.2.2"
   },
