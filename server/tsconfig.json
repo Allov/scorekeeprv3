@@ -5,9 +5,10 @@
       "moduleResolution": "node",
       "esModuleInterop": true,
       "pretty": true,
+      "lib": ["es6", "esnext.asynciterable"],
       "sourceMap": true,
       "target": "es6",
-      "outDir": "./dist",
+      "outDir": "./build",
       "baseUrl": "./src"
   },
   "include": [

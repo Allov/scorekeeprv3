@@ -1,5 +1,7 @@
-import { gql } from "apollo-server-express";
-import { gameTypeDefs } from "../common/games/game.schema";
+import { gql } from 'apollo-server-express';
+import { gameTypeDefs } from '../common/games/game.schema';
+import {userTypeDefs} from '../common/users/user.schema';
+
 
 const rootTypeDefs = gql`
   type Query
@@ -10,4 +12,4 @@ const rootTypeDefs = gql`
   }
 `;
 
-export default [rootTypeDefs, gameTypeDefs];
+export default [rootTypeDefs, gameTypeDefs, userTypeDefs];
