@@ -4,7 +4,7 @@ import { appReducer } from '../reducer';
 
 it('returns the initial state', () => {
   const expectedState: IConfiguration = {
-    theme: 'DEFAULT'
+    theme: 'day'
   };
 
   expect(appReducer(undefined, undefined)).toEqual(expectedState);
@@ -17,7 +17,7 @@ it('returns the state with the correct configured theme', () => {
   };
 
   const state: IConfiguration = {
-    theme: 'DEFAULT'
+    theme: 'day'
   };
 
   expect(appReducer(state, actions.createGame(theme))).toEqual(expectedState);

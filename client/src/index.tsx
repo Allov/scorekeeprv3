@@ -8,7 +8,7 @@ import configureStore, { history } from './store';
 
 const store = configureStore({
   configuration: {
-    theme: 'party',
+    theme: 'day',
   },
 });
 
