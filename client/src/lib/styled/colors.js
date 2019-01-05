@@ -1,3 +1,10 @@
 export const nightable = {
-    test: '#000'
+    background: {
+        day: '#fff',
+        night: '#000'
+    },
+    text: {
+        day: '#000',
+        night: '#fff',
+    },
 }

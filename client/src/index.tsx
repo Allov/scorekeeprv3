@@ -7,9 +7,14 @@ import configureStore from './store';
 
 const store = configureStore({});
 
+import { themePicker } from './lib/styled/interface';
+
+let theme: string;
+theme = 'party';
+
 ReactDOM.render(
   <Provider store={store}>
-    <StyledApp />
+    <StyledApp myTheme={themePicker[theme]} />
   </Provider>,
   document.getElementById('root') as HTMLElement
 );
