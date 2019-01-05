@@ -14,7 +14,7 @@ interface IAppProps {
 
 export const App = (props: IAppProps) => {
   return (
-    <Layout myTheme={themePicker[props.theme]}>
+    <Layout theme={themePicker[props.theme]}>
       <Router>
         <Switch>
           <Route path="/" exact={true} component={Home} />

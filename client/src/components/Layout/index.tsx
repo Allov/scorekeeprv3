@@ -4,7 +4,7 @@ import styled from 'styled-components';
 interface ILayoutProps {
   children: React.ReactNode;
   className?: string;
-  myTheme: any;
+  theme: any;
 }
 
 const Layout = (props: ILayoutProps) => (
@@ -14,8 +14,8 @@ const Layout = (props: ILayoutProps) => (
 );
 
 const StyledLayout = styled(Layout)`
-  --text-primary: ${(props: ILayoutProps) => props.myTheme.pText};
-  --background-primary: ${(props: ILayoutProps) => props.myTheme.pBackground};
+  --text-primary: ${(props: ILayoutProps) => props.theme.pText};
+  --background-primary: ${(props: ILayoutProps) => props.theme.pBackground};
 `;
 
 export default StyledLayout;
