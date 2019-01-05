@@ -7,8 +7,15 @@ it('should configure the redux store correctly', () => {
     configuration: {
       theme: 'DEFAULT',
     },
-    modal: {},
-    pages: [],
+    router: {
+      action: 'POP',
+      location: {
+        hash: '',
+        pathname: '/',
+        search: '',
+        state: null,
+      },
+    },
   };
 
   const store = configureStore(state);
@@ -20,8 +27,15 @@ it('should configure the redux store correctly with developer tool', () => {
     configuration: {
       theme: 'DEFAULT',
     },
-    modal: {},
-    pages: [],
+    router: {
+      action: 'POP',
+      location: {
+        hash: '',
+        pathname: '/',
+        search: '',
+        state: null,
+      },
+    },
   };
 
   (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ = compose;

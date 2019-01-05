@@ -9,7 +9,7 @@ interface IHomeProps {
 
 const Home = (props: IHomeProps) => (
   <Lineup>
-    <Card title="Create" link="create/test" />
+    <Card title="Create" link="/create/test" />
   </Lineup>
 );
 

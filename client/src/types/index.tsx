@@ -1,10 +1,13 @@
+import { RouterState } from 'connected-react-router';
+
 // todo: split this... probably.
 
 // state types
 export interface IStore {
-  configuration: IConfiguration;
-  modal: any;
-  pages: IPage[];
+  configuration?: IConfiguration;
+  modal?: any;
+  pages?: IPage[];
+  router?: RouterState;
 }
 
 export interface IConfiguration {
