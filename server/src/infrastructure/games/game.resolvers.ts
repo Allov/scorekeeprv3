@@ -1,17 +1,13 @@
-import Game from './game.model';
 import UserRepository from '../users/user.model';
+import Game from './game.model';
 
 import sillyname from 'sillyname';
 
 export const gameResolvers = {
-  Query: {
-    games: async (_, { filter = {} }) => {
-      const games: any[] = await Game.find({}, null, filter);
-      return games;
-    },
-    game: async (_, { id }) => {
-      const game: any = await Game.findById(id);
-      return game;
+  Game: {
+    createdBy: async(game: any) => {
+      const user: any = await UserRepository.findById(game.createdBy);
+      return user;
     },
   },
   Mutation: {
@@ -23,8 +19,6 @@ export const gameResolvers = {
         user = await UserRepository.create({username: `${sillyname()}`.replace(/ /g, '-')});
       }
 
-      console.log('hello user: ', user);
-
       input.createdAt = Date.now();
       input.shareId = `${sillyname()}${sillyname()}`.replace(/ /g, '-').toLowerCase();
       input.createdBy = user.id;
@@ -33,19 +27,23 @@ export const gameResolvers = {
       user = await UserRepository.findByIdAndUpdate(user.id, user);
       return game;
     },
-    editGame: async (_, { id, input }) => {
-      const game: any = await Game.findByIdAndUpdate(id, input);
-      return game;
-    },
     deleteGame: async (_, { id }) => {
       const game: any = await Game.findByIdAndRemove(id);
       return game ? game : null;
     },
-  },
-  Game: {
-    createdBy: async(game: any) => {
-      const user: any = await UserRepository.findById(game.createdBy);
-      return user;
+    editGame: async (_, { id, input }) => {
+      const game: any = await Game.findByIdAndUpdate(id, input);
+      return game;
     },
-  }
+  },
+  Query: {
+    game: async (_, { id }) => {
+      const game: any = await Game.findById(id);
+      return game;
+    },
+    games: async (_, { filter = {} }) => {
+      const games: any[] = await Game.find({}, null, filter);
+      return games;
+    },
+  },
 };
