@@ -5,9 +5,12 @@ import App from './containers/App';
 import registerServiceWorker from './registerServiceWorker';
 import configureStore from './store';
 
+import { themePicker } from './lib/styled/interface';
+
+
 const store = configureStore({
   configuration: {
-    theme: 'DEFAULT',
+    theme: 'night',
   },
   modal: {},
   pages: [],
@@ -15,7 +18,7 @@ const store = configureStore({
 
 ReactDOM.render(
   <Provider store={store}>
-    <App />
+    <App myTheme={themePicker[store.getState().configuration.theme]} />
   </Provider>,
   document.getElementById('root') as HTMLElement
 );

@@ -27,10 +27,11 @@ const Lineup = styled(Container)`
   }
 
   li {
+    background: var(--background-primary);
     display: flex;
     justify-content: center;
     align-items: center;
-    border: 2px solid black;
+    border: 2px solid var(--text-primary);
     font-size: 3em;
   }
 `;
