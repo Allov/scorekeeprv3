@@ -1,6 +1,6 @@
 import { gql } from 'apollo-server-express';
-import { gameTypeDefs } from '../common/games/game.schema';
-import {userTypeDefs} from '../common/users/user.schema';
+import { gameTypeDefs } from './games/game.schema';
+import {userTypeDefs} from './users/user.schema';
 
 
 const rootTypeDefs = gql`

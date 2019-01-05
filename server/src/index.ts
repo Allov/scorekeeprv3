@@ -2,8 +2,8 @@ import express from 'express';
 import cors from 'cors';
 import { ApolloServer, makeExecutableSchema } from 'apollo-server-express';
 import mongoose from 'mongoose';
-import rootTypeDefs from './graphql/rootTypeDefs';
-import resolvers from './graphql/resolvers';
+import rootTypeDefs from './infrastructure/rootTypeDefs';
+import resolvers from './infrastructure/resolvers';
 
 mongoose.connect(
   'mongodb://localhost/scorekeepr',
