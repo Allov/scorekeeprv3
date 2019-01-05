@@ -5,6 +5,7 @@ export const gameTypeDefs = gql`
     id: ID!
     name: String!
     shareId: String!
+    rounds: [Round!]!
     createdBy: User!
   }
   input GameFilterInput {
@@ -22,7 +23,7 @@ export const gameTypeDefs = gql`
   }
   # Extending the root Mutation type.
   extend type Mutation {
-    addGame(input: GameInput!): Game
+    createGame(input: GameInput!): Game
     editGame(id: String!, input: GameInput!): Game
     deleteGame(id: String!): Game
   }

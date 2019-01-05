@@ -1,6 +1,7 @@
 import { gql } from 'apollo-server-express';
 import { gameTypeDefs } from './games/game.schema';
-import {userTypeDefs} from './users/user.schema';
+import { roundTypeDefs } from './rounds/round.schema';
+import { userTypeDefs } from './users/user.schema';
 
 
 const rootTypeDefs = gql`
@@ -12,4 +13,9 @@ const rootTypeDefs = gql`
   }
 `;
 
-export default [rootTypeDefs, gameTypeDefs, userTypeDefs];
+export default [
+  rootTypeDefs,
+  gameTypeDefs,
+  roundTypeDefs,
+  userTypeDefs,
+];

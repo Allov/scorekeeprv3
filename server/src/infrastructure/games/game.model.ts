@@ -1,38 +1,28 @@
 import mongoose from 'mongoose';
-
-const Score = new mongoose.Schema({
-  playerId: String,
-  points: Number,
-});
-
-const Round = new mongoose.Schema({
-  number: Number,
-  scores: [Score]
-})
-
-const Player = new mongoose.Schema({
-  name: String,
-})
+import {  Player, Round } from '../rounds/round.model';
 
 const gameSchema = new mongoose.Schema({
-  name: {
-    type: String,
+  createdAt: {
     required: true,
+    type: Date,
     unique: false,
   },
-  shareId: {
-    type: String,
-    required: true,
-    unique: true,
+  createdBy: {
+    ref: 'User',
+    type: mongoose.Schema.Types.ObjectId,
   },
-  createdAt: {
-    type: Date,
+  name: {
     required: true,
+    type: String,
     unique: false,
   },
   players: [Player],
   rounds: [Round],
-  createdBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }
+  shareId: {
+    required: true,
+    type: String,
+    unique: true,
+  },
 });
 
 gameSchema.set('toObject', {virtuals: true});
