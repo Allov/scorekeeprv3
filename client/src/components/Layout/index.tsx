@@ -1,10 +1,11 @@
 import * as React from 'react';
 import styled from 'styled-components'; 
+import { IAppTheme } from '../../lib/styled/interface';
 
 interface ILayoutProps {
   children: React.ReactNode;
   className?: string;
-  theme: any;
+  theme: IAppTheme;
 }
 
 const Layout = (props: ILayoutProps) => (

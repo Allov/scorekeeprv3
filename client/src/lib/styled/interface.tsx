@@ -1,6 +1,6 @@
 import { nightable } from './colors';
 
-interface IAppTheme {
+export interface IAppTheme {
   pBackground: string,
   pText: string,
 }
