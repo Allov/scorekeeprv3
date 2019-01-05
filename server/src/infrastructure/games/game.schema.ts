@@ -1,7 +1,5 @@
-import Game from './game.model';
-import UserRepository from '../users/user.model';
+
 import { gql } from 'apollo-server-express';
-import sillyname from 'sillyname';
 
 export const gameTypeDefs = gql`
   type Game {
