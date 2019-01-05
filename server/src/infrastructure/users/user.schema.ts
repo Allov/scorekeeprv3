@@ -1,4 +1,3 @@
-import User from './user.model';
 import { gql } from 'apollo-server-express';
 
 export const userTypeDefs = gql `
