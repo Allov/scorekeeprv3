@@ -1,8 +1,8 @@
 import mongoose from 'mongoose';
 
 const User = new mongoose.Schema({
+  games: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Game' }],
   username: String,
-  games: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Game' }]
 });
 
 User.set('toObject', {virtuals: true});

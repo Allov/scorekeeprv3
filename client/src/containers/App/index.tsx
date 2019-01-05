@@ -1,29 +1,32 @@
 import * as React from 'react';
+import { connect } from 'react-redux';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import StyledLayout from '../../components/Layout';
+import { createStructuredSelector } from 'reselect';
+import Layout from '../../components/Layout';
+import { themePicker } from '../../lib/styled/interface';
 import Home from '../Home';
+import { makeSelectTheme } from './selectors';
 
 interface IAppProps {
-  className?: string,
-  myTheme: ILayoutTheme,
-}
-
-interface ILayoutTheme {
-  pBackground: string,
-  pText: string,
+  className?: string;
+  theme: string;
 }
 
 export const App = (props: IAppProps) => {
   return (
-    <StyledLayout myTheme={props.myTheme}>
+    <Layout myTheme={themePicker[props.theme]}>
       <Router>
         <Switch>
           <Route path="/" exact={true} component={Home} />
           <Route path="/create/:kind" component={Home} />
         </Switch>
       </Router>
-    </StyledLayout>
+    </Layout>
   );
 };
 
-export default App;
+const mapStateToProps = () => createStructuredSelector({
+  theme: makeSelectTheme(),
+});
+
+export default connect(mapStateToProps)(App);
