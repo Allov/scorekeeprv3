@@ -1,10 +1,14 @@
 import * as React from 'react';
+import { connect } from 'react-redux';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { createStructuredSelector } from 'reselect';
 import Layout from '../../components/Layout';
 import Home from '../Home';
+import { makeSelectTheme } from './selectors';
 
 interface IAppProps {
-  className?: string,
+  className?: string;
+  theme: string;
 }
 
 export const App = (props: IAppProps) => {
@@ -20,4 +24,8 @@ export const App = (props: IAppProps) => {
   );
 };
 
-export default App;
+const mapStateToProps = () => createStructuredSelector({
+  theme: makeSelectTheme(),
+});
+
+export default connect(mapStateToProps)(App);
