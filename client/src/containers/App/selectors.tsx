@@ -1,11 +1,11 @@
 import { createSelector } from 'reselect';
-import { IGame, IStore } from './types';
+import { IConfiguration, IStore } from '../../types';
 
-const getGameState = (state: IStore) => state.game;
+const getConfigurationState = (state: IStore) => state.configuration;
 
-export const makeSelectGameName = () => createSelector<IStore, IGame | undefined, string>(
-  getGameState,
-  (state: IGame) => {
-    return state.name;
+export const makeSelectTheme = () => createSelector<IStore, IConfiguration | undefined, string>(
+  getConfigurationState,
+  (state: IConfiguration) => {
+    return state.theme;
   },
 );

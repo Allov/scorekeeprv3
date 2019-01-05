@@ -1,0 +1,4 @@
+{
+  "jest.pathToJest": "npm test -- --coverage",
+  "jest.rootPath": "client"
+}

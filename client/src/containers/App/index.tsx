@@ -1,25 +1,20 @@
 import * as React from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
-import CreateGame from '../CreateGame';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import Home from '../Home';
 
 interface IAppProps {
   className?: string,
 }
 
-const RealRouter = (
-  <Router>
-    <Route path="/" exact={true} component={CreateGame} />
-  </Router>
-);
-
-export const App = (router: React.ReactNode) => (props: IAppProps) => {
+export const App = (props: IAppProps) => {
   return (
-    <div className={props.className}>
-      <div className="App">
-        {router}
-      </div>
-    </div>
+    <Router>
+      <Switch>
+        <Route path="/" exact={true} component={Home} />
+        <Route path="/create/:kind" component={Home} />
+      </Switch>
+    </Router>
   );
 };
 
-export default App(RealRouter);
+export default App;
