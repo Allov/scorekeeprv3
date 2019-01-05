@@ -1,2 +1,2 @@
-export const CREATE_GAME = 'CREATE_GAME';
-export type CREATE_GAME = typeof CREATE_GAME;
+export const CONFIGURE_THEME = 'CONFIGURE_THEME';
+export type CONFIGURE_THEME = typeof CONFIGURE_THEME;

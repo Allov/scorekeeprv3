@@ -1,16 +1,16 @@
 import { Action } from 'redux';
 import * as constants from './constants';
 
-export interface ICreateGame extends Action {
-  type: constants.CREATE_GAME;
-  name: string;
+export interface IConfigureTheme extends Action {
+  type: constants.CONFIGURE_THEME;
+  theme: string;
 }
 
-export type ScorekeeprActions = ICreateGame;
+export type ScorekeeprActions = IConfigureTheme;
 
-export function createGame(name: string) : ICreateGame {
+export function createGame(theme: string) : IConfigureTheme {
   return {
-    name,
-    type: constants.CREATE_GAME,
-  }
+    theme,
+    type: constants.CONFIGURE_THEME,
+  };
 }

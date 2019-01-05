@@ -1,10 +1,9 @@
+import { shallow } from 'enzyme';
 import * as React from 'react';
-import * as ReactDOM from 'react-dom';
-import { App } from '..';
+import { BrowserRouter as Router } from 'react-router-dom';
+import App from '..';
 
-it('renders without crashing', () => {
-  const NoRouter = App(null);
-  const div = document.createElement('div');
-  ReactDOM.render(<NoRouter />, div);
-  ReactDOM.unmountComponentAtNode(div);
+it('renders <App /> container without crashing', () => {
+  const renderedComponent = shallow(<App />);
+  expect(renderedComponent.find(Router).length).toEqual(1);
 });
