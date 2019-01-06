@@ -6,6 +6,7 @@ export const gameTypeDefs = gql`
     name: String!
     shareId: String!
     rounds: [Round!]!
+    players: [Player!]!
     createdBy: User!
   }
   input GameFilterInput {

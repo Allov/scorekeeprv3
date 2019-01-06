@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
-import {  Player, Round } from '../rounds/round.model';
+import { Player } from '../players/player.model';
+import { Round } from '../rounds/round.model';
 
 const gameSchema = new mongoose.Schema({
   createdAt: {

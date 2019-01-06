@@ -8,6 +8,9 @@ export const gameResolvers = {
     createdBy: async(game: any) => {
       const user: any = await UserRepository.findById(game.createdBy);
       return user;
+    },
+    players: async(game: any) => {
+      return game.players.filter((x: any) => !x.archived);
     }
   },
   Mutation: {

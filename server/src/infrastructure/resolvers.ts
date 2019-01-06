@@ -1,7 +1,9 @@
-import { gameResolvers } from "./games/game.resolvers";
-import { roundResolvers } from "./rounds/round.resolvers";
+import { gameResolvers } from './games/game.resolvers';
+import { playerResolvers } from './players/player.resolvers';
+import { roundResolvers } from './rounds/round.resolvers';
 
 export default [
   gameResolvers,
-  roundResolvers
+  playerResolvers,
+  roundResolvers,
 ];

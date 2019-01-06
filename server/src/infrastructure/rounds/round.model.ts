@@ -9,7 +9,3 @@ export const Round = new mongoose.Schema({
   roundNumber: Number,
   scores: [Score]
 })
-
-export const Player = new mongoose.Schema({
-  name: String,
-})
