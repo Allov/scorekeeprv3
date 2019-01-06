@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { Route, Switch } from 'react-router-dom';
 import { createStructuredSelector } from 'reselect';
 import Layout from '../../components/Layout';
+import { themePicker } from '../../lib/styled/interface';
 import Home from '../Home';
 import { makeSelectTheme } from './selectors';
 
@@ -16,7 +17,7 @@ interface IAppProps {
 
 export const App = (props: IAppProps) => {
   return (
-    <Layout>
+    <Layout theme={themePicker[props.theme]}>
       <ConnectedRouter history={props.history}>
         <Switch>
           <Route path="/" exact={true} component={Home} />

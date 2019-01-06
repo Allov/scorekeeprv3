@@ -6,6 +6,6 @@ import { App } from '..';
 
 it('renders <App /> container without crashing', () => {
   const mockHistory = createMemoryHistory();
-  const renderedComponent = shallow(<App history={mockHistory} theme="DEFAULT" />);
+  const renderedComponent = shallow(<App history={mockHistory} theme="day" />);
   expect(renderedComponent.find(ConnectedRouter).length).toEqual(1);
 });
