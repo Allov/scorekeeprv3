@@ -1,9 +1,11 @@
+import { ConnectedRouter } from 'connected-react-router';
 import { shallow } from 'enzyme';
+import { createMemoryHistory } from 'history';
 import * as React from 'react';
-import { BrowserRouter as Router } from 'react-router-dom';
 import { App } from '..';
 
 it('renders <App /> container without crashing', () => {
-  const renderedComponent = shallow(<App theme="DEFAULT" />);
-  expect(renderedComponent.find(Router).length).toEqual(1);
+  const mockHistory = createMemoryHistory();
+  const renderedComponent = shallow(<App history={mockHistory} theme="day" />);
+  expect(renderedComponent.find(ConnectedRouter).length).toEqual(1);
 });

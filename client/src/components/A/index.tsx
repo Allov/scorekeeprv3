@@ -2,10 +2,10 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 const A = styled(Link)`
-  color: #41addd;
+  color: var(--text-primary);
 
   &:hover {
-    color: #6cc0e5;
+    color: var(--text-primary);
   }
 `;
 

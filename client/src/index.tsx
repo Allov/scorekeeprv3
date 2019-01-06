@@ -3,19 +3,17 @@ import * as ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import App from './containers/App';
 import registerServiceWorker from './registerServiceWorker';
-import configureStore from './store';
+import configureStore, { history } from './store';
 
 const store = configureStore({
   configuration: {
-    theme: 'DEFAULT',
+    theme: 'day',
   },
-  modal: {},
-  pages: [],
 });
 
 ReactDOM.render(
   <Provider store={store}>
-    <App />
+    <App history={history} />
   </Provider>,
   document.getElementById('root') as HTMLElement
 );

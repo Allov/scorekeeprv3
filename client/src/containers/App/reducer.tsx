@@ -3,7 +3,7 @@ import { IConfigureTheme } from './actions';
 import { CONFIGURE_THEME } from './constants';
 
 const initialState: IConfiguration = {
-  theme: 'DEFAULT',
+  theme: 'day',
 };
 
 const actions: CONFIGURE_THEME[] = [];

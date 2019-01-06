@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "apollo-boost": "^0.1.23",
+    "connected-react-router": "^6.1.0",
     "graphql": "^14.0.2",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
@@ -30,6 +31,7 @@
     "@types/react-dom": "^16.0.11",
     "@types/react-redux": "^6.0.11",
     "@types/react-router-dom": "^4.3.1",
+    "@types/redux": "^3.6.0",
     "@types/styled-components": "^4.1.4",
     "enzyme": "^3.8.0",
     "enzyme-adapter-react-16": "^1.7.1",

@@ -7,8 +7,6 @@ it('returns the configured theme', () => {
     configuration: {
       theme,
     },
-    modal: {},
-    pages: [],
   };
 
   const themeSelector = makeSelectTheme();
