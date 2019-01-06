@@ -7,6 +7,7 @@ it('should configure the redux store correctly', () => {
     configuration: {
       theme: 'DEFAULT',
     },
+    notifications: [],
     router: {
       action: 'POP',
       location: {
@@ -27,6 +28,7 @@ it('should configure the redux store correctly with developer tool', () => {
     configuration: {
       theme: 'DEFAULT',
     },
+    notifications: [],
     router: {
       action: 'POP',
       location: {

@@ -1,10 +1,12 @@
 import { RouterState } from 'connected-react-router';
+import { Notifications } from './constants';
 
 // todo: split this... probably.
 
 // state types
 export interface IStore {
   configuration?: IConfiguration;
+  notifications?: INotification[];
   modal?: any;
   pages?: IPage[];
   router?: RouterState;
@@ -12,6 +14,11 @@ export interface IStore {
 
 export interface IConfiguration {
   theme: string;
+}
+
+export interface INotification {
+  type: Notifications;
+  message: string;
 }
 
 // presentation types

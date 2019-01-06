@@ -1,13 +1,13 @@
 import { IConfiguration } from '../../../types';
 import * as actions from '../actions';
-import { appReducer } from '../reducer';
+import { configurationReducer } from '../reducer';
 
 it('returns the initial state', () => {
   const expectedState: IConfiguration = {
     theme: 'day'
   };
 
-  expect(appReducer(undefined, undefined)).toEqual(expectedState);
+  expect(configurationReducer(undefined, undefined)).toEqual(expectedState);
 });
 
 it('returns the state with the correct configured theme', () => {
@@ -20,5 +20,5 @@ it('returns the state with the correct configured theme', () => {
     theme: 'day'
   };
 
-  expect(appReducer(state, actions.createGame(theme))).toEqual(expectedState);
+  expect(configurationReducer(state, actions.createGame(theme))).toEqual(expectedState);
 });

@@ -1,9 +1,9 @@
 import * as actions from '../actions';
 import * as constants from '../constants';
 
-it('should return dispatch the correct configureTheme action type', () => {
+it('dispatches the correct configureTheme action type', () => {
   const theme = 'dont-care';
-  const expectedResult: actions.IConfigureTheme = {
+  const expectedResult: actions.IConfigureThemeAction = {
     theme,
     type: constants.CONFIGURE_THEME,
   };

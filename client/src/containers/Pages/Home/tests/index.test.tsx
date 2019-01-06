@@ -2,7 +2,7 @@
 import { shallow } from 'enzyme';
 import * as React from 'react';
 import Home from '..';
-import Card from '../../../components/Card';
+import Card from '../../../../components/Card';
 
 it('renders <Home /> container without crashing', () => {
   const renderedComponent = shallow(<Home />);
