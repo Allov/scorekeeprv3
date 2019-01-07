@@ -8,6 +8,8 @@ import Layout from '../../components/Layout';
 import { themePicker } from '../../lib/styled/interface';
 import { makeSelectTheme } from '../Configurations/selectors';
 import Notifications from '../Notifications';
+import Create from '../Pages/Create';
+import GameAdmin from '../Pages/GameAdmin';
 import Home from '../Pages/Home';
 
 interface IAppProps {
@@ -24,7 +26,8 @@ export const App = (props: IAppProps) => {
         { /* here be transitions */ }
         <Switch>
           <Route path="/" exact={true} component={Home} />
-          <Route path="/create/:kind" component={Home} />
+          <Route path="/create/:kind" component={Create} />
+          <Route path="/game/:shareId" component={GameAdmin} />
         </Switch>
       </ConnectedRouter>
     </Layout>

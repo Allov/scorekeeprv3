@@ -1,0 +1,61 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should configure the redux store correctly 1`] = `
+Object {
+  "configuration": Object {
+    "theme": "day",
+  },
+  "notifications": Array [],
+  "pages": Object {
+    "gameAdmin": Object {
+      "data": Object {},
+      "game": Object {
+        "createdBy": "",
+        "id": "",
+        "name": "",
+        "shareId": "",
+      },
+      "title": "Game Admin",
+    },
+  },
+  "router": Object {
+    "action": "POP",
+    "location": Object {
+      "hash": "",
+      "pathname": "/",
+      "search": "",
+      "state": undefined,
+    },
+  },
+}
+`;
+
+exports[`should configure the redux store correctly with developer tool 1`] = `
+Object {
+  "configuration": Object {
+    "theme": "day",
+  },
+  "notifications": Array [],
+  "pages": Object {
+    "gameAdmin": Object {
+      "data": Object {},
+      "game": Object {
+        "createdBy": "",
+        "id": "",
+        "name": "",
+        "shareId": "",
+      },
+      "title": "Game Admin",
+    },
+  },
+  "router": Object {
+    "action": "POP",
+    "location": Object {
+      "hash": "",
+      "pathname": "/",
+      "search": "",
+      "state": undefined,
+    },
+  },
+}
+`;
