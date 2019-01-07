@@ -1,0 +1,193 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`dispatch a notification error on error 1`] = `
+Object {
+  "@@redux-saga/IO": true,
+  "CALL": Object {
+    "args": Array [
+      Object {
+        "mutation": Object {
+          "definitions": Array [
+            Object {
+              "directives": Array [],
+              "kind": "OperationDefinition",
+              "name": undefined,
+              "operation": "mutation",
+              "selectionSet": Object {
+                "kind": "SelectionSet",
+                "selections": Array [
+                  Object {
+                    "alias": undefined,
+                    "arguments": Array [
+                      Object {
+                        "kind": "Argument",
+                        "name": Object {
+                          "kind": "Name",
+                          "value": "input",
+                        },
+                        "value": Object {
+                          "fields": Array [
+                            Object {
+                              "kind": "ObjectField",
+                              "name": Object {
+                                "kind": "Name",
+                                "value": "name",
+                              },
+                              "value": Object {
+                                "block": false,
+                                "kind": "StringValue",
+                                "value": "anonymous game",
+                              },
+                            },
+                            Object {
+                              "kind": "ObjectField",
+                              "name": Object {
+                                "kind": "Name",
+                                "value": "userId",
+                              },
+                              "value": Object {
+                                "kind": "NullValue",
+                              },
+                            },
+                          ],
+                          "kind": "ObjectValue",
+                        },
+                      },
+                    ],
+                    "directives": Array [],
+                    "kind": "Field",
+                    "name": Object {
+                      "kind": "Name",
+                      "value": "createGame",
+                    },
+                    "selectionSet": Object {
+                      "kind": "SelectionSet",
+                      "selections": Array [
+                        Object {
+                          "alias": undefined,
+                          "arguments": Array [],
+                          "directives": Array [],
+                          "kind": "Field",
+                          "name": Object {
+                            "kind": "Name",
+                            "value": "shareId",
+                          },
+                          "selectionSet": undefined,
+                        },
+                      ],
+                    },
+                  },
+                ],
+              },
+              "variableDefinitions": Array [],
+            },
+          ],
+          "kind": "Document",
+          "loc": Object {
+            "end": 121,
+            "start": 0,
+          },
+        },
+      },
+    ],
+    "context": null,
+    "fn": [Function],
+  },
+}
+`;
+
+exports[`dispatch the push action if game was created correctly 1`] = `
+Object {
+  "@@redux-saga/IO": true,
+  "CALL": Object {
+    "args": Array [
+      Object {
+        "mutation": Object {
+          "definitions": Array [
+            Object {
+              "directives": Array [],
+              "kind": "OperationDefinition",
+              "name": undefined,
+              "operation": "mutation",
+              "selectionSet": Object {
+                "kind": "SelectionSet",
+                "selections": Array [
+                  Object {
+                    "alias": undefined,
+                    "arguments": Array [
+                      Object {
+                        "kind": "Argument",
+                        "name": Object {
+                          "kind": "Name",
+                          "value": "input",
+                        },
+                        "value": Object {
+                          "fields": Array [
+                            Object {
+                              "kind": "ObjectField",
+                              "name": Object {
+                                "kind": "Name",
+                                "value": "name",
+                              },
+                              "value": Object {
+                                "block": false,
+                                "kind": "StringValue",
+                                "value": "anonymous game",
+                              },
+                            },
+                            Object {
+                              "kind": "ObjectField",
+                              "name": Object {
+                                "kind": "Name",
+                                "value": "userId",
+                              },
+                              "value": Object {
+                                "kind": "NullValue",
+                              },
+                            },
+                          ],
+                          "kind": "ObjectValue",
+                        },
+                      },
+                    ],
+                    "directives": Array [],
+                    "kind": "Field",
+                    "name": Object {
+                      "kind": "Name",
+                      "value": "createGame",
+                    },
+                    "selectionSet": Object {
+                      "kind": "SelectionSet",
+                      "selections": Array [
+                        Object {
+                          "alias": undefined,
+                          "arguments": Array [],
+                          "directives": Array [],
+                          "kind": "Field",
+                          "name": Object {
+                            "kind": "Name",
+                            "value": "shareId",
+                          },
+                          "selectionSet": undefined,
+                        },
+                      ],
+                    },
+                  },
+                ],
+              },
+              "variableDefinitions": Array [],
+            },
+          ],
+          "kind": "Document",
+          "loc": Object {
+            "end": 121,
+            "start": 0,
+          },
+        },
+      },
+    ],
+    "context": null,
+    "fn": [Function],
+  },
+}
+`;
