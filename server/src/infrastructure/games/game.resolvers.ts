@@ -41,6 +41,16 @@ export const gameResolvers = {
       const game: any = await Game.findById(id);
       return game;
     },
+    gameByShareId: async (_, { shareId }) => {
+      // tslint:disable-next-line:no-console
+      console.log(shareId);
+      const game: any = await Game.findOne({ shareId }, (err, res) => {
+        // tslint:disable-next-line:no-console
+        console.log(err, res);
+      });
+
+      return game;
+    },
     games: async (_, { filter = {} }) => {
       const games: any[] = await Game.find({}, null, filter);
       return games;
