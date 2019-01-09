@@ -1,9 +1,5 @@
 import mongoose from 'mongoose';
-
-export const Score = new mongoose.Schema({
-  playerId: String,
-  points: Number,
-});
+import { Score } from '../scores/score.model';
 
 export const Round = new mongoose.Schema({
   roundNumber: Number,

@@ -1,15 +1,6 @@
 import { gql } from 'apollo-server-express';
 
 export const roundTypeDefs = gql`
-  type Score {
-    points: Int!
-  }
-
-  input ScoreInput {
-    playerId: ID!,
-    score: Int!,
-  }
-
   type Round {
     id: ID!
     roundNumber: Int!
