@@ -1,7 +1,7 @@
 import * as React from 'react';
-import Card from '../../components/Card';
-import Lineup from '../../components/Lineup';
-import { ILineup } from '../../types';
+import Card from '../../../components/Card';
+import Lineup from '../../../components/Lineup';
+import { ILineup } from '../../../types';
 
 interface IHomeProps {
   lineup?: ILineup;

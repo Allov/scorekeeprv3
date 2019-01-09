@@ -1,5 +1,5 @@
 import { IConfiguration } from '../../types';
-import { IConfigureTheme } from './actions';
+import { IConfigureThemeAction } from './actions';
 import { CONFIGURE_THEME } from './constants';
 
 const initialState: IConfiguration = {
@@ -7,14 +7,14 @@ const initialState: IConfiguration = {
 };
 
 const actions: CONFIGURE_THEME[] = [];
-actions[CONFIGURE_THEME] = (state: IConfiguration, action: IConfigureTheme) => {
+actions[CONFIGURE_THEME] = (state: IConfiguration, action: IConfigureThemeAction) => {
   return {
     ...state,
     theme: action.theme,
   };
 }
 
-export function appReducer(state: IConfiguration = initialState, action: IConfigureTheme | undefined): IConfiguration {
+export function configurationReducer(state: IConfiguration = initialState, action: IConfigureThemeAction | undefined): IConfiguration {
   if (!action || !actions[action.type]) { return state; }
   return actions[action.type](state, action);
 }

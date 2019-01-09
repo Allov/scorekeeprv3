@@ -6,19 +6,22 @@ import { Route, Switch } from 'react-router-dom';
 import { createStructuredSelector } from 'reselect';
 import Layout from '../../components/Layout';
 import { themePicker } from '../../lib/styled/interface';
-import Home from '../Home';
-import { makeSelectTheme } from './selectors';
+import { makeSelectTheme } from '../Configurations/selectors';
+import Notifications from '../Notifications';
+import Home from '../Pages/Home';
 
 interface IAppProps {
   className?: string;
-  theme: string;
   history: History;
+  theme: string;
 }
 
 export const App = (props: IAppProps) => {
   return (
     <Layout theme={themePicker[props.theme]}>
+      <Notifications />
       <ConnectedRouter history={props.history}>
+        { /* here be transitions */ }
         <Switch>
           <Route path="/" exact={true} component={Home} />
           <Route path="/create/:kind" component={Home} />
