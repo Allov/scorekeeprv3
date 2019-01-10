@@ -9,9 +9,12 @@ export const gameResolvers = {
       const user: any = await UserRepository.findById(game.createdBy);
       return user;
     },
+    players: async(game: any) => {
+      return game.players.filter((x: any) => !x.archived);
+    }
   },
   Mutation: {
-    addGame: async (_, { input }) => {
+    createGame: async (_, { input }) => {
       let user : any;
       if(input.userId){
         user = await UserRepository.findById(input.userId);
@@ -22,6 +25,7 @@ export const gameResolvers = {
       input.createdAt = Date.now();
       input.shareId = `${sillyname()}${sillyname()}`.replace(/ /g, '-').toLowerCase();
       input.createdBy = user.id;
+      input.rounds = [];
       const game: any = await Game.create(input);
       user.games = [game.id];
       user = await UserRepository.findByIdAndUpdate(user.id, user);
