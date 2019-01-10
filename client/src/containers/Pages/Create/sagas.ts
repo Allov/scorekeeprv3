@@ -8,7 +8,7 @@ import { CREATE_GAME } from './constants';
 
 const QUERY = gql`
   mutation {
-    addGame(input: {
+    createGame(input: {
       name: "anonymous game",
       userId: null,
     }) {
@@ -22,7 +22,7 @@ export function* createGame() {
   try {
     const result = yield call(client.mutate, { mutation: QUERY });
     // todo: type result.
-    yield put(push(`/game/${result.data.addGame.shareId}`));
+    yield put(push(`/game/${result.data.createGame.shareId}`));
   } catch(error) {
     // tslint:disable-next-line:no-console
     console.error(error);
