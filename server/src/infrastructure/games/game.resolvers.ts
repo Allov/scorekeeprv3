@@ -25,7 +25,7 @@ export async function createGame(_: any, { input }: { input: IGameInput }) {
   input.shareId = `${sillyname()}${sillyname()}`.replace(/ /g, '-').toLowerCase();
   input.createdBy = user.id;
   input.rounds = [];
-  const game: any = await Game.create(input);
+  const game = await Game.create(input);
   user.games = [game.id];
   user = await UserRepository.findByIdAndUpdate(user.id, user);
   return game;
