@@ -4,8 +4,7 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc",
-    "dev": "ts-node ./src/index.ts",
-    "start": "nodemon ./dist/server.js",
+    "start": "nodemon",
     "prod": "npm run build && npm run start"
   },
   "keywords": [],
