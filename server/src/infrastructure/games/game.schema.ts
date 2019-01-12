@@ -16,6 +16,7 @@ export const gameTypeDefs = gql`
   extend type Query {
     games(filter: GameFilterInput): [Game]
     game(id: String!): Game
+    gameByShareId(shareId: String!): Game
   }
 
   input GameInput {
