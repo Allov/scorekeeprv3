@@ -1,20 +1,20 @@
-import gameRepository from '../games/game.model';
+import { Game as GameRepository } from '../games/game.model';
 
 export const roundResolvers = {
   Mutation: {
     addRoundToGame: async (_, { input }) => {
-      let game: any = await gameRepository.findById(input.gameId);
+      let game: any = await GameRepository.findById(input.gameId);
       if (!game) {
         return null;
       }
       input.roundNumber = game.rounds.length + 1;
       input.scores = [];
       game.rounds.push(input);
-      game = await gameRepository.findByIdAndUpdate(game.id, game);
+      game = await GameRepository.findByIdAndUpdate(game.id, game);
       return game;
     },
     deleteRound: async (_, { id, gameId }) => {
-      let game: any = await gameRepository.findById(gameId);
+      let game: any = await GameRepository.findById(gameId);
       if (!game) {
         return null;
       }
@@ -27,13 +27,13 @@ export const roundResolvers = {
           }
         });
         game.rounds.splice(foundIndex, 1);
-        game = await gameRepository.findByIdAndUpdate(game.id, game);
+        game = await GameRepository.findByIdAndUpdate(game.id, game);
       }
 
       return game;
     },
     updateRound: async (_, { id, input }) => {
-      let game: any = await gameRepository.findById(input.gameId);
+      let game: any = await GameRepository.findById(input.gameId);
       if (!game) {
         return null;
       }
@@ -42,7 +42,7 @@ export const roundResolvers = {
         const round = game.rounds[foundIndex];
         round.scores = input.scores;
         game.rounds[foundIndex] = round;
-        game = await gameRepository.findByIdAndUpdate(game.id, game);
+        game = await GameRepository.findByIdAndUpdate(game.id, game);
       }
       return game;
     },
