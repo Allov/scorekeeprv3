@@ -1,8 +1,9 @@
 import { IScore, IScoreInput } from 'infrastructure/scores/score.types';
 
 export interface IRound {
+  id?: any;
   roundNumber: number;
-  scores: IScore;
+  scores: IScore[];
 }
 
 export interface IRoundInput {
