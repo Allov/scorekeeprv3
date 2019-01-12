@@ -9,3 +9,8 @@ export interface IPlayer {
   scores: any[];
   user: IUser;
 }
+
+export interface IPlayerInput {
+  name: string;
+  userId: any;
+}
