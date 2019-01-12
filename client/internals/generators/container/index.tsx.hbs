@@ -1,0 +1,55 @@
+import * as React from 'react';
+import { connect } from 'react-redux';
+{{#if withRouter}}
+import { match } from 'react-router';
+import { withRouter } from 'react-router-dom';
+{{/if}}
+import { {{#if withRouter}}compose, {{/if}}Dispatch } from 'redux';
+import { createStructuredSelector } from 'reselect';
+
+interface I{{properCase name}}Props {
+{{#if withRouter}}
+  match: match;
+{{/if}}
+}
+
+{{#if withRouter}}
+export class {{properCase name}} extends React.Component<I{{properCase name}}Props, {}> {
+  public componentDidMount() {
+    // don't know how to do better, connected-router doesn't export the selecors...
+    // https://github.com/supasate/connected-react-router/issues/160
+    // this.props.<<action>>((this.props.match.params as any).<<param>>);
+  }
+
+  public render() {
+    return (
+      <>
+        {{properCase name}}
+      </>
+    );
+  }
+}
+{{else}}
+export const {{properCase name}} = (props: I{{properCase name}}Props) => (
+  <>
+    {{properCase name}}
+  </>
+);
+{{/if}}
+
+const mapStateToProps = () => createStructuredSelector({
+
+});
+
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+
+});
+
+{{#if withRouter}}
+export default compose(
+  withRouter,
+  connect(mapStateToProps, mapDispatchToProps),
+)({{properCase name}});
+{{else}}
+export default connect(mapStateToProps, mapDispatchToProps)({{properCase name}});
+{{/if}}

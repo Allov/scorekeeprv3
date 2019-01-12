@@ -20,7 +20,8 @@
     "start": "react-scripts-ts start",
     "build": "react-scripts-ts build",
     "test": "react-scripts-ts test --env=jsdom",
-    "eject": "react-scripts-ts eject"
+    "eject": "react-scripts-ts eject",
+    "generate": "plop --plopfile internals/generators/index.js"
   },
   "devDependencies": {
     "@types/enzyme": "^3.1.15",
@@ -35,6 +36,7 @@
     "@types/styled-components": "^4.1.4",
     "enzyme": "^3.8.0",
     "enzyme-adapter-react-16": "^1.7.1",
+    "plop": "^2.2.0",
     "styled-components-test-utils": "^0.5.0",
     "typescript": "^3.2.2"
   },

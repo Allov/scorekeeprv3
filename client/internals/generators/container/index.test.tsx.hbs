@@ -1,0 +1,9 @@
+import { shallow } from 'enzyme';
+import * as React from 'react';
+import { {{properCase name}} } from '..';
+
+it('renders <{{properCase name}}> without crashing', () => {
+  const fn = jest.fn();
+  const renderedComponent = shallow(<{{properCase name}} {{#if withRouter}}match={{curly true}}{{curly}} {{/if}}/>);
+  expect(!!renderedComponent).toBeDefined();
+});
