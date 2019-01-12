@@ -16,9 +16,6 @@ const Container = (props: IContainerProps) => (
 );
 
 const Lineup = styled(Container)`
-  width: 320px;
-  height: 768px;
-
   ul {
     display: inline-grid;
     grid-template-rows: 100%;
