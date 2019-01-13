@@ -1,6 +1,13 @@
-import mongoose from 'mongoose';
+import { Document, Model, model, Schema }  from 'mongoose';
+import { IScore } from './score.types';
 
-export const Score = new mongoose.Schema({
+export interface IScoreModel extends IScore, Document {
+
+}
+
+export const ScoreSchema = new Schema({
   playerId: String,
   points: Number,
 });
+
+export const Score: Model<IScoreModel> = model<IScoreModel>('Score', ScoreSchema);

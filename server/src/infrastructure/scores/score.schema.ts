@@ -6,14 +6,24 @@ export const scoreTypeDefs = gql`
     player: [Player]
   }
 
+  input ScoresInput {
+    filter: ScoreFilterInput!,
+    scores: [ScoreInput!]!,
+  }
+
   input ScoreInput {
     playerId: String!,
     points: Int!,
   }
 
+  input ScoreFilterInput {
+    gameId: String!,
+    roundId: String!,
+  }
+
   extend type Mutation {
-    addScoresToRound(gameId: String!, roundId: String!, input: [ScoreInput!]!): Round
-    updateScore(id: String!, gameId: String!, roundId: String! , input: ScoreInput!): Round
-    deleteScore(id: String!, gameId: String!, roundId: String!): Game
+    addScoresToRound(input: ScoresInput!): Round
+    updateScore(id: String!, input: ScoresInput!): Round
+    deleteScore(id: String!, filter: ScoreFilterInput): Game
   }
 `;

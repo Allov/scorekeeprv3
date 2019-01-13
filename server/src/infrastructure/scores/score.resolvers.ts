@@ -1,50 +1,57 @@
-import gameRepository from '../games/game.model';
+import { Game as GameRepository } from '../games/game.model';
+import { IScoreFilterInput, IScoresInput } from './score.types';
+
+export async function addScoresToRound(_: any, { input }: { input: IScoresInput }) {
+
+  let game = await GameRepository.findById(input.filter.gameId);
+  if (!game) {
+    return null;
+  }
+  const roundIndex = game.rounds.findIndex(x => x.id === input.filter.roundId);
+  if (roundIndex > -1) {
+    game.rounds[roundIndex].scores = game.rounds[roundIndex].scores.concat(input.scores);
+    game = await GameRepository.findByIdAndUpdate(game.id, game);
+  }
+  return game;
+}
+
+export async function deleteScore(_: any, { id, filter }: { id: any, filter: IScoreFilterInput }) {
+  let game = await GameRepository.findById(filter.gameId);
+  if (!game) {
+    return null;
+  }
+
+  const roundIndex = game.rounds.findIndex(x => x.id === filter.roundId);
+  if (roundIndex > -1) {
+    const scoreIndex = game.rounds[roundIndex].scores.findIndex(x => x.id === id);
+    if (scoreIndex > -1) {
+      game.rounds[roundIndex].scores = game.rounds[roundIndex].scores.splice(scoreIndex, 1);
+      game = await GameRepository.findByIdAndUpdate(game.id, game);
+    }
+  }
+  return game;
+}
+
+export async function updateScore(_: any, { id, input }: { id: any, input: IScoresInput }) {
+  let game = await GameRepository.findById(input.filter.gameId);
+  if (!game) {
+    return null;
+  }
+  const roundIndex = game.rounds.findIndex(x => x.id === input.filter.roundId);
+  if (roundIndex > -1) {
+    const scoreIndex = game.rounds[roundIndex].scores.findIndex(x => x.id === id);
+    if (scoreIndex > -1) {
+      game.rounds[roundIndex].scores[scoreIndex] = input.scores[0];
+      game = await GameRepository.findByIdAndUpdate(game.id, game);
+    }
+  }
+  return game;
+}
 
 export const scoreResolvers = {
   Mutation: {
-    addScoresToRound: async (_, { gameId, roundId, input }) => {
-      let game: any = await gameRepository.findById(gameId);
-      if (!game) {
-        return null;
-      }
-      const roundIndex = game.rounds.findIndex(x => x.id === roundId);
-      if(roundIndex > -1) {
-        game.rounds[roundIndex].scores = input;
-        game.rounds.push(input);
-        game = await gameRepository.findByIdAndUpdate(game.id, game);
-      }
-      return game;
-    },
-    deleteScore: async (_, { id, gameId, roundId}) => {
-      let game: any = await gameRepository.findById(gameId);
-      if (!game) {
-        return null;
-      }
-
-      const roundIndex = game.rounds.findIndex(x => x.id === roundId);
-      if (roundIndex > -1) {
-        const scoreIndex = game.rounds[roundIndex].scores.findIndex(x => x === id);
-        if(scoreIndex > -1){
-          game.rounds[roundIndex].splice(scoreIndex,1);
-          game = await gameRepository.findByIdAndUpdate(game.id, game);
-        }
-      }
-      return game;
-    },
-    updateScore: async (_, { id, gameId, roundId, input }) => {
-      let game: any = await gameRepository.findById(gameId);
-      if (!game) {
-        return null;
-      }
-      const roundIndex = game.rounds.findIndex(x => x.id === roundId);
-      if (roundIndex > -1) {
-        const scoreIndex = game.rounds[roundIndex].scores.findIndex(x => x.id === id);
-        if(scoreIndex > -1){
-          game.rounds[roundIndex].scores[scoreIndex] = input;
-          game = await gameRepository.findByIdAndUpdate(game.id, game);
-        }
-      }
-      return game;
-    },
+    addScoresToRound,
+    deleteScore,
+    updateScore,
   }
 };

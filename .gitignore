@@ -2,9 +2,6 @@
 **/build
 **/dist
 
-# VSCode
-.vscode/launch.json
-
 # misc
 .DS_Store
 .env.local
