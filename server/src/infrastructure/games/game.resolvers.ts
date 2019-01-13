@@ -1,12 +1,14 @@
+import DataLoader from 'dataloader';
 import { IPlayer } from 'infrastructure/players/player.types';
 import { IUser } from 'infrastructure/users/user.types';
 import sillyname from 'sillyname';
+import { IResolverMap, Resolver } from 'types/graphql';
 import {User as UserRepository } from '../users/user.model';
 import { Game } from './game.model';
 import { IGame, IGameFilterInput, IGameInput } from './game.types';
 
-export async function createdBy(game: IGame) {
-  return await UserRepository.findById(game.createdBy);
+export async function createdBy(game: IGame, _, {userLoader} : {userLoader: DataLoader<string, IUser>}){
+  return await userLoader.load(game.createdBy);
 }
 
 export async function players(game: IGame) {
@@ -39,8 +41,10 @@ export async function editGame(_: any, { id, input }: { id: any, input: IGameInp
   return await Game.findByIdAndUpdate(id, input);
 }
 
-export async function gamebyId(_: any, { id }: { id: any }) {
-  return await Game.findById(id);
+export async function gamebyId(_: any,
+  { id }: { id: any },
+  { gameLoader }: {gameLoader: DataLoader<string, IGame>}) {
+  return await gameLoader.load(id);
 }
 
 export async function gameByShareId(_: any, { shareId }: { shareId: string }) {
@@ -51,7 +55,7 @@ export async function games(_: any, { filter }: { filter: IGameFilterInput }) {
   return await Game.find({}, null, filter);
 }
 
-export const gameResolvers = {
+export const gameResolvers : IResolverMap = {
   Game: {
     createdBy,
     players,
