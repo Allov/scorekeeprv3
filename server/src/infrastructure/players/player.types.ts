@@ -5,12 +5,12 @@ export interface IPlayer {
   archived: boolean;
   id?: any;
   name: string;
-  game: IGame;
-  scores: any[];
-  user: IUser;
+
 }
 
 export interface IPlayerInput {
   name: string;
   userId: any;
+  gameId: string;
+  archived: boolean;
 }
