@@ -14,19 +14,24 @@ const Layout = (props: ILayoutProps) => (
     <div className="game">
       Bottom score: 90, top score: 100
       <div className="player" style={{ '--player-score': 90 }}>
-        <p>player score 90</p>
+        <p className="score">90</p>
+        <p className="player-name">Max</p>
       </div>
       <div className="player" style={{ '--player-score': 93 }}>
-        <p>player score 93</p>
+        <p className="score">93</p>
+        <p className="player-name">Paolo</p>
       </div>
       <div className="player" style={{ '--player-score': 98 }}>
-        <p>player score 98</p>
+        <p className="score">98</p>
+        <p className="player-name">Fred</p>
       </div>
       <div className="player" style={{ '--player-score': 100 }}>
-        <p>player score 100</p>
+        <p className="score">100</p>
+        <p className="player-name">Francis</p>
       </div>
       <div className="player" style={{ '--player-score': 91 }}>
-        <p>player score 91</p>
+        <p className="score">91</p>
+        <p className="player-name">Remzy</p>
       </div>
     </div>
   </div>
@@ -62,17 +67,36 @@ const StyledLayout = styled(Layout)`
   p { font-size: var(--font-smd); color: black; }
   a { text-decoration: none }
 
+  background: var(--background-primary);
+
   .game {
     .player {
       ${gameStats}
       ${calculated}
-      background: hsla(var(--player-rank), 100%, 50%, 1);
+      background-image: linear-gradient(to left, hsla(var(--player-rank), 100%, 50%, 1), var(--background-primary));
       color: black;
       margin: 5px auto;
       padding: 10px;
-      border: 2px solid hsla(var(--player-rank), 80%, 50%, 1);
+      border-bottom: 2px solid hsla(var(--player-rank), 80%, 50%, 1);
+      position: relative;
       transition: background .2s;
-      width: 80%;
+
+      .score {
+        background: var(--background-primary);
+        color: hsla(var(--player-rank), 100%, 50%, 1);
+        display: inline-block;
+        padding: 0 15px;
+        font-size: var(--font-lg);
+        font-weight: 800;
+        margin: 0;
+        text-shadow: 1px 1px var(--text-primary);
+      }
+
+      .player-name {
+        color: var(--text-primary);
+        font-weight: 500;
+        margin: 10px 0 0;
+      }
     }
   }
 `;
