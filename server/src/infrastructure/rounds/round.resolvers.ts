@@ -4,7 +4,7 @@ import { IRoundInput } from './round.types';
 
 
 export async function addRoundToGame(_: any, { input }: { input: IRoundInput }) {
-  let game: any = await GameRepository.findById(input.gameId);
+  let game = await GameRepository.findById(input.gameId);
   if (!game) {
     return null;
   }
@@ -16,14 +16,14 @@ export async function addRoundToGame(_: any, { input }: { input: IRoundInput }) 
 }
 
 export async function deleteRound(_: any, { id, gameId }: { id: any, gameId: any }) {
-  let game: any = await GameRepository.findById(gameId);
+  let game = await GameRepository.findById(gameId);
   if (!game) {
     return null;
   }
 
   const foundIndex = game.rounds.findIndex(x => x.id === id);
   if (foundIndex > -1) {
-    game.rounds.foreach((round, index, array) => {
+    game.rounds.forEach((round, index, array) => {
       if (index > foundIndex) {
         array[index].roundNumber--;
       }
@@ -36,7 +36,7 @@ export async function deleteRound(_: any, { id, gameId }: { id: any, gameId: any
 }
 
 export async function updateRound(_: any, { id, input }: { id: any, input: IRoundInput }) {
-  let game: any = await GameRepository.findById(input.gameId);
+  let game = await GameRepository.findById(input.gameId);
   if (!game) {
     return null;
   }
