@@ -4,10 +4,14 @@ export interface IScore {
   points: number;
 }
 
-export interface IScoresInput {
+export interface IScoreFilterInput {
   roundId: string;
-  scores: IScoreInput[];
   gameId: string;
+}
+
+export interface IScoresInput {
+  scores: IScoreInput[];
+  filter: IScoreFilterInput;
 }
 
 export interface IScoreInput {
