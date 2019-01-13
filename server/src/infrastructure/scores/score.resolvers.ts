@@ -38,7 +38,7 @@ export const scoreResolvers = {
       }
       const roundIndex = game.rounds.findIndex(x => x.id === roundId);
       if (roundIndex > -1) {
-        const scoreIndex = game.rounds.scores.findIndex(x => x.id === id);
+        const scoreIndex = game.rounds[roundIndex].scores.findIndex(x => x.id === id);
         if(scoreIndex > -1){
           game.rounds[roundIndex].scores[scoreIndex] = input;
           game = await gameRepository.findByIdAndUpdate(game.id, game);
