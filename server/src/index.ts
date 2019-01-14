@@ -1,11 +1,15 @@
 
+import { Context } from 'apollo-server-core';
 import { ApolloServer, makeExecutableSchema } from 'apollo-server-express';
 import cors from 'cors';
 import express from 'express';
 import mongoose from 'mongoose';
 import morgan from 'morgan';
+import { gameLoader } from './infrastructure/games/game.loader';
 import resolvers from './infrastructure/resolvers';
 import rootTypeDefs from './infrastructure/rootTypeDefs';
+import { userLoader } from './infrastructure/users/user.loader';
+import { IContext } from './types/graphql';
 
 mongoose.connect(
   'mongodb://localhost/scorekeepr',
@@ -18,7 +22,12 @@ const schema = makeExecutableSchema({
   typeDefs: rootTypeDefs,
 });
 
+const context: Context<IContext> = {
+  gameLoader: gameLoader(),
+  userLoader: userLoader(),
+}
 const server = new ApolloServer({
+  context,
   schema,
   formatError(error: any) {
     if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
