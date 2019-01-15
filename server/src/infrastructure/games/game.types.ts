@@ -8,7 +8,7 @@ export interface IGame {
   shareId: string;
   rounds: IRound[];
   players: IPlayer[];
-  createdBy: IUser;
+  createdBy: string;
 }
 
 export interface IGameInput {
