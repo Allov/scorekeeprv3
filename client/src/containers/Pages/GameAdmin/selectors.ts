@@ -10,3 +10,10 @@ export const makeSelectGameAdminPage = () => createSelector<IStore, IGameAdminPa
     return state;
   },
 );
+
+export const makeSelectGameAdminId = () => createSelector<IStore, IGameAdminPage | undefined, string>(
+  getGameAdminState,
+  (state: IGameAdminPage) => {
+    return state.game.id;
+  }
+);

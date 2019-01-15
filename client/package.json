@@ -36,6 +36,7 @@
     "enzyme": "^3.8.0",
     "enzyme-adapter-react-16": "^1.7.1",
     "styled-components-test-utils": "^0.5.0",
+    "tslint-plugin-graphql": "0.0.6",
     "typescript": "^3.2.2"
   },
   "browserslist": [
