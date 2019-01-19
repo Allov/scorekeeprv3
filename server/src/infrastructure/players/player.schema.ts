@@ -7,6 +7,7 @@ export const playerTypeDefs = gql`
     game: Game
     scores: [Score!]!
     user: User
+    totalScore: Int
   }
 
   input PlayerInput {
