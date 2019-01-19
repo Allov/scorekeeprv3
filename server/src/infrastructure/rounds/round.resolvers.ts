@@ -1,8 +1,6 @@
 import { Game as GameRepository } from '../games/game.model';
 import { IRoundInput } from './round.types';
 
-
-
 export async function addRoundToGame(_: any, { input }: { input: IRoundInput }) {
   let game = await GameRepository.findById(input.gameId);
   if (!game) {
@@ -55,5 +53,5 @@ export const roundResolvers = {
     addRoundToGame,
     deleteRound,
     updateRound,
-  }
+  },
 };

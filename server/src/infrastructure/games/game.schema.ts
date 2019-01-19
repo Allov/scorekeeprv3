@@ -5,7 +5,7 @@ export const gameTypeDefs = gql`
     id: ID!
     name: String!
     shareId: String!
-    rounds: [Round!]!
+    rounds(roundNumber: Int): [Round!]!
     players: [Player!]!
     createdBy: User!
   }

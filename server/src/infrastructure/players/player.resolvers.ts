@@ -61,6 +61,10 @@ export async function totalScore(player: IPlayer) {
   return totalScoreForPlayer;
 }
 
+export async function findGameForPlayer(player: IPlayer) {
+  return await GameRepository.findOne({ 'players._id': new Types.ObjectId(player.id) });
+}
+
 export const playerResolvers = {
   Mutation: {
     addPlayerToGame,
@@ -68,6 +72,7 @@ export const playerResolvers = {
     updatePlayer,
   },
   Player: {
-    totalScore
+    game: findGameForPlayer,
+    totalScore,
   }
 };
