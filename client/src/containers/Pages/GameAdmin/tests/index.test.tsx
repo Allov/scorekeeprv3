@@ -5,12 +5,13 @@ import { GameAdmin } from '..';
 import { IGameAdminPage } from '../reducer';
 
 it('renders <Create> without crashing', () => {
+  const id = 'dont-care';
   const fn = jest.fn();
   const page: IGameAdminPage = {
     data: {},
     game: {
       createdBy: '',
-      id: '',
+      id,
       name: '',
       shareId: '',
     },
@@ -24,6 +25,6 @@ it('renders <Create> without crashing', () => {
     url: '',
   };
 
-  const renderedComponent = shallow(<GameAdmin match={matchProp} page={page} fetchGame={fn} />);
+  const renderedComponent = shallow(<GameAdmin match={matchProp} gameId={id} page={page} fetchGame={fn} addPlayer={fn} />);
   expect(!!renderedComponent).toBeDefined();
 });

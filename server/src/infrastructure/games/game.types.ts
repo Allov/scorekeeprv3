@@ -1,6 +1,5 @@
 import { IPlayer } from 'infrastructure/players/player.types';
 import { IRound } from 'infrastructure/rounds/round.types';
-import { IUser } from 'infrastructure/users/user.types';
 
 export interface IGame {
   id?: any;
@@ -15,7 +14,7 @@ export interface IGameInput {
   name: string;
   userId: string;
   createdBy: any;
-  rounds: any[];
+  rounds: IRound[];
   shareId: string;
   createdAt: number;
 }

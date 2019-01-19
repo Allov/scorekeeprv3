@@ -2,8 +2,8 @@ import { gql } from 'apollo-server-express';
 
 export const scoreTypeDefs = gql`
   type Score {
-    points: Int!
-    player: [Player]
+    points: Int!,
+    player: Player,
   }
 
   input ScoresInput {

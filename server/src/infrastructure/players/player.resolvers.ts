@@ -1,5 +1,6 @@
+import { Types } from 'mongoose';
 import { Game as GameRepository } from '../games/game.model';
-import { IPlayerInput } from './player.types';
+import { IPlayer, IPlayerInput } from './player.types';
 
 export async function addPlayerToGame(_: any, { input }: { input: IPlayerInput }) {
   let game = await GameRepository.findById(input.gameId);
@@ -32,7 +33,7 @@ export async function deletePlayer(_: any, { id, gameId }: { id: any, gameId: an
   return game;
 }
 
-export async function updatePlayer(_, { id, input } : {id: any, gameId: any, input: IPlayerInput }) {
+export async function updatePlayer(_, { id, input }: { id: any, gameId: any, input: IPlayerInput }) {
   let game = await GameRepository.findById(input.gameId);
   if (!game) {
     return null;
@@ -47,10 +48,31 @@ export async function updatePlayer(_, { id, input } : {id: any, gameId: any, inp
   return game;
 }
 
+
+export async function totalScore(player: IPlayer) {
+  const game = await GameRepository.findOne({ 'players._id': new Types.ObjectId(player.id) });
+  let totalScoreForPlayer = 0;
+  game.rounds.map(round => {
+    const score = round.scores.find(x => x.playerId.toString() === player.id.toString());
+    if (score) {
+      totalScoreForPlayer += score.points;
+    }
+  })
+  return totalScoreForPlayer;
+}
+
+export async function findGameForPlayer(player: IPlayer) {
+  return await GameRepository.findOne({ 'players._id': new Types.ObjectId(player.id) });
+}
+
 export const playerResolvers = {
   Mutation: {
     addPlayerToGame,
     deletePlayer,
     updatePlayer,
+  },
+  Player: {
+    game: findGameForPlayer,
+    totalScore,
   }
 };

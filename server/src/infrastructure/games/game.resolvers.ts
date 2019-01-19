@@ -26,7 +26,11 @@ export async function createGame(_: any, { input }: { input: IGameInput }) {
   input.createdAt = Date.now();
   input.shareId = `${sillyname()}${sillyname()}`.replace(/ /g, '-').toLowerCase();
   input.createdBy = user.id;
-  input.rounds = [];
+  input.rounds = [{
+    roundNumber: 1,
+    scores: [],
+  }];
+
   const game = await Game.create(input);
   user.games = [game.id];
   user = await UserRepository.findByIdAndUpdate(user.id, user);
@@ -55,10 +59,15 @@ export async function games(_: any, { filter }: { filter: IGameFilterInput }) {
   return await Game.find({}, null, filter);
 }
 
+export function rounds(game: IGame, { roundNumber }: { roundNumber: number | undefined }) {
+  return roundNumber ? game.rounds.filter(round => round.roundNumber === roundNumber) : game.rounds;
+}
+
 export const gameResolvers : IResolverMap = {
   Game: {
     createdBy,
     players,
+    rounds,
   },
   Mutation: {
     createGame,

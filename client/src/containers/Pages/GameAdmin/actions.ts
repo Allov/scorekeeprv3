@@ -26,4 +26,28 @@ export function fetchedGame(game: IGame) : IFetchedGameAction {
   };
 }
 
+export interface IAddPlayerToGameAction extends Action {
+  gameId: string;
+  name: string;
+}
+
+export function addPlayerToGame(gameId: string, name: string) {
+  return {
+    gameId,
+    name,
+    type: constants.ADDPLAYERTO_GAME,
+  };
+}
+
+export interface IAddedPlayerToGameAction extends Action {
+  game: IGame;
+}
+
+export function addedPlayerToGame(game: IGame) {
+  return {
+    game,
+    type: constants.ADDEDPLAYERTO_GAME,
+  };
+}
+
 export type GameAdminActions = IFetchGameAction | IFetchedGameAction | undefined;

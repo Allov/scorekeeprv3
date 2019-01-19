@@ -3,3 +3,9 @@ export type FETCH_GAME = typeof FETCH_GAME;
 
 export const FETCHED_GAME = 'FETCHED_GAME';
 export type FETCHED_GAME = typeof FETCHED_GAME;
+
+export const ADDPLAYERTO_GAME = 'ADDPLAYERTO_GAME';
+export type ADDPLAYERTO_GAME = typeof ADDPLAYERTO_GAME;
+
+export const ADDEDPLAYERTO_GAME = 'ADDEDPLAYERTO_GAME';
+export type ADDEDPLAYERTO_GAME = typeof ADDEDPLAYERTO_GAME;
