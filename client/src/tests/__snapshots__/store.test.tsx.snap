@@ -11,10 +11,8 @@ Object {
       "data": Object {},
       "game": Object {
         "createdBy": "",
-        "currentRound": 1,
         "id": "",
         "name": "",
-        "players": Array [],
         "shareId": "",
       },
       "title": "Game Admin",
@@ -43,10 +41,8 @@ Object {
       "data": Object {},
       "game": Object {
         "createdBy": "",
-        "currentRound": 1,
         "id": "",
         "name": "",
-        "players": Array [],
         "shareId": "",
       },
       "title": "Game Admin",
