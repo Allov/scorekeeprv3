@@ -8,13 +8,11 @@ type BatchUser = (ids: string[]) => Promise<IUser[]>;
 
 const batchUsers: BatchUser = async (ids) => {
   const objectIds = ids.map(id => new Types.ObjectId(id));
-  const games =  await UserRepository.find({
+  const games = await UserRepository.find({
     '_id': { $in: objectIds }
-  }, (err, docs) => {
-    console.log(docs);
   });
 
-  const gameMap : { [key: string]: IUser } = {};
+  const gameMap: { [key: string]: IUser } = {};
   games.forEach(game => {
     gameMap[game.id] = game;
   });

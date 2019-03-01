@@ -1,5 +1,6 @@
+import { IGamesLoader } from 'infrastructure/games/game.loader';
 import { Game as GameRepository } from '../games/game.model';
-import { IRoundInput } from './round.types';
+import { IRound, IRoundInput } from './round.types';
 
 export async function addRoundToGame(_: any, { input }: { input: IRoundInput }) {
   let game = await GameRepository.findById(input.gameId);
@@ -48,10 +49,18 @@ export async function updateRound(_: any, { id, input }: { id: any, input: IRoun
   return game;
 }
 
+export async function scores(round: IRound, args: any, { gamesLoader }: { gamesLoader: IGamesLoader }) {
+  const game = await gamesLoader.byRoundId.load(round.id);
+  return round.scores.filter(score => !game.players.find(player => player.id === score.playerId).archived);
+}
+
 export const roundResolvers = {
   Mutation: {
     addRoundToGame,
     deleteRound,
     updateRound,
   },
+  Round: {
+    scores,
+  }
 };

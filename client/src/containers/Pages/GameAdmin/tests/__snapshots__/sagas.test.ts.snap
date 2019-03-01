@@ -283,6 +283,7 @@ Object {
   "@@redux-saga/IO": true,
   "combinator": false,
   "payload": Object {
+<<<<<<< HEAD
     "action": Object {
       "game": Object {},
       "type": "FETCHED_GAME",
@@ -856,6 +857,13 @@ Object {
       "message": "Could not fetch game: Woops",
       "notificationType": 2,
       "type": "NOTIFICATION",
+=======
+    "action": Object {
+      "game": Object {
+        "game": Object {},
+      },
+      "type": "FETCHED_GAME",
+>>>>>>> editable player list
     },
     "channel": undefined,
   },
@@ -865,6 +873,7 @@ Object {
 
 exports[`fetchGame dispatch a notification error when no game was returned 1`] = `
 Object {
+<<<<<<< HEAD
   "@@redux-saga/IO": true,
   "combinator": false,
   "payload": Object {
@@ -1120,6 +1129,12 @@ Object {
     "fn": [Function],
   },
   "type": "CALL",
+=======
+  "next": [Function],
+  "return": [Function],
+  "throw": [Function],
+  Symbol(Symbol.iterator): [Function],
+>>>>>>> editable player list
 }
 `;
 
@@ -1141,6 +1156,7 @@ Object {
 
 exports[`fetchGame dispatch the fetchedGame action if game was fetch correctly 1`] = `
 Object {
+<<<<<<< HEAD
   "@@redux-saga/IO": true,
   "combinator": false,
   "payload": Object {
@@ -1396,6 +1412,12 @@ Object {
     "fn": [Function],
   },
   "type": "CALL",
+=======
+  "next": [Function],
+  "return": [Function],
+  "throw": [Function],
+  Symbol(Symbol.iterator): [Function],
+>>>>>>> editable player list
 }
 `;
 
@@ -1405,13 +1427,9 @@ Object {
   "combinator": false,
   "payload": Object {
     "action": Object {
-      "game": Object {
-        "createdBy": "",
-        "id": "",
-        "name": "",
-        "shareId": "dont-care",
-      },
-      "type": "FETCHED_GAME",
+      "message": "Could not find game: dont-care",
+      "notificationType": 2,
+      "type": "NOTIFICATION",
     },
     "channel": undefined,
   },
