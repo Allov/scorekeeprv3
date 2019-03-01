@@ -1,22 +1,31 @@
 import { gql } from 'apollo-boost';
-import { call, put, takeLatest } from 'redux-saga/effects';
-import client from '../../../lib/apollo';
+import { put, select, takeLatest, throttle } from 'redux-saga/effects';
+import { IRound } from 'src/types';
+import { safeMutate, safeQuery } from '../../../lib/saga';
 import { Notifications } from '../../../types/constants';
 import { notify } from '../../Notifications/actions';
-import { fetchedGame, IAddPlayerToGameAction, IFetchGameAction } from './actions';
-import { ADDPLAYERTO_GAME, FETCH_GAME } from './constants';
+import { fetchedGame, IAddPlayerToGameAction, IDeletePlayerFromGame, IEditedPlayerNameAction, IEditedPlayerPointsAction, IFetchGameAction } from './actions';
+import { ADDPLAYERTO_GAME, DELETEPLAYERFROM_GAME, EDITEDPLAYER_NAME, EDITEDPLAYER_POINTS, FETCH_GAME } from './constants';
+import { makeSelectGameAdminCurrentRound, makeSelectGameAdminId, makeSelectPlayerId } from './selectors';
 
 const GAME_FRAGMENT = gql`
   fragment GameFields on Game {
     id,
     name,
     shareId,
+    players {
+      id,
+      name,
+    }
     rounds {
+      id,
       roundNumber,
       scores {
         points,
         player {
-          name
+          id,
+          name,
+          totalScore,
         }
       }
     },
@@ -37,33 +46,22 @@ const FETCH_GAME_BY_SHAREID = gql`
 `;
 
 export function* fetchGame(action: IFetchGameAction) {
-  try {
-    const result = yield call(client.query, {
-      query: FETCH_GAME_BY_SHAREID,
-      variables: {
-        shareId: action.shareId,
-      },
-    });
+  const result = yield safeQuery(FETCH_GAME_BY_SHAREID, {
+    shareId: action.shareId,
+  },
+    'Could not fetch game');
 
-    if (!result.data.gameByShareId) {
-      yield put(notify(Notifications.Error, `Could not find game: ${action.shareId}`));
-    } else {
-      yield put(fetchedGame(result.data.gameByShareId));
-    }
-  } catch (error) {
-    // tslint:disable-next-line:no-console
-    console.error(error);
-
-    yield put(notify(Notifications.Error, `Could not fetch game: ${error.message}`));
+  if (!result.gameByShareId) {
+    yield put(notify(Notifications.Error, `Could not find game: ${action.shareId}`));
+  } else {
+    yield put(fetchedGame(result.gameByShareId));
   }
 }
 
 const ADD_PLAYER = gql`
   mutation AddPlayerToGame($input: PlayerInput!) {
     addPlayerToGame(input: $input) {
-      game {
-        ...GameFields
-      }
+      ...GameFields,
     }
   }
 
@@ -71,29 +69,95 @@ const ADD_PLAYER = gql`
 `;
 
 export function* addPlayerToGame(action: IAddPlayerToGameAction) {
-  try {
-    const variables = {
-      input: {
-        gameId: action.gameId,
-        name: action.name,
-      },
-    };
+  const result = yield safeMutate(ADD_PLAYER, {
+    input: {
+      gameId: action.gameId,
+      name: action.name,
+    },
+  },
+    'Could not add player to game'
+  );
 
-    const result = yield call(client.mutate, {
-      mutation: ADD_PLAYER,
-      variables
-    });
+  // since playerId is generated on the server side, let's synchronise the game.
+  // new player should be already added in the array with the same name unless it was so fast and began typing a name.
+  yield put(fetchedGame(result.addPlayerToGame));
+}
 
-    yield put(fetchedGame(result.data.addPlayerToGame.game));
-  } catch (error) {
-    // tslint:disable-next-line:no-console
-    console.error(error);
-
-    yield put(notify(Notifications.Error, `Could not add player to game: ${error.message}`));
+const UPDATE_PLAYER = gql`
+  mutation updatePlayer($playerId: String!, $input: PlayerInput!) {
+    updatePlayer(id: $playerId, input: $input) {
+      id,
+    }
   }
+`;
+
+export function* editedPlayerName(action: IEditedPlayerNameAction) {
+  const gameId = yield select(makeSelectGameAdminId());
+  const playerId = yield select(makeSelectPlayerId(action.index));
+
+  yield safeMutate(UPDATE_PLAYER, {
+    input: {
+      gameId,
+      name: action.name,
+    },
+    playerId,
+  },
+    'Could not edit player name'
+  );
+}
+
+const UPDATE_SCORES = gql`
+  mutation updateScores($input: ScoresInput!) {
+    updateScores(input: $input) {
+      id,
+    }
+  }
+`;
+
+export function* editedPlayerPoints(action: IEditedPlayerPointsAction) {
+  const gameId = yield select(makeSelectGameAdminId());
+  const round: IRound = yield select(makeSelectGameAdminCurrentRound());
+  const playerId = yield select(makeSelectPlayerId(action.index));
+
+  yield safeMutate(UPDATE_SCORES, {
+    input: {
+      filter: {
+        gameId,
+        roundId: round.id,
+      },
+      scores: [{
+        playerId,
+        points: Number(action.points),
+      }],
+    },
+  },
+    'Could not update player score'
+  );
+}
+
+const DELETE_PLAYER = gql`
+  mutation deletePlayerFromGame($playerId: String!, $gameId: String!) {
+    deletePlayer(id: $playerId, gameId: $gameId) {
+      id
+    }
+  }
+`;
+
+export function* deletedPlayerFromGame(action: IDeletePlayerFromGame) {
+  const gameId = yield select(makeSelectGameAdminId());
+
+  yield safeMutate(DELETE_PLAYER, {
+    gameId,
+    playerId: action.id,
+  },
+    'Could not delete player'
+  );
 }
 
 export const gameAdminSagas = [
   takeLatest(FETCH_GAME, fetchGame),
   takeLatest(ADDPLAYERTO_GAME, addPlayerToGame),
+  throttle(500, EDITEDPLAYER_NAME, editedPlayerName),
+  takeLatest(EDITEDPLAYER_POINTS, editedPlayerPoints),
+  takeLatest(DELETEPLAYERFROM_GAME, deletedPlayerFromGame),
 ];

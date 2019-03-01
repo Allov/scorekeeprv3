@@ -4,8 +4,10 @@ import * as constants from '../constants';
 
 const game: IGame = {
   createdBy: 'dont-care',
+  currentRound: 1,
   id: 'dont-care',
   name: 'dont-care',
+  players: [],
   shareId: 'dont-care',
 };
 

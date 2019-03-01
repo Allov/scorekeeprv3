@@ -17,8 +17,8 @@ export const playerTypeDefs = gql`
   }
 
   extend type Mutation {
-    addPlayerToGame(input: PlayerInput!): Player
-    updatePlayer(id: String!, input: PlayerInput!): Player
+    addPlayerToGame(input: PlayerInput!): Game
+    updatePlayer(id: String!, input: PlayerInput!): Game
     deletePlayer(id: String!, gameId: String!): Game
   }
 `;

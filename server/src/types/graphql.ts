@@ -1,9 +1,9 @@
 import DataLoader from 'dataloader';
-import { IGame } from '../infrastructure/games/game.types';
+import { IGamesLoader } from 'infrastructure/games/game.loader';
 import { IUser } from '../infrastructure/users/user.types';
 
 export interface IContext {
-  gameLoader: DataLoader<string, IGame>;
+  gamesLoader: IGamesLoader;
   userLoader: DataLoader<string, IUser>;
 }
 

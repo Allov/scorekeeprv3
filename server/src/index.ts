@@ -5,7 +5,7 @@ import cors from 'cors';
 import express from 'express';
 import mongoose from 'mongoose';
 import morgan from 'morgan';
-import { gameLoader } from './infrastructure/games/game.loader';
+import gamesLoader from './infrastructure/games/game.loader';
 import resolvers from './infrastructure/resolvers';
 import rootTypeDefs from './infrastructure/rootTypeDefs';
 import { userLoader } from './infrastructure/users/user.loader';
@@ -16,19 +16,20 @@ mongoose.connect(
   { useNewUrlParser: true }
 );
 
-
 const schema = makeExecutableSchema({
   resolvers,
   typeDefs: rootTypeDefs,
 });
 
 const context: Context<IContext> = {
-  gameLoader: gameLoader(),
+  gamesLoader,
   userLoader: userLoader(),
 }
+
 const server = new ApolloServer({
   context,
   schema,
+  tracing: true,
   formatError(error: any) {
     if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
       // logging the errors can help in development

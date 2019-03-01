@@ -1,56 +1,56 @@
+import { IGamesLoader } from 'infrastructure/games/game.loader';
 import { Types } from 'mongoose';
 import { Game as GameRepository } from '../games/game.model';
 import { IPlayer, IPlayerInput } from './player.types';
 
-export async function addPlayerToGame(_: any, { input }: { input: IPlayerInput }) {
-  let game = await GameRepository.findById(input.gameId);
-  if (!game) {
-    return null;
-  }
+export async function addPlayerToGame(_: any, { input }: { input: IPlayerInput }, { gamesLoader }: { gamesLoader: IGamesLoader }) {
+  const game = await gamesLoader.byId.load(input.gameId);
+  gamesLoader.resetCache(game);
+
   input.archived = false;
   game.players.push(input);
-  game = await GameRepository.findByIdAndUpdate(game.id, game, { new: true });
+  await GameRepository.findByIdAndUpdate(game.id, game, { new: true });
+
   const player = game.players[game.players.length - 1];
 
-  game.rounds.forEach((element, index, array) => {
-    game.rounds[index].scores.push({ playerId: player.id, points: 0 });
-  });
-  game = await GameRepository.findByIdAndUpdate(game.id, game, { new: true });
-  return game.players[game.players.length - 1];
-}
-
-export async function deletePlayer(_: any, { id, gameId }: { id: any, gameId: any }) {
-  let game = await GameRepository.findById(gameId);
-  if (!game) {
-    return null;
+  for(const round of game.rounds) {
+    round.scores.push({ playerId: player.id, points: 0 })
   }
 
-  const foundIndex = game.rounds.findIndex(x => x.id === id);
-  if (foundIndex > -1) {
-    game.players[foundIndex].archived = true;
-    game = await GameRepository.findByIdAndUpdate(game.id, game);
-  }
+  await GameRepository.findByIdAndUpdate(game.id, game, { new: true });
+
   return game;
 }
 
-export async function updatePlayer(_, { id, input }: { id: any, gameId: any, input: IPlayerInput }) {
-  let game = await GameRepository.findById(input.gameId);
-  if (!game) {
-    return null;
+export async function deletePlayer(_: any, { id, gameId }: { id: any, gameId: any }, { gamesLoader }: { gamesLoader: IGamesLoader }) {
+  const game = await gamesLoader.byId.load(gameId);
+  gamesLoader.resetCache(game);
+
+  const player = game.players.find(p => p.id.toString() === id);
+  if (player) {
+    player.archived = true;
+    await GameRepository.findByIdAndUpdate(game.id, game);
   }
-  const foundIndex = game.players.findIndex(x => x.id === id);
-  if (foundIndex > -1) {
-    const player = game.players[foundIndex];
+
+  return game;
+}
+
+export async function updatePlayer(_, { id, input }: { id: any, gameId: any, input: IPlayerInput }, { gamesLoader }: { gamesLoader: IGamesLoader }) {
+  const game = await gamesLoader.byId.load(input.gameId);
+  gamesLoader.resetCache(game)
+
+  const player = game.players.find(p => p.id === id);
+  if (player) {
     player.name = input.name;
-    game.players[foundIndex] = player;
-    game = await GameRepository.findByIdAndUpdate(game.id, game);
+    await GameRepository.findByIdAndUpdate(game.id, game);
   }
+
   return game;
 }
 
+export async function totalScore(player: IPlayer, args: any, { gamesLoader }: { gamesLoader: IGamesLoader }) {
+  const game = await gamesLoader.byPlayerId.load(player.id);
 
-export async function totalScore(player: IPlayer) {
-  const game = await GameRepository.findOne({ 'players._id': new Types.ObjectId(player.id) });
   let totalScoreForPlayer = 0;
   game.rounds.map(round => {
     const score = round.scores.find(x => x.playerId.toString() === player.id.toString());

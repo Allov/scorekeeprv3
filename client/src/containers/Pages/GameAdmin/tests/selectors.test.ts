@@ -1,13 +1,16 @@
 import { IStore } from '../../../../types';
+import { IGameAdminPage } from '../reducer';
 import { makeSelectGameAdminId, makeSelectGameAdminPage } from '../selectors';
 
 const id = 'dont-care';
-const gameAdmin = {
+const gameAdmin: IGameAdminPage = {
   data: {},
   game: {
     createdBy: '',
+    currentRound: 1,
     id,
     name: '',
+    players: [],
     shareId: '',
   },
   title: '',
