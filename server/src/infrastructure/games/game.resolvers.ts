@@ -2,12 +2,13 @@ import DataLoader from 'dataloader';
 import { IPlayer } from 'infrastructure/players/player.types';
 import { IUser } from 'infrastructure/users/user.types';
 import sillyname from 'sillyname';
-import { IResolverMap, Resolver } from 'types/graphql';
-import {User as UserRepository } from '../users/user.model';
+import { IResolverMap } from 'types/graphql';
+import { User as UserRepository } from '../users/user.model';
+import { IGamesLoader } from './game.loader';
 import { Game } from './game.model';
 import { IGame, IGameFilterInput, IGameInput } from './game.types';
 
-export async function createdBy(game: IGame, _, {userLoader} : {userLoader: DataLoader<string, IUser>}){
+export async function createdBy(game: IGame, _, { userLoader }: { userLoader: DataLoader<string, IUser> }) {
   return await userLoader.load(game.createdBy);
 }
 
@@ -16,11 +17,11 @@ export async function players(game: IGame) {
 }
 
 export async function createGame(_: any, { input }: { input: IGameInput }) {
-  let user : IUser;
-  if(input.userId){
+  let user: IUser;
+  if (input.userId) {
     user = await UserRepository.findById(input.userId);
   } else {
-    user = await UserRepository.create({username: `${sillyname()}`.replace(/ /g, '-')});
+    user = await UserRepository.create({ username: `${sillyname()}`.replace(/ /g, '-') });
   }
 
   input.createdAt = Date.now();
@@ -45,14 +46,12 @@ export async function editGame(_: any, { id, input }: { id: any, input: IGameInp
   return await Game.findByIdAndUpdate(id, input);
 }
 
-export async function gamebyId(_: any,
-  { id }: { id: any },
-  { gameLoader }: {gameLoader: DataLoader<string, IGame>}) {
-  return await gameLoader.load(id);
+export async function gamebyId(_: any, { id }: { id: any }, { gamesLoader }: { gamesLoader?: IGamesLoader }) {
+  return await gamesLoader.byId.load(id);
 }
 
-export async function gameByShareId(_: any, { shareId }: { shareId: string }) {
-  return await Game.findOne({ shareId });
+export async function gameByShareId(_: any, { shareId }: { shareId: string }, { gamesLoader }: { gamesLoader?: IGamesLoader }) {
+  return await gamesLoader.byShareId.load(shareId);
 }
 
 export async function games(_: any, { filter }: { filter: IGameFilterInput }) {
@@ -63,7 +62,7 @@ export function rounds(game: IGame, { roundNumber }: { roundNumber: number | und
   return roundNumber ? game.rounds.filter(round => round.roundNumber === roundNumber) : game.rounds;
 }
 
-export const gameResolvers : IResolverMap = {
+export const gameResolvers: IResolverMap = {
   Game: {
     createdBy,
     players,

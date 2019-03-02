@@ -33,6 +33,26 @@ export interface IGame {
   name: string;
   shareId: string;
   createdBy: string;
+  rounds?: IRound[];
+  players?: IPlayer[];
+  currentRound?: number;
+}
+
+export interface IRound {
+  id: string,
+  roundNumber: number;
+  scores: IScore[];
+}
+
+export interface IScore {
+  points: number;
+  player: IPlayer;
+}
+
+export interface IPlayer {
+  id: string;
+  name: string;
+  totalScore: number;
 }
 
 export interface IUser {
@@ -59,4 +79,8 @@ export interface ICard {
   title: string;
   description?: string; // todo: html
   link: string;
+}
+
+export interface IIndexedAction {
+  index: number;
 }

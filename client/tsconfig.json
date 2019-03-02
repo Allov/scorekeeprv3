@@ -17,9 +17,10 @@
     "importHelpers": true,
     "strictNullChecks": true,
     "suppressImplicitAnyIndexErrors": true,
-    "noUnusedLocals": true
+    "noUnusedLocals": true,
   },
   "exclude": [
+    "coverage",
     "node_modules",
     "build",
     "scripts",
