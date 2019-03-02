@@ -49,7 +49,7 @@ export async function updateRound(_: any, { id, input }: { id: any, input: IRoun
   return game;
 }
 
-export async function scores(round: IRound, args: any, { gamesLoader }: { gamesLoader: IGamesLoader }) {
+export async function scores(round: IRound, args: any, { gamesLoader }: { gamesLoader?: IGamesLoader }) {
   const game = await gamesLoader.byRoundId.load(round.id);
   return round.scores.filter(score => !game.players.find(player => player.id === score.playerId).archived);
 }

@@ -5,7 +5,6 @@ import { IPlayer, IPlayerInput } from './player.types';
 
 export async function addPlayerToGame(_: any, { input }: { input: IPlayerInput }, { gamesLoader }: { gamesLoader: IGamesLoader }) {
   const game = await gamesLoader.byId.load(input.gameId);
-  gamesLoader.resetCache(game);
 
   input.archived = false;
   game.players.push(input);
@@ -22,9 +21,8 @@ export async function addPlayerToGame(_: any, { input }: { input: IPlayerInput }
   return game;
 }
 
-export async function deletePlayer(_: any, { id, gameId }: { id: any, gameId: any }, { gamesLoader }: { gamesLoader: IGamesLoader }) {
+export async function deletePlayer(_: any, { id, gameId }: { id: any, gameId: any }, { gamesLoader }: { gamesLoader?: IGamesLoader }) {
   const game = await gamesLoader.byId.load(gameId);
-  gamesLoader.resetCache(game);
 
   const player = game.players.find(p => p.id.toString() === id);
   if (player) {
@@ -35,9 +33,8 @@ export async function deletePlayer(_: any, { id, gameId }: { id: any, gameId: an
   return game;
 }
 
-export async function updatePlayer(_, { id, input }: { id: any, gameId: any, input: IPlayerInput }, { gamesLoader }: { gamesLoader: IGamesLoader }) {
+export async function updatePlayer(_, { id, input }: { id: any, gameId: any, input: IPlayerInput }, { gamesLoader }: { gamesLoader?: IGamesLoader }) {
   const game = await gamesLoader.byId.load(input.gameId);
-  gamesLoader.resetCache(game)
 
   const player = game.players.find(p => p.id === id);
   if (player) {
@@ -48,7 +45,7 @@ export async function updatePlayer(_, { id, input }: { id: any, gameId: any, inp
   return game;
 }
 
-export async function totalScore(player: IPlayer, args: any, { gamesLoader }: { gamesLoader: IGamesLoader }) {
+export async function totalScore(player: IPlayer, args: any, { gamesLoader }: { gamesLoader?: IGamesLoader }) {
   const game = await gamesLoader.byPlayerId.load(player.id);
 
   let totalScoreForPlayer = 0;

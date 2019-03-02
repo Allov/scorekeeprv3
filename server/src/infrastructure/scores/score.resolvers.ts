@@ -33,7 +33,7 @@ export async function deleteScore(_: any, { id, filter }: { id: any, filter: ISc
   return game;
 }
 
-export async function updateScores(_: any, { input }: { input: IScoresInput }, { gamesLoader }: { gamesLoader: IGamesLoader }) {
+export async function updateScores(_: any, { input }: { input: IScoresInput }, { gamesLoader }: { gamesLoader?: IGamesLoader }) {
   // input validation
   const {
     gameId,
@@ -41,7 +41,6 @@ export async function updateScores(_: any, { input }: { input: IScoresInput }, {
   } = input.filter;
 
   const game = await gamesLoader.byId.load(gameId);
-  gamesLoader.resetCache(game);
 
   const round = game
     .rounds

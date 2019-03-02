@@ -1,5 +1,6 @@
 import DataLoader from 'dataloader';
 import { Types } from 'mongoose';
+import { IContext } from 'types/graphql';
 import { Game as GameRepository } from './game.model';
 import { IGame } from './game.types';
 
@@ -72,67 +73,49 @@ const batchGamesByRoundIds: BatchGamesByRoundId = async (roundIds) => {
 
 // inspired by: https://github.com/facebook/dataloader#loading-by-alternative-keys
 // humm. How to prevent all this code. Priming seems good ... but there must be a better way to batch prime.
-export const gamesByIdsLoader = new DataLoader<string, IGame>(async (ids) => {
+export const gamesByIdsLoader = (context: IContext) => new DataLoader<string, IGame>(async (ids) => {
   const games = await batchGamesByIds(ids);
 
   for(const game of games) {
-    gamesByShareIdsLoader.prime(game.shareId, game);
-
-    for(const player of game.players) {
-      gamesByPlayerIdsLoader.prime(player.id, game);
-    }
-
-    for(const round of game.rounds) {
-      gamesByRoundIdsLoader.prime(round.id, game);
-    }
+    context.gamesLoader.byShareId.prime(game.shareId, game);
+    game.players.forEach(player => context.gamesLoader.byPlayerId.prime(player.id, game));
+    game.rounds.forEach(round => context.gamesLoader.byRoundId.prime(round.id, game));
   }
 
   return games;
 });
 
-export const gamesByShareIdsLoader = new DataLoader<string, IGame>(async (shareIds) => {
+export const gamesByShareIdsLoader = (context: IContext) => new DataLoader<string, IGame>(async (shareIds) => {
   const games = await batchGamesByShareIds(shareIds);
 
   for(const game of games) {
-    gamesByIdsLoader.prime(game.id, game);
-
-    for(const player of game.players) {
-      gamesByPlayerIdsLoader.prime(player.id, game);
-    }
-
-    for(const round of game.rounds) {
-      gamesByRoundIdsLoader.prime(round.id, game);
-    }
+    context.gamesLoader.byId.prime(game.shareId, game);
+    game.players.forEach(player => context.gamesLoader.byPlayerId.prime(player.id, game));
+    game.rounds.forEach(round => context.gamesLoader.byRoundId.prime(round.id, game));
   }
 
   return games;
 });
 
-export const gamesByPlayerIdsLoader = new DataLoader<string, IGame>(async (playerIds) => {
+export const gamesByPlayerIdsLoader = (context: IContext) =>  new DataLoader<string, IGame>(async (playerIds) => {
   const games = await batchGamesByPlayerIds(playerIds);
 
   for(const game of games) {
-    gamesByIdsLoader.prime(game.id, game);
-    gamesByShareIdsLoader.prime(game.shareId, game);
-
-    for(const round of game.rounds) {
-      gamesByRoundIdsLoader.prime(round.id, game);
-    }
+    context.gamesLoader.byId.prime(game.shareId, game);
+    context.gamesLoader.byShareId.prime(game.shareId, game);
+    game.rounds.forEach(round => context.gamesLoader.byRoundId.prime(round.id, game));
   }
 
   return games;
 });
 
-export const gamesByRoundIdsLoader = new DataLoader<string, IGame>(async (roundsIds) => {
+export const gamesByRoundIdsLoader = (context: IContext) => new DataLoader<string, IGame>(async (roundsIds) => {
   const games = await batchGamesByRoundIds(roundsIds);
 
   for(const game of games) {
-    gamesByIdsLoader.prime(game.id, game);
-    gamesByShareIdsLoader.prime(game.shareId, game);
-
-    for(const player of game.players) {
-      gamesByPlayerIdsLoader.prime(player.id, game);
-    }
+    context.gamesLoader.byId.prime(game.shareId, game);
+    context.gamesLoader.byShareId.prime(game.shareId, game);
+    game.players.forEach(player => context.gamesLoader.byPlayerId.prime(player.id, game));
   }
 
   return games;
@@ -143,21 +126,4 @@ export interface IGamesLoader {
   byPlayerId: DataLoader<string, IGame>;
   byRoundId: DataLoader<string, IGame>;
   byShareId: DataLoader<string, IGame>;
-  resetCache: (game: IGame) => void;
 }
-
-const gamesLoader: IGamesLoader = {
-  byId: gamesByIdsLoader,
-  byPlayerId: gamesByPlayerIdsLoader,
-  byRoundId: gamesByRoundIdsLoader,
-  byShareId: gamesByShareIdsLoader,
-  resetCache: (game: IGame) => {
-    gamesByIdsLoader.clear(game.id);
-    game.players.forEach(player => gamesByPlayerIdsLoader.clear(player.id));
-    game.rounds.forEach(round => gamesByRoundIdsLoader.clear(round.id));
-    gamesByShareIdsLoader.clear(game.shareId);
-  }
-};
-
-export default gamesLoader;
-

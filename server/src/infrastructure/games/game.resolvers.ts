@@ -46,11 +46,11 @@ export async function editGame(_: any, { id, input }: { id: any, input: IGameInp
   return await Game.findByIdAndUpdate(id, input);
 }
 
-export async function gamebyId(_: any, { id }: { id: any }, { gamesLoader }: { gamesLoader: IGamesLoader }) {
+export async function gamebyId(_: any, { id }: { id: any }, { gamesLoader }: { gamesLoader?: IGamesLoader }) {
   return await gamesLoader.byId.load(id);
 }
 
-export async function gameByShareId(_: any, { shareId }: { shareId: string }, { gamesLoader }: { gamesLoader: IGamesLoader }) {
+export async function gameByShareId(_: any, { shareId }: { shareId: string }, { gamesLoader }: { gamesLoader?: IGamesLoader }) {
   return await gamesLoader.byShareId.load(shareId);
 }
 

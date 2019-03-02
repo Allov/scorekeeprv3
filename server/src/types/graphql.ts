@@ -3,7 +3,7 @@ import { IGamesLoader } from 'infrastructure/games/game.loader';
 import { IUser } from '../infrastructure/users/user.types';
 
 export interface IContext {
-  gamesLoader: IGamesLoader;
+  gamesLoader?: IGamesLoader;
   userLoader: DataLoader<string, IUser>;
 }
 
