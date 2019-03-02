@@ -29,4 +29,8 @@ export const gameTypeDefs = gql`
     editGame(id: String!, input: GameInput!): Game
     deleteGame(id: String!): Game
   }
+
+  extend type Subscription {
+    gameUpdated(shareId: String!) : Game
+  }
 `;

@@ -1,5 +1,7 @@
 import DataLoader from 'dataloader';
+import { PubSub, withFilter } from 'graphql-subscriptions';
 import { IPlayer } from 'infrastructure/players/player.types';
+import { IRound } from 'infrastructure/rounds/round.types';
 import { IUser } from 'infrastructure/users/user.types';
 import sillyname from 'sillyname';
 import { IResolverMap } from 'types/graphql';
@@ -41,26 +43,33 @@ export async function createGame(_: any, { input }: { input: IGameInput }) {
 export async function deleteGame(_: any, { id }: { id: any }) {
   return await Game.findByIdAndRemove(id);
 }
-
+// TODO: Support PubSub
 export async function editGame(_: any, { id, input }: { id: any, input: IGameInput }) {
   return await Game.findByIdAndUpdate(id, input);
 }
 
-export async function gamebyId(_: any, { id }: { id: any }, { gamesLoader }: { gamesLoader?: IGamesLoader }) {
+export async function gamebyId(_: any, { id }: { id: any }, { gamesLoader }: { gamesLoader?: IGamesLoader }) : Promise<IGame> {
   return await gamesLoader.byId.load(id);
 }
 
-export async function gameByShareId(_: any, { shareId }: { shareId: string }, { gamesLoader }: { gamesLoader?: IGamesLoader }) {
+export async function gameByShareId(_: any, { shareId }: { shareId: string }, { gamesLoader }: { gamesLoader?: IGamesLoader }) : Promise<IGame> {
   return await gamesLoader.byShareId.load(shareId);
 }
 
-export async function games(_: any, { filter }: { filter: IGameFilterInput }) {
+// TODO: Define return type. Return IGame[] and not IGameModel[]
+export async function games(_: any, { filter }: { filter: IGameFilterInput }){
   return await Game.find({}, null, filter);
 }
 
-export function rounds(game: IGame, { roundNumber }: { roundNumber: number | undefined }) {
+export function rounds(game: IGame, { roundNumber }: { roundNumber: number | undefined }) : IRound[] {
   return roundNumber ? game.rounds.filter(round => round.roundNumber === roundNumber) : game.rounds;
 }
+
+export function gameUpdated(_: any, { shareId }: { shareId: string }, { gamesLoader }: { gamesLoader?: IGamesLoader }) : IGame {
+  return null;
+}
+
+const pubsub = new PubSub();
 
 export const gameResolvers: IResolverMap = {
   Game: {
@@ -78,4 +87,7 @@ export const gameResolvers: IResolverMap = {
     gameByShareId,
     games,
   },
+  Subscription: {
+    gameUpdated,
+  }
 };

@@ -2,6 +2,7 @@ import { IGamesLoader } from 'infrastructure/games/game.loader';
 import { Game as GameRepository } from '../games/game.model';
 import { IRound, IRoundInput } from './round.types';
 
+// TODO: Support PubSub
 export async function addRoundToGame(_: any, { input }: { input: IRoundInput }) {
   let game = await GameRepository.findById(input.gameId);
   if (!game) {
@@ -14,6 +15,7 @@ export async function addRoundToGame(_: any, { input }: { input: IRoundInput }) 
   return game;
 }
 
+// TODO: Support PubSub
 export async function deleteRound(_: any, { id, gameId }: { id: any, gameId: any }) {
   let game = await GameRepository.findById(gameId);
   if (!game) {
@@ -34,6 +36,7 @@ export async function deleteRound(_: any, { id, gameId }: { id: any, gameId: any
   return game;
 }
 
+// TODO: Support PubSub
 export async function updateRound(_: any, { id, input }: { id: any, input: IRoundInput }) {
   let game = await GameRepository.findById(input.gameId);
   if (!game) {

@@ -2,6 +2,7 @@ import { IGamesLoader } from 'infrastructure/games/game.loader';
 import { Game as GameRepository } from '../games/game.model';
 import { IScore, IScoreFilterInput, IScoresInput } from './score.types';
 
+// TODO: Support PubSub
 export async function addScoresToRound(_: any, { input }: { input: IScoresInput }) {
 
   let game = await GameRepository.findById(input.filter.gameId);
@@ -16,6 +17,7 @@ export async function addScoresToRound(_: any, { input }: { input: IScoresInput 
   return game;
 }
 
+// TODO: Support PubSub
 export async function deleteScore(_: any, { id, filter }: { id: any, filter: IScoreFilterInput }) {
   let game = await GameRepository.findById(filter.gameId);
   if (!game) {
@@ -33,6 +35,7 @@ export async function deleteScore(_: any, { id, filter }: { id: any, filter: ISc
   return game;
 }
 
+// TODO: Support PubSub
 export async function updateScores(_: any, { input }: { input: IScoresInput }, { gamesLoader }: { gamesLoader?: IGamesLoader }) {
   // input validation
   const {

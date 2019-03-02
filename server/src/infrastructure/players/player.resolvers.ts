@@ -3,6 +3,8 @@ import { Types } from 'mongoose';
 import { Game as GameRepository } from '../games/game.model';
 import { IPlayer, IPlayerInput } from './player.types';
 
+
+// TODO: Support PubSub
 export async function addPlayerToGame(_: any, { input }: { input: IPlayerInput }, { gamesLoader }: { gamesLoader: IGamesLoader }) {
   const game = await gamesLoader.byId.load(input.gameId);
 
@@ -21,6 +23,7 @@ export async function addPlayerToGame(_: any, { input }: { input: IPlayerInput }
   return game;
 }
 
+// TODO: Support PubSub
 export async function deletePlayer(_: any, { id, gameId }: { id: any, gameId: any }, { gamesLoader }: { gamesLoader?: IGamesLoader }) {
   const game = await gamesLoader.byId.load(gameId);
 
@@ -33,6 +36,7 @@ export async function deletePlayer(_: any, { id, gameId }: { id: any, gameId: an
   return game;
 }
 
+// TODO: Support PubSub
 export async function updatePlayer(_, { id, input }: { id: any, gameId: any, input: IPlayerInput }, { gamesLoader }: { gamesLoader?: IGamesLoader }) {
   const game = await gamesLoader.byId.load(input.gameId);
 

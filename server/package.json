@@ -19,6 +19,7 @@
     "express": "^4.16.4",
     "graphql": "^14.0.2",
     "graphql-iso-date": "^3.6.1",
+    "graphql-subscriptions": "^1.0.0",
     "graphql-tools": "^4.0.3",
     "mongoose": "^5.4.1",
     "morgan": "^1.9.1",
