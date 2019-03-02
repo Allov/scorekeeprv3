@@ -1,6 +1,7 @@
 import { ApolloServer, makeExecutableSchema } from 'apollo-server-express';
 import cors from 'cors';
 import express from 'express';
+import { createServer } from 'http';
 import mongoose from 'mongoose';
 import morgan from 'morgan';
 import ScorekeeprContext from './app/context';
@@ -17,7 +18,7 @@ const schema = makeExecutableSchema({
   typeDefs: rootTypeDefs,
 });
 
-const server = new ApolloServer({
+const apolloServer = new ApolloServer({
   context: () => new ScorekeeprContext(),
   schema,
   tracing: true,
@@ -34,11 +35,16 @@ const server = new ApolloServer({
 const app = express();
 app.use(cors());
 app.use(morgan('dev'));
-server.applyMiddleware({ app });
+apolloServer.applyMiddleware({ app });
 
 const port = 4000;
 
-app.listen({ port }, () =>
+const httpServer = createServer(app);
+apolloServer.installSubscriptionHandlers(httpServer);
+
+httpServer.listen({ port }, () => {
   // tslint:disable-next-line:no-console
-  console.log(`🚀 Server ready at http://localhost:${port}${server.graphqlPath}`),
-);
+  console.log(`🚀 Server ready at http://localhost:${port}${apolloServer.graphqlPath}`);
+  // tslint:disable-next-line:no-console
+  console.log(`🚀 Subscriptions ready at ws://localhost:${port}${apolloServer.subscriptionsPath}`);
+});

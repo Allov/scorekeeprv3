@@ -21,10 +21,12 @@
     "graphql-iso-date": "^3.6.1",
     "graphql-subscriptions": "^1.0.0",
     "graphql-tools": "^4.0.3",
+    "http": "0.0.0",
     "mongoose": "^5.4.1",
     "morgan": "^1.9.1",
     "pg": "^7.8.0",
-    "sillyname": "^0.1.0"
+    "sillyname": "^0.1.0",
+    "subscriptions-transport-ws": "^0.9.15"
   },
   "devDependencies": {
     "@types/jest": "^24.0.6",
