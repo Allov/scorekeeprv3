@@ -15,7 +15,7 @@ export interface IGameRepository {
   getByRoundId(id: string): Promise<IGame>;
   getByShareId(id: string): Promise<IGame>;
   createGame(input: IGameInput): Promise<IGameModel>;
-  updateGame(id: string, input: IGameInput, returnNew: boolean): Promise<IGameModel>;
+  updateGame(id: string, input: IGameInput, returnNew?: boolean): Promise<IGameModel>;
   deleteGame(id: string): Promise<boolean>;
 }
 

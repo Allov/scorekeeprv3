@@ -15,7 +15,7 @@ export async function addPlayerToGame(_: any, { input }: { input: IPlayerInput }
     round.scores.push({ playerId: player.id, points: 0 })
   }
 
-  game = await gameRepository.updateGame(game.id, game, { new: true });
+  game = await gameRepository.updateGame(game.id, game);
 
   return game;
 }
@@ -26,7 +26,7 @@ export async function deletePlayer(_: any, { id, gameId }: { id: any, gameId: an
   const player = game.players.find(p => p.id.toString() === id);
   if (player) {
     player.archived = true;
-    await gameRepository.updateGame(game.id, game, false);
+    await gameRepository.updateGame(game.id, game);
   }
   return game;
 }
@@ -37,7 +37,7 @@ export async function updatePlayer(_, { id, input }: { id: any, gameId: any, inp
   const player = game.players.find(p => p.id === id);
   if (player) {
     player.name = input.name;
-    await gameRepository.updateGame(game.id, game, false);
+    await gameRepository.updateGame(game.id, game);
   }
   return game;
 }
