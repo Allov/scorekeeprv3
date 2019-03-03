@@ -15,7 +15,7 @@ export interface IGameRepository {
   getByRoundId(id: string): Promise<IGame>;
   getByShareId(id: string): Promise<IGame>;
   createGame(input: IGameInput): Promise<IGameModel>;
-  updateGame(id: string, input: IGameInput, returnNew?: boolean): Promise<IGameModel>;
+  updateGame(id: string, input: any, returnNew?: boolean): Promise<IGameModel>;
   deleteGame(id: string): Promise<boolean>;
 }
 
@@ -58,7 +58,7 @@ export class GameRepository implements IGameRepository {
     return await this.games.create(input);
   }
 
-  public async updateGame(id: string, input: IGameInput, returnNew: boolean = false): Promise<IGameModel> {
+  public async updateGame(id: string, input: any, returnNew: boolean = false): Promise<IGameModel> {
     const updatedGame = await this.games.findByIdAndUpdate(id, input, { new : returnNew });
     this.eventListener.publish(Events.GameUpdated, { gameUpdated: updatedGame, shareId: updatedGame.shareId });
     return updatedGame;
