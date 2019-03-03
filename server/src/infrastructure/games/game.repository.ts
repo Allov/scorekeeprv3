@@ -17,6 +17,7 @@ export interface IGameRepository {
   createGame(input: IGameInput): Promise<IGameModel>;
   updateGame(id: string, input: any, returnNew?: boolean): Promise<IGameModel>;
   deleteGame(id: string): Promise<boolean>;
+  prime(game: IGame[]): void;
 }
 
 export class GameRepository implements IGameRepository {
@@ -59,7 +60,7 @@ export class GameRepository implements IGameRepository {
   }
 
   public async updateGame(id: string, input: any, returnNew: boolean = false): Promise<IGameModel> {
-    const updatedGame = await this.games.findByIdAndUpdate(id, input, { new : returnNew });
+    const updatedGame = await this.games.findByIdAndUpdate(id, input, { new: returnNew });
     this.eventListener.publish(Events.GameUpdated, { gameUpdated: updatedGame, shareId: updatedGame.shareId });
     return updatedGame;
   }
@@ -69,4 +70,12 @@ export class GameRepository implements IGameRepository {
     return true;
   }
 
+  public prime(games: IGame[]): void {
+    for(const game of games) {
+      this.gamesLoader.byId.prime(game.shareId, game);
+      this.gamesLoader.byShareId.prime(game.shareId, game);
+      game.players.forEach(player => this.gamesLoader.byPlayerId.prime(player.id, game));
+      game.rounds.forEach(round => this.gamesLoader.byRoundId.prime(round.id, game));
+    }
+  }
 }

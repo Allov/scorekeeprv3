@@ -76,11 +76,7 @@ const batchGamesByRoundIds: BatchGamesByRoundId = async (roundIds) => {
 export const gamesByIdsLoader = (context: IContext) => new DataLoader<string, IGame>(async (ids) => {
   const games = await batchGamesByIds(ids);
 
-  for(const game of games) {
-    context.gameRepository.gamesLoader.byShareId.prime(game.shareId, game);
-    game.players.forEach(player => context.gameRepository.gamesLoader.byPlayerId.prime(player.id, game));
-    game.rounds.forEach(round => context.gameRepository.gamesLoader.byRoundId.prime(round.id, game));
-  }
+  context.gameRepository.prime(games);
 
   return games;
 });
@@ -88,11 +84,7 @@ export const gamesByIdsLoader = (context: IContext) => new DataLoader<string, IG
 export const gamesByShareIdsLoader = (context: IContext) => new DataLoader<string, IGame>(async (shareIds) => {
   const games = await batchGamesByShareIds(shareIds);
 
-  for(const game of games) {
-    context.gameRepository.gamesLoader.byId.prime(game.shareId, game);
-    game.players.forEach(player => context.gameRepository.gamesLoader.byPlayerId.prime(player.id, game));
-    game.rounds.forEach(round => context.gameRepository.gamesLoader.byRoundId.prime(round.id, game));
-  }
+  context.gameRepository.prime(games);
 
   return games;
 });
@@ -100,11 +92,7 @@ export const gamesByShareIdsLoader = (context: IContext) => new DataLoader<strin
 export const gamesByPlayerIdsLoader = (context: IContext) =>  new DataLoader<string, IGame>(async (playerIds) => {
   const games = await batchGamesByPlayerIds(playerIds);
 
-  for(const game of games) {
-    context.gameRepository.gamesLoader.byId.prime(game.shareId, game);
-    context.gameRepository.gamesLoader.byShareId.prime(game.shareId, game);
-    game.rounds.forEach(round => context.gameRepository.gamesLoader.byRoundId.prime(round.id, game));
-  }
+  context.gameRepository.prime(games);
 
   return games;
 });
@@ -112,11 +100,7 @@ export const gamesByPlayerIdsLoader = (context: IContext) =>  new DataLoader<str
 export const gamesByRoundIdsLoader = (context: IContext) => new DataLoader<string, IGame>(async (roundsIds) => {
   const games = await batchGamesByRoundIds(roundsIds);
 
-  for(const game of games) {
-    context.gameRepository.gamesLoader.byId.prime(game.shareId, game);
-    context.gameRepository.gamesLoader.byShareId.prime(game.shareId, game);
-    game.players.forEach(player => context.gameRepository.gamesLoader.byPlayerId.prime(player.id, game));
-  }
+  context.gameRepository.prime(games);
 
   return games;
 });
