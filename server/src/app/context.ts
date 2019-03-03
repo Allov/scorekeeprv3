@@ -1,7 +1,7 @@
-import eventListener from 'app/eventListener';
-import { Game } from 'infrastructure/games/game.model';
-import { GameRepository } from 'infrastructure/games/game.repository';
+import eventListener from '../app/eventListener';
 import { gamesByIdsLoader, gamesByPlayerIdsLoader, gamesByRoundIdsLoader, gamesByShareIdsLoader, IGamesLoader } from '../infrastructure/games/game.loader';
+import { Game } from '../infrastructure/games/game.model';
+import { GameRepository } from '../infrastructure/games/game.repository';
 import { userLoader } from '../infrastructure/users/user.loader';
 import { IContext } from '../types/graphql';
 

@@ -77,9 +77,9 @@ export const gamesByIdsLoader = (context: IContext) => new DataLoader<string, IG
   const games = await batchGamesByIds(ids);
 
   for(const game of games) {
-    context.gamesLoader.byShareId.prime(game.shareId, game);
-    game.players.forEach(player => context.gamesLoader.byPlayerId.prime(player.id, game));
-    game.rounds.forEach(round => context.gamesLoader.byRoundId.prime(round.id, game));
+    context.gameRepository.gamesLoader.byShareId.prime(game.shareId, game);
+    game.players.forEach(player => context.gameRepository.gamesLoader.byPlayerId.prime(player.id, game));
+    game.rounds.forEach(round => context.gameRepository.gamesLoader.byRoundId.prime(round.id, game));
   }
 
   return games;
@@ -89,9 +89,9 @@ export const gamesByShareIdsLoader = (context: IContext) => new DataLoader<strin
   const games = await batchGamesByShareIds(shareIds);
 
   for(const game of games) {
-    context.gamesLoader.byId.prime(game.shareId, game);
-    game.players.forEach(player => context.gamesLoader.byPlayerId.prime(player.id, game));
-    game.rounds.forEach(round => context.gamesLoader.byRoundId.prime(round.id, game));
+    context.gameRepository.gamesLoader.byId.prime(game.shareId, game);
+    game.players.forEach(player => context.gameRepository.gamesLoader.byPlayerId.prime(player.id, game));
+    game.rounds.forEach(round => context.gameRepository.gamesLoader.byRoundId.prime(round.id, game));
   }
 
   return games;
@@ -101,9 +101,9 @@ export const gamesByPlayerIdsLoader = (context: IContext) =>  new DataLoader<str
   const games = await batchGamesByPlayerIds(playerIds);
 
   for(const game of games) {
-    context.gamesLoader.byId.prime(game.shareId, game);
-    context.gamesLoader.byShareId.prime(game.shareId, game);
-    game.rounds.forEach(round => context.gamesLoader.byRoundId.prime(round.id, game));
+    context.gameRepository.gamesLoader.byId.prime(game.shareId, game);
+    context.gameRepository.gamesLoader.byShareId.prime(game.shareId, game);
+    game.rounds.forEach(round => context.gameRepository.gamesLoader.byRoundId.prime(round.id, game));
   }
 
   return games;
@@ -113,9 +113,9 @@ export const gamesByRoundIdsLoader = (context: IContext) => new DataLoader<strin
   const games = await batchGamesByRoundIds(roundsIds);
 
   for(const game of games) {
-    context.gamesLoader.byId.prime(game.shareId, game);
-    context.gamesLoader.byShareId.prime(game.shareId, game);
-    game.players.forEach(player => context.gamesLoader.byPlayerId.prime(player.id, game));
+    context.gameRepository.gamesLoader.byId.prime(game.shareId, game);
+    context.gameRepository.gamesLoader.byShareId.prime(game.shareId, game);
+    game.players.forEach(player => context.gameRepository.gamesLoader.byPlayerId.prime(player.id, game));
   }
 
   return games;

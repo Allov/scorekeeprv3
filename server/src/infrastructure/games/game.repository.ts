@@ -1,6 +1,6 @@
-import { Events } from 'app/eventListener';
 import { PubSub } from 'graphql-subscriptions';
 import { Model } from 'mongoose';
+import { Events } from '../../app/eventListener';
 import { IGamesLoader } from './game.loader';
 import { IGameModel } from './game.model';
 import { IGame, IGameFilterInput, IGameInput } from './game.types';
