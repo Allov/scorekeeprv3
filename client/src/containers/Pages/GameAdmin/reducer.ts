@@ -106,7 +106,6 @@ actions[ADDPLAYERTO_GAME] = (state: IGameAdminPageRecord, action: IAddPlayerToGa
   });
 }
 
-
 export function gameAdminReducer(state: IGameAdminPageRecord = initialState, action: IFetchedGameAction | undefined): IGameAdminPageRecord {
   if (!action || !actions[action.type]) { return state; }
   return actions[action.type](state, action);

@@ -1,4 +1,5 @@
 import { RouterState } from 'connected-react-router';
+import { IGameViewPage } from 'src/containers/Pages/GameView/reducer';
 import { IGameAdminPage } from '../containers/Pages/GameAdmin/reducer';
 import { Notifications } from './constants';
 
@@ -62,6 +63,7 @@ export interface IUser {
 // mm
 export interface IPages {
   gameAdmin: IGameAdminPage;
+  gameView: IGameViewPage;
 }
 
 // presentation types

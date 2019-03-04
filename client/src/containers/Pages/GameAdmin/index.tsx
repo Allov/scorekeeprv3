@@ -33,7 +33,7 @@ const editPlayerDispatchProperties =
         index),
       dispatch);
 
-export class GameAdmin extends React.Component<IGameAdminProps, {}> {
+export class GameAdmin extends React.Component<IGameAdminProps> {
   public constructor(props: IGameAdminProps) {
     super(props);
 
