@@ -7,7 +7,7 @@ export async function addPlayerToGame(_: any, { input }: { input: IPlayerInput }
 
   input.archived = false;
   game.players.push(input);
-  game = await gameRepository.updateGame(game.id, game, true);
+  game = await gameRepository.updateGame(game.id, game, true, false);
 
   const player = game.players[game.players.length - 1];
 
@@ -15,7 +15,7 @@ export async function addPlayerToGame(_: any, { input }: { input: IPlayerInput }
     round.scores.push({ playerId: player.id, points: 0 })
   }
 
-  game = await gameRepository.updateGame(game.id, game);
+  await gameRepository.updateGame(game.id, game);
 
   return game;
 }
@@ -51,7 +51,7 @@ export async function totalScore(player: IPlayer, args: any, { gameRepository }:
     if (score) {
       totalScoreForPlayer += score.points;
     }
-  })
+  });
   return totalScoreForPlayer;
 }
 

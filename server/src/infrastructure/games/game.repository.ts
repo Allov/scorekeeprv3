@@ -1,3 +1,4 @@
+import sillyname from 'sillyname';
 import { PubSub } from 'graphql-subscriptions';
 import { Model } from 'mongoose';
 import { Events } from '../../app/eventListener';
@@ -15,15 +16,18 @@ export interface IGameRepository {
   getByRoundId(id: string): Promise<IGame>;
   getByShareId(id: string): Promise<IGame>;
   createGame(input: IGameInput): Promise<IGameModel>;
-  updateGame(id: string, input: any, returnNew?: boolean): Promise<IGameModel>;
+  updateGame(id: string, input: any, returnNew?: boolean, publish?: boolean): Promise<IGameModel>;
+  publishGame(game: IGame): Promise<void>;
   deleteGame(id: string): Promise<boolean>;
-  prime(game: IGame[]): void;
+  prime(games: IGame[]): void;
+  clearAll(): void;
 }
 
 export class GameRepository implements IGameRepository {
   public gamesLoader: IGamesLoader;
   public eventListener: PubSub;
   public games: Model<IGameModel, {}>;
+  public name = sillyname();
 
   constructor(
     gamesLoader: IGamesLoader,
@@ -59,10 +63,22 @@ export class GameRepository implements IGameRepository {
     return await this.games.create(input);
   }
 
-  public async updateGame(id: string, input: any, returnNew: boolean = false): Promise<IGameModel> {
+  public async updateGame(id: string, input: any, returnNew: boolean = false, publish: boolean = true): Promise<IGameModel> {
     const updatedGame = await this.games.findByIdAndUpdate(id, input, { new: returnNew });
-    this.eventListener.publish(Events.GameUpdated, { gameUpdated: updatedGame, shareId: updatedGame.shareId });
-    return updatedGame;
+
+    const game = returnNew ? updatedGame : input;
+
+    this.clearAll();
+
+    if (publish) {
+      await this.publishGame(game);
+    }
+
+    return game;
+  }
+
+  public async publishGame(game: IGame) {
+    await this.eventListener.publish(Events.GameUpdated, { gameUpdated: game, shareId: game.shareId });
   }
 
   public async deleteGame(id: string): Promise<boolean> {
@@ -71,11 +87,18 @@ export class GameRepository implements IGameRepository {
   }
 
   public prime(games: IGame[]): void {
-    for(const game of games) {
+    for (const game of games) {
       this.gamesLoader.byId.prime(game.shareId, game);
       this.gamesLoader.byShareId.prime(game.shareId, game);
       game.players.forEach(player => this.gamesLoader.byPlayerId.prime(player.id, game));
       game.rounds.forEach(round => this.gamesLoader.byRoundId.prime(round.id, game));
     }
+  }
+
+  public clearAll(): void {
+    this.gamesLoader.byId.clearAll();
+    this.gamesLoader.byShareId.clearAll();
+    this.gamesLoader.byPlayerId.clearAll();
+    this.gamesLoader.byRoundId.clearAll();
   }
 }

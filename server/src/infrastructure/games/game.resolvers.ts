@@ -73,6 +73,7 @@ export const subscribe = withFilter(
   }
 )
 
+
 export const gameResolvers = {
   Game: {
     createdBy,
