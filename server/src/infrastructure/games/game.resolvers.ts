@@ -5,7 +5,7 @@ import { IRound } from 'infrastructure/rounds/round.types';
 import { IUser } from 'infrastructure/users/user.types';
 import sillyname from 'sillyname';
 import { IResolverMap } from 'types/graphql';
-import  eventListener, { Events }  from '../../app/eventListener';
+import eventListener, { Events } from '../../app/eventListener';
 import { User as UserRepository } from '../users/user.model';
 import { Game, IGameModel } from './game.model';
 import { IGameRepository } from './game.repository';
@@ -49,7 +49,7 @@ export async function editGame(_: any, { id, input }: { id: any, input: IGameInp
   return await gameRepository.updateGame(id, input);
 }
 
-export async function gamebyId(_: any, { id }: { id: any }, { gameRepository }: { gameRepository?: IGameRepository }) : Promise<IGame> {
+export async function gamebyId(_: any, { id }: { id: any }, { gameRepository }: { gameRepository?: IGameRepository }): Promise<IGame> {
   return await gameRepository.getById(id);
 }
 
@@ -58,16 +58,24 @@ export async function gameByShareId(_: any, { shareId }: { shareId: string }, { 
 }
 
 // TODO: Return IGame[] and not IGameModel[]
-export async function games(_: any, { filter }: { filter: IGameFilterInput }, { gameRepository }: { gameRepository?: IGameRepository }): Promise<IGameModel[]>{
+export async function games(_: any, { filter }: { filter: IGameFilterInput }, { gameRepository }: { gameRepository?: IGameRepository }): Promise<IGameModel[]> {
   return await gameRepository.getAll(filter);
 }
 
-export function rounds(game: IGame, { roundNumber }: { roundNumber: number | undefined }) : IRound[] {
+export function rounds(game: IGame, { roundNumber }: { roundNumber: number | undefined }): IRound[] {
   return roundNumber ? game.rounds.filter(round => round.roundNumber === roundNumber) : game.rounds;
 }
 
+
+export function resolve(payload: any, variables: any, { gameRepository }: { gameRepository: IGameRepository }) {
+  gameRepository.clearAll();
+  return payload.gameUpdated;
+}
+
 export const subscribe = withFilter(
-  () => eventListener.asyncIterator(Events.GameUpdated),
+  (a,b,c) => {
+    return eventListener.asyncIterator(Events.GameUpdated)
+  },
   (payload, variables) => {
     return payload.shareId === variables.shareId;
   }
@@ -92,6 +100,7 @@ export const gameResolvers = {
   },
   Subscription: {
     gameUpdated: {
+      resolve,
       subscribe
     },
   }
