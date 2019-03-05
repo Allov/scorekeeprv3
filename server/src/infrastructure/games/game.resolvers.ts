@@ -67,20 +67,20 @@ export function rounds(game: IGame, { roundNumber }: { roundNumber: number | und
 }
 
 
-export function resolve(payload: any, variables: any, { gameRepository }: { gameRepository: IGameRepository }) {
+export function resolveGameUpdated(payload: any, variables: any, { gameRepository }: { gameRepository: IGameRepository }) {
   gameRepository.clearAll();
   return payload.gameUpdated;
 }
 
-export const subscribe = withFilter(
-  (a,b,c) => {
+
+export const subscribeGameUpdate = withFilter(
+  () => {
     return eventListener.asyncIterator(Events.GameUpdated)
   },
   (payload, variables) => {
     return payload.shareId === variables.shareId;
   }
 )
-
 
 export const gameResolvers = {
   Game: {
@@ -100,8 +100,8 @@ export const gameResolvers = {
   },
   Subscription: {
     gameUpdated: {
-      resolve,
-      subscribe
+      resolve: resolveGameUpdated,
+      subscribe: subscribeGameUpdate,
     },
   }
 };
