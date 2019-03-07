@@ -2,8 +2,8 @@ import { shallow } from 'enzyme';
 import * as React from 'react';
 import { match } from 'react-router-dom';
 import { GameAdmin } from '..';
-import { IRound } from '../../../../types';
-import { IGameAdminPage } from '../reducer';
+import { IRound } from '../../../../../types';
+import { IGamePage } from '../../reducer';
 
 it('renders <Create> without crashing', () => {
   const id = 'dont-care';
@@ -14,7 +14,7 @@ it('renders <Create> without crashing', () => {
     scores: [],
   }
 
-  const page: IGameAdminPage = {
+  const page: IGamePage = {
     data: {},
     game: {
       createdBy: '',

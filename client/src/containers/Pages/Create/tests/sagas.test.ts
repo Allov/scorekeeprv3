@@ -23,7 +23,7 @@ it('dispatch the push action if game was created correctly', () => {
   };
 
   const putDescriptor = createGameGenerator.next(result).value;
-  expect(putDescriptor).toEqual(put(push(`/game/${shareId}`)));
+  expect(putDescriptor).toEqual(put(push(`/game/${shareId}/admin`)));
 });
 
 it('dispatch a notification error on error', () => {

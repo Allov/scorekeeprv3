@@ -2,10 +2,10 @@ import { Observable } from 'apollo-client/util/Observable';
 import gql from 'graphql-tag';
 import { eventChannel } from 'redux-saga';
 import { call, put, take, takeLatest } from 'redux-saga/effects';
-import Client from '../../../lib/apollo';
-import { IGame } from '../../../types';
-import { ISubscribeGameAction, subscribedGameUpdated } from './actions';
-import { SUBSCRIBETO_GAME } from './constants';
+import Client from '../../../../lib/apollo';
+import { IGame } from '../../../../types';
+import { ISubscribeToGameAction, subscribedGameUpdated } from '../actions';
+import { SUBSCRIBETO_GAME } from '../constants';
 
 const GAME_FRAGMENT = gql`
   fragment GameFields on Game {
@@ -67,7 +67,7 @@ export function subscribeToGameUpdates(subscription: Observable<IObserver<IGameU
   });
 }
 
-export function* manageGameUpdateSubscription(action: ISubscribeGameAction) {
+export function* manageGameUpdateSubscription(action: ISubscribeToGameAction) {
   const variables: ISubscribeToGameVariables = {
     shareId: action.shareId,
   }
@@ -75,14 +75,16 @@ export function* manageGameUpdateSubscription(action: ISubscribeGameAction) {
   const subscription: Observable<IObserver<IGameUpdateObserver>> = yield call([Client, Client.subscribe], { query: SUBSCRIBETO_GAME_UPDATES, variables });
   const channel = yield call(subscribeToGameUpdates, subscription);
 
-  try {
-    while(true) {
+  while (true) {
+    try {
       const game = yield take(channel);
+      // tslint:disable-next-line:no-console
+      console.log(game);
       yield put(subscribedGameUpdated(game));
+    } catch (error) {
+      // tslint:disable-next-line:no-console
+      console.error(error);
     }
-  } catch(error) {
-    // tslint:disable-next-line:no-console
-    console.error(error);
   }
 }
 

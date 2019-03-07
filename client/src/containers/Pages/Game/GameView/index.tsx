@@ -3,9 +3,10 @@ import { connect } from 'react-redux';
 import { match } from 'react-router';
 import { Dispatch } from 'redux';
 import { createStructuredSelector } from 'reselect';
-import { IRound } from '../../../types';
-import { subscribeToGame } from './actions';
-import { makeSelectGameViewCurrentRound, makeSelectGameViewId, makeSelectGameViewTitle } from './selectors';
+import { IRound } from '../../../../types';
+import { fetchGame } from '../actions';
+import { subscribeToGame } from '../actions';
+import { makeSelectGameCurrentRound, makeSelectGameId, makeSelectGameTitle } from '../selectors';
 
 interface IGameViewProps {
   gameId: string;
@@ -13,13 +14,16 @@ interface IGameViewProps {
   title: string;
   currentRound: IRound;
   subscribeToGame: (sharedId: string) => void;
+  fetchGame: (shareId: string) => void;
 }
 
 export class GameView extends React.Component<IGameViewProps> {
   public componentDidMount() {
     // don't know how to do better, connected-router doesn't export the selecors...
     // https://github.com/supasate/connected-react-router/issues/160
-    this.props.subscribeToGame((this.props.match.params as any).shareId);
+    const shareId = (this.props.match.params as any).shareId;
+    this.props.fetchGame(shareId)
+    this.props.subscribeToGame(shareId);
   }
 
   public render() {
@@ -35,12 +39,13 @@ export class GameView extends React.Component<IGameViewProps> {
 }
 
 const mapStateToProps = () => createStructuredSelector({
-  currentRound: makeSelectGameViewCurrentRound(),
-  gameId: makeSelectGameViewId(),
-  title: makeSelectGameViewTitle(),
+  currentRound: makeSelectGameCurrentRound(),
+  gameId: makeSelectGameId(),
+  title: makeSelectGameTitle(),
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
+  fetchGame: (shareId: string) => dispatch(fetchGame(shareId)),
   subscribeToGame: (shareId: string) => dispatch(subscribeToGame(shareId)),
 });
 

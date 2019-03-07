@@ -7,7 +7,7 @@ Object {
   },
   "notifications": Array [],
   "pages": Object {
-    "gameAdmin": Immutable.Record {
+    "game": Immutable.Record {
       "data": Object {},
       "game": Object {
         "createdBy": "",
@@ -39,7 +39,7 @@ Object {
   },
   "notifications": Array [],
   "pages": Object {
-    "gameAdmin": Immutable.Record {
+    "game": Immutable.Record {
       "data": Object {},
       "game": Object {
         "createdBy": "",

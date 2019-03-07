@@ -85,7 +85,44 @@ export function deletePlayerFromGame(id: string): IDeletePlayerFromGame {
   };
 }
 
-export type GameAdminActions =
+export interface ISubscribeToGameAction extends Action {
+  shareId: string;
+  type: constants.SUBSCRIBETO_GAME;
+}
+
+export function subscribeToGame(shareId: string): ISubscribeToGameAction {
+  return {
+    shareId,
+    type: constants.SUBSCRIBETO_GAME,
+  };
+}
+
+export interface ISubscribedToGameAction extends Action {
+  game: IGame;
+  type: constants.SUBSCRIBEDTO_GAME;
+}
+
+export function subscribedToGame(game: IGame): ISubscribedToGameAction {
+  return {
+    game,
+    type: constants.SUBSCRIBEDTO_GAME,
+  };
+}
+
+export interface ISubscribedGameUpdatedAction extends Action {
+  game: IGame;
+  type: constants.SUBSCRIBEDGAME_UPDATE;
+}
+
+export function subscribedGameUpdated(game: IGame): ISubscribedGameUpdatedAction {
+  return {
+    game,
+    type: constants.SUBSCRIBEDGAME_UPDATE,
+  };
+}
+
+
+export type GameActions =
   IFetchGameAction |
   IFetchedGameAction |
   IAddPlayerToGameAction |
@@ -93,4 +130,7 @@ export type GameAdminActions =
   IEditedPlayerNameAction |
   IEditedPlayerPointsAction |
   IDeletePlayerFromGame |
+  ISubscribeToGameAction |
+  ISubscribedToGameAction |
+  ISubscribedGameUpdatedAction |
   undefined;

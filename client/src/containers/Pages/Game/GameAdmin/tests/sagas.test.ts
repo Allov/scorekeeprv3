@@ -1,5 +1,5 @@
-import { IGame } from '../../../../types';
-import { addPlayerToGame as addPlayerToGameAction, fetchGame as fetchGameAction } from '../actions';
+import { IGame } from '../../../../../types';
+import { addPlayerToGame as addPlayerToGameAction, fetchGame as fetchGameAction } from '../../actions';
 import { addPlayerToGame, fetchGame } from '../sagas';
 
 describe('fetchGame', () => {

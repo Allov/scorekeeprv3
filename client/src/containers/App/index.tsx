@@ -9,8 +9,8 @@ import { themePicker } from '../../lib/styled/interface';
 import { makeSelectTheme } from '../Configurations/selectors';
 import Notifications from '../Notifications';
 import Create from '../Pages/Create';
-import GameAdmin from '../Pages/GameAdmin';
-import GameView from '../Pages/GameView';
+import GameAdmin from '../Pages/Game/GameAdmin';
+import GameView from '../Pages/Game/GameView';
 import Home from '../Pages/Home';
 
 interface IAppProps {
