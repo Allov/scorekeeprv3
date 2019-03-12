@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { match, withRouter, RouteComponentProps } from 'react-router';
-import { Dispatch, compose } from 'redux';
+import { RouteComponentProps, withRouter } from 'react-router';
+import { Dispatch } from 'redux';
 import { createStructuredSelector } from 'reselect';
 import { IRound } from '../../../../types';
 import { fetchGame } from '../actions';

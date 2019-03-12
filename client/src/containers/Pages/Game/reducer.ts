@@ -6,6 +6,7 @@ import {
 } from '../../../types';
 
 import {
+  GameActions,
   IAddPlayerToGameAction,
   IDeletePlayerFromGame,
   IEditedPlayerNameAction,
@@ -13,7 +14,6 @@ import {
   IFetchedGameAction,
   ISubscribedGameUpdatedAction,
   ISubscribedToGameAction,
-  GameActions,
 } from './actions';
 
 import {

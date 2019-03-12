@@ -1,7 +1,7 @@
 import { gql } from 'apollo-boost';
 import { put, select, takeLatest, throttle } from 'redux-saga/effects';
-import { IRound } from '../../../../types';
 import { safeMutate, safeQuery } from '../../../../lib/saga';
+import { IRound } from '../../../../types';
 import { Notifications } from '../../../../types/constants';
 import { notify } from '../../../Notifications/actions';
 import { fetchedGame, IAddPlayerToGameAction, IDeletePlayerFromGame, IEditedPlayerNameAction, IEditedPlayerPointsAction, IFetchGameAction } from '../actions';
