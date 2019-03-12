@@ -1,52 +1,49 @@
-import { IGamesLoader } from 'infrastructure/games/game.loader';
-import { Types } from 'mongoose';
-import { Game as GameRepository } from '../games/game.model';
+import { IGameRepository } from 'infrastructure/games/game.repository';
+import { IGame } from 'infrastructure/games/game.types';
 import { IPlayer, IPlayerInput } from './player.types';
 
-export async function addPlayerToGame(_: any, { input }: { input: IPlayerInput }, { gamesLoader }: { gamesLoader: IGamesLoader }) {
-  const game = await gamesLoader.byId.load(input.gameId);
+export async function addPlayerToGame(_: any, { input }: { input: IPlayerInput }, { gameRepository }: { gameRepository?: IGameRepository }) {
+  let game = await gameRepository.getById(input.gameId);
 
   input.archived = false;
   game.players.push(input);
-  await GameRepository.findByIdAndUpdate(game.id, game, { new: true });
+  game = await gameRepository.updateGame(game.id, game, true, false);
 
   const player = game.players[game.players.length - 1];
 
-  for(const round of game.rounds) {
+  for (const round of game.rounds) {
     round.scores.push({ playerId: player.id, points: 0 })
   }
 
-  await GameRepository.findByIdAndUpdate(game.id, game, { new: true });
+  await gameRepository.updateGame(game.id, game);
 
   return game;
 }
 
-export async function deletePlayer(_: any, { id, gameId }: { id: any, gameId: any }, { gamesLoader }: { gamesLoader?: IGamesLoader }) {
-  const game = await gamesLoader.byId.load(gameId);
+export async function deletePlayer(_: any, { id, gameId }: { id: any, gameId: any }, { gameRepository }: { gameRepository?: IGameRepository }) {
+  const game = await gameRepository.getById(gameId);
 
   const player = game.players.find(p => p.id.toString() === id);
   if (player) {
     player.archived = true;
-    await GameRepository.findByIdAndUpdate(game.id, game);
+    await gameRepository.updateGame(game.id, game);
   }
-
   return game;
 }
 
-export async function updatePlayer(_, { id, input }: { id: any, gameId: any, input: IPlayerInput }, { gamesLoader }: { gamesLoader?: IGamesLoader }) {
-  const game = await gamesLoader.byId.load(input.gameId);
+export async function updatePlayer(_, { id, input }: { id: any, gameId: any, input: IPlayerInput }, { gameRepository }: { gameRepository?: IGameRepository }) {
+  const game = await gameRepository.getById(input.gameId);
 
   const player = game.players.find(p => p.id === id);
   if (player) {
     player.name = input.name;
-    await GameRepository.findByIdAndUpdate(game.id, game);
+    await gameRepository.updateGame(game.id, game);
   }
-
   return game;
 }
 
-export async function totalScore(player: IPlayer, args: any, { gamesLoader }: { gamesLoader?: IGamesLoader }) {
-  const game = await gamesLoader.byPlayerId.load(player.id);
+export async function totalScore(player: IPlayer, args: any, { gameRepository }: { gameRepository?: IGameRepository }) {
+  const game = await gameRepository.getByPlayerId(player.id);
 
   let totalScoreForPlayer = 0;
   game.rounds.map(round => {
@@ -54,12 +51,12 @@ export async function totalScore(player: IPlayer, args: any, { gamesLoader }: { 
     if (score) {
       totalScoreForPlayer += score.points;
     }
-  })
+  });
   return totalScoreForPlayer;
 }
 
-export async function findGameForPlayer(player: IPlayer) {
-  return await GameRepository.findOne({ 'players._id': new Types.ObjectId(player.id) });
+export async function findGameForPlayer(player: IPlayer, _: any, { gameRepository }: { gameRepository?: IGameRepository }): Promise<IGame> {
+  return await gameRepository.getByPlayerId(player.id);
 }
 
 export const playerResolvers = {

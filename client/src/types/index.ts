@@ -1,5 +1,5 @@
 import { RouterState } from 'connected-react-router';
-import { IGameAdminPage } from '../containers/Pages/GameAdmin/reducer';
+import { IGamePage } from '../containers/Pages/Game/reducer';
 import { Notifications } from './constants';
 
 // todo: split this... probably.
@@ -61,7 +61,7 @@ export interface IUser {
 
 // mm
 export interface IPages {
-  gameAdmin: IGameAdminPage;
+  game: IGamePage;
 }
 
 // presentation types

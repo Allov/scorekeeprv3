@@ -6,11 +6,11 @@ import { withRouter } from 'react-router-dom';
 import { bindActionCreators, compose, Dispatch } from 'redux';
 import { createStructuredSelector } from 'reselect';
 import sillyname from 'sillyname';
-import EditablePlayer from '../../../components/EditablePlayer';
-import bindIndexToActionCreators from '../../../lib/redux/bindIndexToActionCreator';
-import { IRound } from '../../../types';
-import { addPlayerToGame, deletePlayerFromGame, editedPlayerName, editedPlayerPoints, fetchGame as fetchGameAction } from './actions';
-import { makeSelectGameAdminCurrentRound, makeSelectGameAdminId, makeSelectGameAdminTitle } from './selectors';
+import EditablePlayer from '../../../../components/EditablePlayer';
+import bindIndexToActionCreators from '../../../../lib/redux/bindIndexToActionCreator';
+import { IRound } from '../../../../types';
+import { addPlayerToGame, deletePlayerFromGame, editedPlayerName, editedPlayerPoints, fetchGame as fetchGameAction } from '../actions';
+import { makeSelectGameCurrentRound, makeSelectGameId, makeSelectGameTitle } from '../selectors';
 
 interface IGameAdminProps {
   gameId: string;
@@ -33,7 +33,7 @@ const editPlayerDispatchProperties =
         index),
       dispatch);
 
-export class GameAdmin extends React.Component<IGameAdminProps, {}> {
+export class GameAdmin extends React.Component<IGameAdminProps> {
   public constructor(props: IGameAdminProps) {
     super(props);
 
@@ -72,9 +72,9 @@ export class GameAdmin extends React.Component<IGameAdminProps, {}> {
 }
 
 const mapStateToProps = () => createStructuredSelector({
-  currentRound: makeSelectGameAdminCurrentRound(),
-  gameId: makeSelectGameAdminId(),
-  title: makeSelectGameAdminTitle(),
+  currentRound: makeSelectGameCurrentRound(),
+  gameId: makeSelectGameId(),
+  title: makeSelectGameTitle(),
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({

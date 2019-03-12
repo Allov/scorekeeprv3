@@ -1,12 +1,12 @@
 import { gql } from 'apollo-boost';
 import { put, select, takeLatest, throttle } from 'redux-saga/effects';
 import { IRound } from 'src/types';
-import { safeMutate, safeQuery } from '../../../lib/saga';
-import { Notifications } from '../../../types/constants';
-import { notify } from '../../Notifications/actions';
-import { fetchedGame, IAddPlayerToGameAction, IDeletePlayerFromGame, IEditedPlayerNameAction, IEditedPlayerPointsAction, IFetchGameAction } from './actions';
-import { ADDPLAYERTO_GAME, DELETEPLAYERFROM_GAME, EDITEDPLAYER_NAME, EDITEDPLAYER_POINTS, FETCH_GAME } from './constants';
-import { makeSelectGameAdminCurrentRound, makeSelectGameAdminId, makeSelectPlayerId } from './selectors';
+import { safeMutate, safeQuery } from '../../../../lib/saga';
+import { Notifications } from '../../../../types/constants';
+import { notify } from '../../../Notifications/actions';
+import { fetchedGame, IAddPlayerToGameAction, IDeletePlayerFromGame, IEditedPlayerNameAction, IEditedPlayerPointsAction, IFetchGameAction } from '../actions';
+import { ADDPLAYERTO_GAME, DELETEPLAYERFROM_GAME, EDITEDPLAYER_NAME, EDITEDPLAYER_POINTS, FETCH_GAME } from '../constants';
+import { makeSelectGameCurrentRound, makeSelectGameId, makeSelectPlayerId } from '../selectors';
 
 const GAME_FRAGMENT = gql`
   fragment GameFields on Game {
@@ -92,7 +92,7 @@ const UPDATE_PLAYER = gql`
 `;
 
 export function* editedPlayerName(action: IEditedPlayerNameAction) {
-  const gameId = yield select(makeSelectGameAdminId());
+  const gameId = yield select(makeSelectGameId());
   const playerId = yield select(makeSelectPlayerId(action.index));
 
   yield safeMutate(UPDATE_PLAYER, {
@@ -115,8 +115,8 @@ const UPDATE_SCORES = gql`
 `;
 
 export function* editedPlayerPoints(action: IEditedPlayerPointsAction) {
-  const gameId = yield select(makeSelectGameAdminId());
-  const round: IRound = yield select(makeSelectGameAdminCurrentRound());
+  const gameId = yield select(makeSelectGameId());
+  const round: IRound = yield select(makeSelectGameCurrentRound());
   const playerId = yield select(makeSelectPlayerId(action.index));
 
   yield safeMutate(UPDATE_SCORES, {
@@ -144,7 +144,7 @@ const DELETE_PLAYER = gql`
 `;
 
 export function* deletedPlayerFromGame(action: IDeletePlayerFromGame) {
-  const gameId = yield select(makeSelectGameAdminId());
+  const gameId = yield select(makeSelectGameId());
 
   yield safeMutate(DELETE_PLAYER, {
     gameId,
