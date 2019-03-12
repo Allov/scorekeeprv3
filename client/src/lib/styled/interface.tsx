@@ -20,7 +20,11 @@ const party: IAppTheme = {
   pText: 'tomato',
 }
 
-export const themePicker = {
+interface IThemePicker {
+  [key:string]: IAppTheme;
+}
+
+export const themePicker: IThemePicker = {
   day,
   night,
   party

@@ -50,25 +50,27 @@ export function addedPlayerToGame(game: IGame): IAddedPlayerToGameAction {
   };
 }
 
-export interface IEditedPlayerNameAction extends Action, IIndexedAction {
+export interface IEditedPlayerNameAction extends Action {
+  id: string,
   name: string;
 }
 
-export function editedPlayerName(index: number, name: string): IEditedPlayerNameAction {
+export function editedPlayerName(id: string, name: string): IEditedPlayerNameAction {
   return {
-    index,
+    id,
     name,
     type: constants.EDITEDPLAYER_NAME,
   };
 }
 
-export interface IEditedPlayerPointsAction extends Action, IIndexedAction {
+export interface IEditedPlayerPointsAction extends Action {
+  id: string,
   points: string;
 }
 
-export function editedPlayerPoints(index: number, points: string): IEditedPlayerPointsAction {
+export function editedPlayerPoints(id: string, points: string): IEditedPlayerPointsAction {
   return {
-    index,
+    id,
     points,
     type: constants.EDITEDPLAYER_POINTS,
   };

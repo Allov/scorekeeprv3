@@ -1,5 +1,9 @@
+interface ITransformed {
+  [key:string]: {};
+}
+
 const transformObjectValues = (obj: any, fn: (a: any) => any) => {
-  const transformed = {};
+  const transformed: ITransformed = {};
   Object.keys(obj).forEach(key => {
     transformed[key] = fn(obj[key]);
   });

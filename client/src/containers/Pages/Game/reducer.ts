@@ -12,7 +12,8 @@ import {
   IEditedPlayerPointsAction,
   IFetchedGameAction,
   ISubscribedGameUpdatedAction,
-  ISubscribedToGameAction
+  ISubscribedToGameAction,
+  GameActions,
 } from './actions';
 
 import {
@@ -46,12 +47,14 @@ export const defaultState: IGamePage = {
 
 export const initialState: IGamePageRecord = Record<IGamePage>(defaultState)();
 
-const actions: FETCHED_GAME[] | EDITEDPLAYER_NAME[] | ADDPLAYERTO_GAME[] | SUBSCRIBEDTO_GAME[] | SUBSCRIBEDGAME_UPDATE[] = [];
-actions[FETCHED_GAME] = (state: IGamePageRecord, action: IFetchedGameAction) => {
+
+const fetchedGameHandler = (state: IGamePageRecord, action: IFetchedGameAction) => {
   return state.mergeIn(['game'], action.game);
 };
 
-actions[EDITEDPLAYER_NAME] = (state: IGamePageRecord, action: IEditedPlayerNameAction) => {
+const editedPlayerNameHandler = (state: IGamePageRecord, action: IEditedPlayerNameAction) => {
+  const playerIndex = state.game.players!.findIndex(p => p.id === action.id);
+
   return state
     // edit in scores
     .updateIn([
@@ -59,7 +62,7 @@ actions[EDITEDPLAYER_NAME] = (state: IGamePageRecord, action: IEditedPlayerNameA
       'rounds',
       state.game.currentRound! - 1,
       'scores',
-      action.index,
+      playerIndex,
       'player',
       'name'
     ],
@@ -69,14 +72,14 @@ actions[EDITEDPLAYER_NAME] = (state: IGamePageRecord, action: IEditedPlayerNameA
     .updateIn([
       'game',
       'players',
-      action.index,
+      playerIndex,
       'name',
     ],
       () => action.name
     );
-}
+};
 
-actions[DELETEPLAYERFROM_GAME] = (state: IGamePageRecord, action: IDeletePlayerFromGame) => {
+const deletedPlayerFromGameHandler = (state: IGamePageRecord, action: IDeletePlayerFromGame) => {
   const playerIndex = state.game.players!.findIndex(p => p.id === action.id);
 
   return state
@@ -94,23 +97,25 @@ actions[DELETEPLAYERFROM_GAME] = (state: IGamePageRecord, action: IDeletePlayerF
       'players',
       playerIndex,
     ]);
-}
+};
 
-actions[EDITEDPLAYER_POINTS] = (state: IGamePageRecord, action: IEditedPlayerPointsAction) => {
+const editedPlayerPointsHandler = (state: IGamePageRecord, action: IEditedPlayerPointsAction) => {
+  const playerIndex = state.game.players!.findIndex(p => p.id === action.id);
+
   return state
     .setIn([
       'game',
       'rounds',
       state.game.currentRound! - 1,
       'scores',
-      action.index,
+      playerIndex,
       'points',
     ],
       action.points
     );
-}
+};
 
-actions[ADDPLAYERTO_GAME] = (state: IGamePageRecord, action: IAddPlayerToGameAction) => {
+const addPlayerToGameHandler = (state: IGamePageRecord, action: IAddPlayerToGameAction) => {
   return state.updateIn([
     'game',
     'rounds',
@@ -126,17 +131,35 @@ actions[ADDPLAYERTO_GAME] = (state: IGamePageRecord, action: IAddPlayerToGameAct
       points: 0,
     });
   });
-}
+};
 
-actions[SUBSCRIBEDTO_GAME] = (state: IGamePageRecord, action: ISubscribedToGameAction) => {
+const subscribedToGameHandler = (state: IGamePageRecord, action: ISubscribedToGameAction) => {
   return state.mergeIn(['game'], action.game);
 };
 
-actions[SUBSCRIBEDGAME_UPDATE] = (state: IGamePageRecord, action: ISubscribedGameUpdatedAction) => {
+const subscribedGameUpdatedHandler = (state: IGamePageRecord, action: ISubscribedGameUpdatedAction) => {
   return state.mergeIn(['game'], action.game);
 };
 
-export function gameReducer(state: IGamePageRecord = initialState, action: IFetchedGameAction | undefined): IGamePageRecord {
-  if (!action || !actions[action.type]) { return state; }
-  return actions[action.type](state, action);
+export function gameReducer(state: IGamePageRecord = initialState, action: GameActions): IGamePageRecord {
+  if (!action) { return state };
+
+  switch (action!.type) {
+    case FETCHED_GAME:
+      return fetchedGameHandler(state, action as IFetchedGameAction);
+    case ADDPLAYERTO_GAME:
+      return addPlayerToGameHandler(state, action as IAddPlayerToGameAction);
+    case DELETEPLAYERFROM_GAME:
+      return deletedPlayerFromGameHandler(state, action as IDeletePlayerFromGame);
+    case EDITEDPLAYER_NAME:
+      return editedPlayerNameHandler(state, action as IEditedPlayerNameAction);
+    case EDITEDPLAYER_POINTS:
+      return editedPlayerPointsHandler(state, action as IEditedPlayerPointsAction);
+    case SUBSCRIBEDGAME_UPDATE:
+      return subscribedGameUpdatedHandler(state, action as ISubscribedGameUpdatedAction);
+    case SUBSCRIBEDTO_GAME:
+      return subscribedToGameHandler(state, action as ISubscribedToGameAction);
+  }
+
+  return state;
 }

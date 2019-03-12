@@ -13,7 +13,7 @@ const store = configureStore({
 
 ReactDOM.render(
   <Provider store={store}>
-    <App history={history} />
+    <App history={history} theme={'day'} />
   </Provider>,
   document.getElementById('root') as HTMLElement
 );

@@ -1,39 +1,28 @@
 // import * as connectedReactRouter from 'connected-react-router';
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { match } from 'react-router';
+import { RouteComponentProps } from 'react-router';
 import { withRouter } from 'react-router-dom';
-import { bindActionCreators, compose, Dispatch } from 'redux';
+import { Dispatch } from 'redux';
 import { createStructuredSelector } from 'reselect';
 import sillyname from 'sillyname';
 import EditablePlayer from '../../../../components/EditablePlayer';
-import bindIndexToActionCreators from '../../../../lib/redux/bindIndexToActionCreator';
 import { IRound } from '../../../../types';
 import { addPlayerToGame, deletePlayerFromGame, editedPlayerName, editedPlayerPoints, fetchGame as fetchGameAction } from '../actions';
 import { makeSelectGameCurrentRound, makeSelectGameId, makeSelectGameTitle } from '../selectors';
 
-interface IGameAdminProps {
+interface IGameAdminProps extends RouteComponentProps<{ shareId: string }> {
   gameId: string;
-  match: match;
   title: string;
   currentRound: IRound;
   addPlayer: (gameId: string, name: string) => void;
   deletePlayer: (id: string) => void;
+  editPlayerName: (id: string, name: string) => void;
+  editPlayerPoints: (id: string, name: string) => void;
   fetchGame: (sharedId: string) => void;
-  dispatch: Dispatch;
 }
 
-const editPlayerDispatchProperties =
-  (index: number) =>
-    (dispatch: Dispatch) => bindActionCreators(
-      bindIndexToActionCreators({
-        onNameChanged: (name: string) => editedPlayerName(index, name),
-        onPointsChanged: (points: string) => editedPlayerPoints(index, points),
-      },
-        index),
-      dispatch);
-
-export class GameAdmin extends React.Component<IGameAdminProps> {
+export class GameAdmin extends React.Component<IGameAdminProps, {}> {
   public constructor(props: IGameAdminProps) {
     super(props);
 
@@ -43,7 +32,7 @@ export class GameAdmin extends React.Component<IGameAdminProps> {
   public componentDidMount() {
     // don't know how to do better, connected-router doesn't export the selecors...
     // https://github.com/supasate/connected-react-router/issues/160
-    this.props.fetchGame((this.props.match.params as any).shareId);
+    this.props.fetchGame(this.props.match.params.shareId);
   }
 
   public render() {
@@ -57,9 +46,9 @@ export class GameAdmin extends React.Component<IGameAdminProps> {
             name={score.player.name}
             points={score.points}
             totalScore={score.player.totalScore}
-            // tslint:disable-next-line:jsx-no-lambda
             onDelete={() => this.props.deletePlayer(score.player.id)}
-            {...editPlayerDispatchProperties(i)(this.props.dispatch)}
+            onNameChanged={(name: string) => this.props.editPlayerName(score.player.id, name)}
+            onPointsChanged={(points: string) => this.props.editPlayerPoints(score.player.id, points)}
           />
         ))}
       </>
@@ -80,11 +69,9 @@ const mapStateToProps = () => createStructuredSelector({
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   addPlayer: (gameId: string, name: string) => dispatch(addPlayerToGame(gameId, name)),
   deletePlayer: (id: string) => dispatch(deletePlayerFromGame(id)),
-  dispatch,
+  editPlayerName: (id: string, name: string) => dispatch(editedPlayerName(id, name)),
+  editPlayerPoints: (id: string, points: string) => dispatch(editedPlayerPoints(id, points)),
   fetchGame: (shareId: string) => dispatch(fetchGameAction(shareId)),
 });
 
-export default compose(
-  withRouter,
-  connect(mapStateToProps, mapDispatchToProps),
-)(GameAdmin);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(GameAdmin));

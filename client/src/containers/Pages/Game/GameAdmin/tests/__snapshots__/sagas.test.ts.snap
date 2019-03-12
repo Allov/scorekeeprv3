@@ -1,13 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`addPlayerToGame adds a player correctly 1`] = `
-Object {
-  "next": [Function],
-  "return": [Function],
-  "throw": [Function],
-  Symbol(Symbol.iterator): [Function],
-}
-`;
+exports[`addPlayerToGame adds a player correctly 1`] = `Object {}`;
 
 exports[`addPlayerToGame adds a player correctly 2`] = `
 Object {
@@ -26,14 +19,7 @@ Object {
 }
 `;
 
-exports[`fetchGame dispatch a notification error when no game was returned 1`] = `
-Object {
-  "next": [Function],
-  "return": [Function],
-  "throw": [Function],
-  Symbol(Symbol.iterator): [Function],
-}
-`;
+exports[`fetchGame dispatch a notification error when no game was returned 1`] = `Object {}`;
 
 exports[`fetchGame dispatch a notification error when no game was returned 2`] = `
 Object {
@@ -51,14 +37,7 @@ Object {
 }
 `;
 
-exports[`fetchGame dispatch the fetchedGame action if game was fetch correctly 1`] = `
-Object {
-  "next": [Function],
-  "return": [Function],
-  "throw": [Function],
-  Symbol(Symbol.iterator): [Function],
-}
-`;
+exports[`fetchGame dispatch the fetchedGame action if game was fetch correctly 1`] = `Object {}`;
 
 exports[`fetchGame dispatch the fetchedGame action if game was fetch correctly 2`] = `
 Object {

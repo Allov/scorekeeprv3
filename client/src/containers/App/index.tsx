@@ -16,10 +16,13 @@ import Home from '../Pages/Home';
 interface IAppProps {
   className?: string;
   history: History;
+}
+
+interface IAppConnectedProps {
   theme: string;
 }
 
-export const App = (props: IAppProps) => {
+export const App = (props: IAppProps & IAppConnectedProps) => {
   return (
     <Layout theme={themePicker[props.theme]}>
       <Notifications />
@@ -36,8 +39,8 @@ export const App = (props: IAppProps) => {
   );
 };
 
-const mapStateToProps = () => createStructuredSelector({
+const mapStateToProps = () => createStructuredSelector<{}, IAppProps, IAppConnectedProps>({
   theme: makeSelectTheme(),
 });
 
-export default connect(mapStateToProps)(App);
+export default connect<{}, IAppConnectedProps>(mapStateToProps)(App);

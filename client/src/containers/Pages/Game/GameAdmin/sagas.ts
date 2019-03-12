@@ -1,6 +1,6 @@
 import { gql } from 'apollo-boost';
 import { put, select, takeLatest, throttle } from 'redux-saga/effects';
-import { IRound } from 'src/types';
+import { IRound } from '../../../../types';
 import { safeMutate, safeQuery } from '../../../../lib/saga';
 import { Notifications } from '../../../../types/constants';
 import { notify } from '../../../Notifications/actions';
@@ -93,7 +93,7 @@ const UPDATE_PLAYER = gql`
 
 export function* editedPlayerName(action: IEditedPlayerNameAction) {
   const gameId = yield select(makeSelectGameId());
-  const playerId = yield select(makeSelectPlayerId(action.index));
+  const playerId = action.id;
 
   yield safeMutate(UPDATE_PLAYER, {
     input: {
@@ -117,7 +117,7 @@ const UPDATE_SCORES = gql`
 export function* editedPlayerPoints(action: IEditedPlayerPointsAction) {
   const gameId = yield select(makeSelectGameId());
   const round: IRound = yield select(makeSelectGameCurrentRound());
-  const playerId = yield select(makeSelectPlayerId(action.index));
+  const playerId = action.id;
 
   yield safeMutate(UPDATE_SCORES, {
     input: {
