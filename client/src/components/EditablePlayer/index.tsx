@@ -21,7 +21,7 @@ class EditablePlayer extends React.Component<IEditablePlayerProps, {}> {
 
   public render() {
     return (
-      <div>
+      <div className="player" style={{ '--player-score': this.props.points }}>
         <Input onChange={this.handleNameChange} value={this.props.name} />
         <Input onChange={this.handlePointsChange} value={this.props.points} type="tel" />
         {this.props.totalScore}

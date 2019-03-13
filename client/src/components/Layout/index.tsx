@@ -9,37 +9,14 @@ interface ILayoutProps {
 }
 
 const Layout = (props: ILayoutProps) => (
-  <div className={props.className}>
+  <div className={`${props.className} game`}>
     {props.children}
-    <div className="game">
-      Bottom score: 90, top score: 100
-      <div className="player" style={{ '--player-score': 90 }}>
-        <p className="score">90</p>
-        <p className="player-name">Max</p>
-      </div>
-      <div className="player" style={{ '--player-score': 93 }}>
-        <p className="score">93</p>
-        <p className="player-name">Paolo</p>
-      </div>
-      <div className="player" style={{ '--player-score': 98 }}>
-        <p className="score">98</p>
-        <p className="player-name">Fred</p>
-      </div>
-      <div className="player" style={{ '--player-score': 100 }}>
-        <p className="score">100</p>
-        <p className="player-name">Francis</p>
-      </div>
-      <div className="player" style={{ '--player-score': 91 }}>
-        <p className="score">91</p>
-        <p className="player-name">Remzy</p>
-      </div>
-    </div>
   </div>
 );
 
 const gameStats = `
   --top-score: 100;
-  --bottom-score: 90;
+  --bottom-score: 0;
   --player-score: 0;
   --rank-scope: 120;
 `;
@@ -56,6 +33,9 @@ const StyledLayout = styled(Layout)`
   --font-sm: ${(props: ILayoutProps) => props.theme.fontSm};
   --font-md: ${(props: ILayoutProps) => props.theme.fontMd};
   --font-lg: ${(props: ILayoutProps) => props.theme.fontLg};
+
+  ${gameStats}
+  ${calculated}
   
   font-family: var(--font-family);
 
@@ -68,8 +48,6 @@ const StyledLayout = styled(Layout)`
   a { text-decoration: none }
 
   background: var(--background-primary);
-
-  .game {
     .player {
       ${gameStats}
       ${calculated}
@@ -98,7 +76,7 @@ const StyledLayout = styled(Layout)`
         margin: 10px 0 0;
       }
     }
-  }
+
 `;
 
 export default StyledLayout;
