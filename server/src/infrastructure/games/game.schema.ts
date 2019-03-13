@@ -5,7 +5,7 @@ export const gameTypeDefs = gql`
     id: ID!
     name: String!
     shareId: String!
-    rounds: [Round!]!
+    rounds(roundNumber: Int): [Round!]!
     players: [Player!]!
     createdBy: User!
   }
@@ -28,5 +28,9 @@ export const gameTypeDefs = gql`
     createGame(input: GameInput!): Game
     editGame(id: String!, input: GameInput!): Game
     deleteGame(id: String!): Game
+  }
+
+  extend type Subscription {
+    gameUpdated(shareId: String!) : Game
   }
 `;

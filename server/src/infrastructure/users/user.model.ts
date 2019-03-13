@@ -1,10 +1,15 @@
-import mongoose from 'mongoose';
+import { Document, Model, model, Schema }  from 'mongoose';
+import { IUser } from './user.types';
 
-const User = new mongoose.Schema({
-  games: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Game' }],
+export interface IUserModel extends IUser, Document {
+
+}
+
+export const UserSchema = new Schema({
+  games: [{ type: Schema.Types.ObjectId, ref: 'Game' }],
   username: String,
 });
 
-User.set('toObject', {virtuals: true});
+UserSchema.set('toObject', {virtuals: true});
 
-export default mongoose.model('User', User);
+export const User: Model<IUserModel> = model<IUserModel>('User', UserSchema);

@@ -9,16 +9,20 @@ import { themePicker } from '../../lib/styled/interface';
 import { makeSelectTheme } from '../Configurations/selectors';
 import Notifications from '../Notifications';
 import Create from '../Pages/Create';
-import GameAdmin from '../Pages/GameAdmin';
+import GameAdmin from '../Pages/Game/GameAdmin';
+import GameView from '../Pages/Game/GameView';
 import Home from '../Pages/Home';
 
 interface IAppProps {
   className?: string;
   history: History;
+}
+
+interface IAppConnectedProps {
   theme: string;
 }
 
-export const App = (props: IAppProps) => {
+export const App = (props: IAppProps & IAppConnectedProps) => {
   return (
     <Layout theme={themePicker[props.theme]}>
       <Notifications />
@@ -27,15 +31,16 @@ export const App = (props: IAppProps) => {
         <Switch>
           <Route path="/" exact={true} component={Home} />
           <Route path="/create/:kind" component={Create} />
-          <Route path="/game/:shareId" component={GameAdmin} />
+          <Route path="/game/:shareId/admin" component={GameAdmin} />
+          <Route path="/game/:shareId" component={GameView} />
         </Switch>
       </ConnectedRouter>
     </Layout>
   );
 };
 
-const mapStateToProps = () => createStructuredSelector({
+const mapStateToProps = () => createStructuredSelector<{}, IAppProps, IAppConnectedProps>({
   theme: makeSelectTheme(),
 });
 
-export default connect(mapStateToProps)(App);
+export default connect<{}, IAppConnectedProps>(mapStateToProps)(App);

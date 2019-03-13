@@ -1,7 +1,14 @@
-import mongoose from 'mongoose';
-import { Score } from '../scores/score.model';
+import { Document, Model, model, Schema }  from 'mongoose';
+import { ScoreSchema } from '../scores/score.model';
+import { IRound } from './round.types';
 
-export const Round = new mongoose.Schema({
+export interface IRoundModel extends IRound, Document {
+
+}
+
+export const RoundSchema = new Schema({
   roundNumber: Number,
-  scores: [Score]
-})
+  scores: [ScoreSchema]
+});
+
+export const Round: Model<IRoundModel> = model<IRoundModel>('Round', RoundSchema);

@@ -1,0 +1,56 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`addPlayerToGame adds a player correctly 1`] = `Object {}`;
+
+exports[`addPlayerToGame adds a player correctly 2`] = `
+Object {
+  "@@redux-saga/IO": true,
+  "combinator": false,
+  "payload": Object {
+    "action": Object {
+      "game": Object {
+        "game": Object {},
+      },
+      "type": "FETCHED_GAME",
+    },
+    "channel": undefined,
+  },
+  "type": "PUT",
+}
+`;
+
+exports[`fetchGame dispatch a notification error when no game was returned 1`] = `Object {}`;
+
+exports[`fetchGame dispatch a notification error when no game was returned 2`] = `
+Object {
+  "@@redux-saga/IO": true,
+  "combinator": false,
+  "payload": Object {
+    "action": Object {
+      "message": "Could not find game: dont-care",
+      "notificationType": 2,
+      "type": "NOTIFICATION",
+    },
+    "channel": undefined,
+  },
+  "type": "PUT",
+}
+`;
+
+exports[`fetchGame dispatch the fetchedGame action if game was fetch correctly 1`] = `Object {}`;
+
+exports[`fetchGame dispatch the fetchedGame action if game was fetch correctly 2`] = `
+Object {
+  "@@redux-saga/IO": true,
+  "combinator": false,
+  "payload": Object {
+    "action": Object {
+      "message": "Could not find game: dont-care",
+      "notificationType": 2,
+      "type": "NOTIFICATION",
+    },
+    "channel": undefined,
+  },
+  "type": "PUT",
+}
+`;

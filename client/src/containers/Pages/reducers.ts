@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
-import { gameAdminReducer } from './GameAdmin/reducer';
+import { gameReducer } from './Game/reducer';
 
 export const pageReducers = combineReducers({
-  gameAdmin: gameAdminReducer,
+  game: gameReducer,
 });

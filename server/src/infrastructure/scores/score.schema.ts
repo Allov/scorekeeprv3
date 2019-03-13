@@ -2,8 +2,13 @@ import { gql } from 'apollo-server-express';
 
 export const scoreTypeDefs = gql`
   type Score {
-    points: Int!
-    player: [Player]
+    points: Int!,
+    player: Player,
+  }
+
+  input ScoresInput {
+    filter: ScoreFilterInput!,
+    scores: [ScoreInput!]!,
   }
 
   input ScoreInput {
@@ -11,9 +16,14 @@ export const scoreTypeDefs = gql`
     points: Int!,
   }
 
+  input ScoreFilterInput {
+    gameId: String!,
+    roundId: String!,
+  }
+
   extend type Mutation {
-    addScoresToRound(gameId: String!, roundId: String!, input: [ScoreInput!]!): Round
-    updateScore(id: String!, gameId: String!, roundId: String! , input: ScoreInput!): Round
-    deleteScore(id: String!, gameId: String!, roundId: String!): Game
+    addScoresToRound(input: ScoresInput!): Game
+    updateScores(input: ScoresInput!): Game
+    deleteScore(id: String!, filter: ScoreFilterInput): Game
   }
 `;

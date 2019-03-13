@@ -1,5 +1,6 @@
 import { nightable } from './colors';
 import { fonts } from './fonts';
+import { string } from 'prop-types';
 
 export interface IAppTheme {
   font: string,
@@ -8,6 +9,7 @@ export interface IAppTheme {
   fontSm: string,
   pBackground: string,
   pText: string,
+  [key: string]: string,
 }
 
 const night: IAppTheme = {
@@ -28,17 +30,11 @@ const day: IAppTheme = {
   pText: nightable.text.day,
 }
 
-const party: IAppTheme = {
-  font: fonts.family.base,
-  fontLg: fonts.sizes.lg,
-  fontMd: fonts.sizes.md,
-  fontSm: fonts.sizes.sm,
-  pBackground: '#bada55',
-  pText: 'tomato',
+interface IThemePicker {
+  [key:string]: IAppTheme;
 }
 
-export const themePicker = {
+export const themePicker: IThemePicker = {
   day,
   night,
-  party
 }

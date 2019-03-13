@@ -1,5 +1,5 @@
 import { RouterState } from 'connected-react-router';
-import { IGameAdminPage } from '../containers/Pages/GameAdmin/reducer';
+import { IGamePage } from '../containers/Pages/Game/reducer';
 import { Notifications } from './constants';
 
 // todo: split this... probably.
@@ -33,6 +33,26 @@ export interface IGame {
   name: string;
   shareId: string;
   createdBy: string;
+  rounds?: IRound[];
+  players?: IPlayer[];
+  currentRound?: number;
+}
+
+export interface IRound {
+  id: string,
+  roundNumber: number;
+  scores: IScore[];
+}
+
+export interface IScore {
+  points: number;
+  player: IPlayer;
+}
+
+export interface IPlayer {
+  id: string;
+  name: string;
+  totalScore: number;
 }
 
 export interface IUser {
@@ -41,7 +61,7 @@ export interface IUser {
 
 // mm
 export interface IPages {
-  gameAdmin: IGameAdminPage;
+  game: IGamePage;
 }
 
 // presentation types
@@ -59,4 +79,8 @@ export interface ICard {
   title: string;
   description?: string; // todo: html
   link: string;
+}
+
+export interface IIndexedAction {
+  index: number;
 }

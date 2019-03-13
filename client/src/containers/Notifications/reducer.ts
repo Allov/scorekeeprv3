@@ -4,8 +4,8 @@ import { NOTIFICATION } from './constants';
 
 const initialState: INotification[] = [];
 
-const actions: NOTIFICATION[] = [];
-actions[NOTIFICATION] = (state: INotification[], action: INotificationAction) => {
+const actions: Map<NOTIFICATION, (state: INotification[], action: INotificationAction) => INotification[]> = new Map();
+actions.set(NOTIFICATION, (state: INotification[], action: INotificationAction) => {
   const newState = [...state];
   newState.push({
     message: action.message,
@@ -13,9 +13,9 @@ actions[NOTIFICATION] = (state: INotification[], action: INotificationAction) =>
   });
 
   return newState;
-}
+});
 
 export function notificationsReducer(state: INotification[] = initialState, action: NotificationActions): INotification[] {
-  if (!action || !actions[action.type]) { return state; }
-  return actions[action.type](state, action);
+  if (!action || !actions.has(action.type)) { return state; }
+  return actions.get(action.type)!(state, action);
 }
