@@ -1,6 +1,5 @@
 import { ReactNode } from 'react';
 import * as React from 'react';
-import styled from 'styled-components';
 
 interface IContainerProps {
   children: ReactNode;
@@ -9,31 +8,8 @@ interface IContainerProps {
 
 const Container = (props: IContainerProps) => (
   <div className={props.className}>
-    <ul>
-      {props.children}
-    </ul>
+    {props.children}
   </div>
 );
 
-const Lineup = styled(Container)`
-  width: 320px;
-  height: 768px;
-
-  ul {
-    display: inline-grid;
-    grid-template-rows: 100%;
-    grid-template-columns: 100%;
-    grid-gap: 3px;
-  }
-
-  li {
-    background: var(--background-primary);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border: 2px solid var(--text-primary);
-    font-size: 3em;
-  }
-`;
-
-export default Lineup;
+export default Container;

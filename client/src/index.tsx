@@ -13,7 +13,7 @@ const store = configureStore({
 
 ReactDOM.render(
   <Provider store={store}>
-    <App history={history} theme={'day'} />
+    <App history={history} theme={'day'} pathname={'/dont-care'} action="PUSH" />
   </Provider>,
   document.getElementById('root') as HTMLElement
 );
