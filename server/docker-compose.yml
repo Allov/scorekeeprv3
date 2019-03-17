@@ -1,0 +1,9 @@
+version: '3'
+services:
+  mongodb:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    container_name: "${MONGODB_CONTAINER_NAME}"
+    environment:
+      - MONGO_DATA_DIR=${MONGODB_DATA_DIR}
