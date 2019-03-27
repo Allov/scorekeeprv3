@@ -1,22 +1,22 @@
-import { IGameRepository } from '../../infrastructure/games/game.repository';
+import { IGameService } from '../games/game.service';
 import { IScore, IScoreFilterInput, IScoresInput } from './score.types';
 
-export async function addScoresToRound(_: any, { input }: { input: IScoresInput }, { gameRepository }: { gameRepository?: IGameRepository }) {
+export async function addScoresToRound(_: any, { input }: { input: IScoresInput }, { gameService }: { gameService?: IGameService }) {
 
-  let game = await gameRepository.getById(input.filter.gameId);
+  let game = await gameService.getById(input.filter.gameId);
   if (!game) {
     return null;
   }
   const roundIndex = game.rounds.findIndex(x => x.id === input.filter.roundId);
   if (roundIndex > -1) {
     game.rounds[roundIndex].scores = game.rounds[roundIndex].scores.concat(input.scores);
-    game = await gameRepository.updateGame(game.id, game);
+    game = await gameService.updateGame(game.id, game);
   }
   return game;
 }
 
-export async function deleteScore(_: any, { id, filter }: { id: any, filter: IScoreFilterInput }, { gameRepository }: { gameRepository?: IGameRepository }) {
-  let game = await gameRepository.getById(filter.gameId);
+export async function deleteScore(_: any, { id, filter }: { id: any, filter: IScoreFilterInput }, { gameService }: { gameService?: IGameService }) {
+  let game = await gameService.getById(filter.gameId);
   if (!game) {
     return null;
   }
@@ -26,20 +26,20 @@ export async function deleteScore(_: any, { id, filter }: { id: any, filter: ISc
     const scoreIndex = game.rounds[roundIndex].scores.findIndex(x => x.id === id);
     if (scoreIndex > -1) {
       game.rounds[roundIndex].scores = game.rounds[roundIndex].scores.splice(scoreIndex, 1);
-      game = await gameRepository.updateGame(game.id, game);
+      game = await gameService.updateGame(game.id, game);
     }
   }
   return game;
 }
 
-export async function updateScores(_: any, { input }: { input: IScoresInput }, { gameRepository }: { gameRepository?: IGameRepository }) {
+export async function updateScores(_: any, { input }: { input: IScoresInput }, { gameService }: { gameService?: IGameService }) {
   // input validation
   const {
     gameId,
     roundId
   } = input.filter;
 
-  const game = await gameRepository.getById(gameId);
+  const game = await gameService.getById(gameId);
 
   const round = game
     .rounds
@@ -52,15 +52,15 @@ export async function updateScores(_: any, { input }: { input: IScoresInput }, {
         .find(s => s.playerId === inputScore.playerId);
       score.points = inputScore.points;
 
-      await gameRepository.updateGame(game.id, game);
+      await gameService.updateGame(game.id, game);
 
       return game;
     }
   }
 }
 
-export async function player(score: IScore, _: any, { gameRepository }: { gameRepository?: IGameRepository }) {
-  const game = await gameRepository.getByPlayerId(score.playerId);
+export async function player(score: IScore, _: any, { gameService }: { gameService?: IGameService }) {
+  const game = await gameService.getByPlayerId(score.playerId);
   return game.players.find(p => p.id.toString() === score.playerId);
 }
 

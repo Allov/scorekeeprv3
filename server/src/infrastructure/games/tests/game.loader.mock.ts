@@ -180,7 +180,7 @@ const batchGamesByRoundIds: BatchGamesByRoundId = async (roundIds) => {
 export const gamesByIdsLoaderMock = (context: IContext) => new DataLoader<string, IGame>(async (ids) => {
   const games = await batchGamesByIds(ids);
 
-  context.gameRepository.prime(games);
+  context.gameService.prime(games);
 
   return games;
 });
@@ -188,7 +188,7 @@ export const gamesByIdsLoaderMock = (context: IContext) => new DataLoader<string
 export const gamesByShareIdsLoaderMock = (context: IContext) => new DataLoader<string, IGame>(async (shareIds) => {
   const games = await batchGamesByShareIds(shareIds);
 
-  context.gameRepository.prime(games);
+  context.gameService.prime(games);
 
   return games;
 });
@@ -196,7 +196,7 @@ export const gamesByShareIdsLoaderMock = (context: IContext) => new DataLoader<s
 export const gamesByPlayerIdsLoaderMock = (context: IContext) =>  new DataLoader<string, IGame>(async (playerIds) => {
   const games = await batchGamesByPlayerIds(playerIds);
 
-  context.gameRepository.prime(games);
+  context.gameService.prime(games);
 
   return games;
 });
@@ -204,7 +204,7 @@ export const gamesByPlayerIdsLoaderMock = (context: IContext) =>  new DataLoader
 export const gamesByRoundIdsLoaderMock = (context: IContext) => new DataLoader<string, IGame>(async (roundsIds) => {
   const games = await batchGamesByRoundIds(roundsIds);
 
-  context.gameRepository.prime(games);
+  context.gameService.prime(games);
 
   return games;
 });

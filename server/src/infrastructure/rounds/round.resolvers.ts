@@ -1,20 +1,20 @@
-import { IGameRepository } from 'infrastructure/games/game.repository';
+import { IGameService } from 'infrastructure/games/game.service';
 import { IRound, IRoundInput } from './round.types';
 
-export async function addRoundToGame(_: any, { input }: { input: IRoundInput }, { gameRepository }: { gameRepository?: IGameRepository }) {
-  let game = await gameRepository.getById(input.gameId);
+export async function addRoundToGame(_: any, { input }: { input: IRoundInput }, { gameService }: { gameService?: IGameService }) {
+  let game = await gameService.getById(input.gameId);
   if (!game) {
     return null;
   }
   input.roundNumber = game.rounds.length + 1;
   input.scores = [];
   game.rounds.push(input);
-  game = await gameRepository.updateGame(game.id, game);
+  game = await gameService.updateGame(game.id, game);
   return game;
 }
 
-export async function deleteRound(_: any, { id, gameId }: { id: any, gameId: any }, { gameRepository }: { gameRepository?: IGameRepository }) {
-  let game = await gameRepository.getById(gameId);
+export async function deleteRound(_: any, { id, gameId }: { id: any, gameId: any }, { gameService }: { gameService?: IGameService }) {
+  let game = await gameService.getById(gameId);
   if (!game) {
     return null;
   }
@@ -26,14 +26,14 @@ export async function deleteRound(_: any, { id, gameId }: { id: any, gameId: any
       }
     });
     game.rounds.splice(foundIndex, 1);
-    game = await gameRepository.updateGame(game.id, game);
+    game = await gameService.updateGame(game.id, game);
   }
 
   return game;
 }
 
-export async function updateRound(_: any, { id, input }: { id: any, input: IRoundInput }, { gameRepository }: { gameRepository?: IGameRepository }) {
-  let game = await gameRepository.getById(input.gameId);
+export async function updateRound(_: any, { id, input }: { id: any, input: IRoundInput }, { gameService }: { gameService?: IGameService }) {
+  let game = await gameService.getById(input.gameId);
   if (!game) {
     return null;
   }
@@ -42,13 +42,13 @@ export async function updateRound(_: any, { id, input }: { id: any, input: IRoun
     const round = game.rounds[foundIndex];
     round.scores = input.scores;
     game.rounds[foundIndex] = round;
-    game = await gameRepository.updateGame(game.id, game);
+    game = await gameService.updateGame(game.id, game);
   }
   return game;
 }
 
-export async function scores(round: IRound, _: any, { gameRepository }: { gameRepository?: IGameRepository }) {
-  const game = await gameRepository.getByRoundId(round.id);
+export async function scores(round: IRound, _: any, { gameService }: { gameService?: IGameService }) {
+  const game = await gameService.getByRoundId(round.id);
   return round.scores.filter(score => !game.players.find(player => player.id === score.playerId).archived);
 }
 

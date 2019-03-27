@@ -6,7 +6,7 @@ import { IGamesLoader } from './game.loader';
 import { IGameModel } from './game.model';
 import { IGame, IGameFilterInput, IGameInput } from './game.types';
 
-export interface IGameRepository {
+export interface IGameService {
   gamesLoader: IGamesLoader;
   eventListener: PubSub;
   games: Model<IGameModel, {}>;
@@ -23,7 +23,7 @@ export interface IGameRepository {
   clearAll(): void;
 }
 
-export class GameRepository implements IGameRepository {
+export class GameService implements IGameService {
   public gamesLoader: IGamesLoader;
   public eventListener: PubSub;
   public games: Model<IGameModel, {}>;

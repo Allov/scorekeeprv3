@@ -1,14 +1,15 @@
 import DataLoader from 'dataloader';
 import { Types } from 'mongoose';
 import { IContext } from 'types/graphql';
-import { Game as GameRepository } from './game.model';
+import { Game as GameService } from './game.model';
 import { IGame } from './game.types';
 
+//Use GameRepository
 type BatchGamesByIds = (ids: string[]) => Promise<IGame[]>;
 
 const batchGamesByIds: BatchGamesByIds = async (ids) => {
   const objectIds = ids.map(id => new Types.ObjectId(id));
-  const games = await GameRepository.find({
+  const games = await GameService.find({
     '_id': { $in: objectIds }
   });
 
@@ -23,7 +24,7 @@ const batchGamesByIds: BatchGamesByIds = async (ids) => {
 type BatchGamesByShareId = (shareIds: string[]) => Promise<IGame[]>;
 
 const batchGamesByShareIds: BatchGamesByShareId = async (shareIds) => {
-  const games = await GameRepository.find({
+  const games = await GameService.find({
     'shareId': { $in: shareIds }
   });
 
@@ -39,7 +40,7 @@ type BatchGamesByPlayerId = (playerIds: string[]) => Promise<IGame[]>;
 
 const batchGamesByPlayerIds: BatchGamesByPlayerId = async (playerIds) => {
   const objectIds = playerIds.map(id => new Types.ObjectId(id));
-  const games = await GameRepository.find({
+  const games = await GameService.find({
     'players._id': { $in: objectIds }
   });
 
@@ -57,7 +58,7 @@ type BatchGamesByRoundId = (roundIds: string[]) => Promise<IGame[]>;
 
 const batchGamesByRoundIds: BatchGamesByRoundId = async (roundIds) => {
   const objectIds = roundIds.map(id => new Types.ObjectId(id));
-  const games = await GameRepository.find({
+  const games = await GameService.find({
     'rounds._id': { $in: objectIds }
   });
 
@@ -76,7 +77,7 @@ const batchGamesByRoundIds: BatchGamesByRoundId = async (roundIds) => {
 export const gamesByIdsLoader = (context: IContext) => new DataLoader<string, IGame>(async (ids) => {
   const games = await batchGamesByIds(ids);
 
-  context.gameRepository.prime(games);
+  context.gameService.prime(games);
 
   return games;
 });
@@ -84,7 +85,7 @@ export const gamesByIdsLoader = (context: IContext) => new DataLoader<string, IG
 export const gamesByShareIdsLoader = (context: IContext) => new DataLoader<string, IGame>(async (shareIds) => {
   const games = await batchGamesByShareIds(shareIds);
 
-  context.gameRepository.prime(games);
+  context.gameService.prime(games);
 
   return games;
 });
@@ -92,7 +93,7 @@ export const gamesByShareIdsLoader = (context: IContext) => new DataLoader<strin
 export const gamesByPlayerIdsLoader = (context: IContext) =>  new DataLoader<string, IGame>(async (playerIds) => {
   const games = await batchGamesByPlayerIds(playerIds);
 
-  context.gameRepository.prime(games);
+  context.gameService.prime(games);
 
   return games;
 });
@@ -100,7 +101,7 @@ export const gamesByPlayerIdsLoader = (context: IContext) =>  new DataLoader<str
 export const gamesByRoundIdsLoader = (context: IContext) => new DataLoader<string, IGame>(async (roundsIds) => {
   const games = await batchGamesByRoundIds(roundsIds);
 
-  context.gameRepository.prime(games);
+  context.gameService.prime(games);
 
   return games;
 });
