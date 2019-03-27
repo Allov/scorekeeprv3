@@ -44,7 +44,7 @@ export async function createGame(_: any, { input }: { input: IGameInput }) {
 export async function deleteGame(_: any, { id }: { id: any }) {
   return await Game.findByIdAndRemove(id);
 }
-// TODO: Support PubSub
+
 export async function editGame(_: any, { id, input }: { id: any, input: IGameInput }, { gameRepository }: { gameRepository?: IGameRepository }): Promise<IGameModel> {
   return await gameRepository.updateGame(id, input);
 }

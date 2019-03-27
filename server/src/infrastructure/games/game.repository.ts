@@ -1,6 +1,6 @@
-import sillyname from 'sillyname';
 import { PubSub } from 'graphql-subscriptions';
 import { Model } from 'mongoose';
+import sillyname from 'sillyname';
 import { Events } from '../../app/eventListener';
 import { IGamesLoader } from './game.loader';
 import { IGameModel } from './game.model';

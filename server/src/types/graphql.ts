@@ -1,10 +1,10 @@
 import DataLoader from 'dataloader';
 import { IGamesLoader } from 'infrastructure/games/game.loader';
-import { GameRepository } from 'infrastructure/games/game.repository';
+import { IGameRepository } from 'infrastructure/games/game.repository';
 import { IUser } from 'infrastructure/users/user.types';
 
 export interface IContext {
-  gameRepository: GameRepository;
+  gameRepository: IGameRepository;
   userLoader: DataLoader<string, IUser>;
 }
 

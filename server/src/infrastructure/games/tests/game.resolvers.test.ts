@@ -1,67 +1,12 @@
+import ScorekeeprContextMock from 'app/tests/context.mock';
 import {
   players,
   rounds,
 } from '../game.resolvers';
-import { IGame } from '../game.types';
+import { mockGames } from './game.loader.mock';
 
-const mockGame: IGame = {
-  createdBy: 'fakeUserId',
-  id: 'fakeId',
-  name: 'fakeName',
-  players: [
-    {
-      archived: false,
-      id: 'fakePlayerId1',
-      name: 'fakePlayerName1'
-    },
-    {
-      archived: false,
-      id: 'fakePlayerId2',
-      name: 'fakePlayerName2'
-    },
-    {
-      archived: true,
-      id: 'fakePlayerId3',
-      name: 'fakePlayerName3'
-    }
-  ],
-  rounds: [
-    {
-      id: 'fakeRoundId1',
-      roundNumber: 1,
-      scores: [
-        {
-          id: 'fakeScore1',
-          playerId:'fakePlayerId1',
-          points: 3,
-        },
-        {
-          id: 'fakeScore2',
-          playerId:'fakePlayerId2',
-          points: 6,
-        },
-      ],
-    },
-    {
-      id: 'fakeRoundId2',
-      roundNumber: 2,
-      scores: [
-        {
-          id: 'fakeScore3',
-          playerId:'fakePlayerId1',
-          points: 4,
-        },
-        {
-          id: 'fakeScore4',
-          playerId:'fakePlayerId2',
-          points: 7,
-        },
-      ],
-    },
-  ],
-  shareId: 'fakeShareId',
-}
-
+const mockContext = new ScorekeeprContextMock();
+const mockGame = mockGames[0];
 
 it('should return all rounds', () => {
   const returnRounds = rounds(mockGame, {roundNumber: undefined});
