@@ -15,7 +15,7 @@ export async function createdBy(game: IGame, _, { userLoader }: { userLoader: Da
   return await userLoader.load(game.createdBy);
 }
 
-export async function players(game: IGame) {
+export function players(game: IGame) : IPlayer[] {
   return game.players.filter((player: IPlayer) => !player.archived);
 }
 
@@ -65,7 +65,6 @@ export async function games(_: any, { filter }: { filter: IGameFilterInput }, { 
 export function rounds(game: IGame, { roundNumber }: { roundNumber: number | undefined }): IRound[] {
   return roundNumber ? game.rounds.filter(round => round.roundNumber === roundNumber) : game.rounds;
 }
-
 
 export function resolveGameUpdated(payload: any, variables: any, { gameRepository }: { gameRepository: IGameRepository }) {
   gameRepository.clearAll();
