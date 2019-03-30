@@ -125,7 +125,8 @@ export class GamesLoader implements IGamesLoader {
     this.byShareId.clearAll();
   }
   public prime(games: IGame[]): void {
-    for (const game of games) {
+    const filtered = games.filter(x => x != null);
+    for (const game of filtered) {
       this.byId.prime(game.shareId, game);
       this.byShareId.prime(game.shareId, game);
       game.players.forEach(player => this.byPlayerId.prime(player.id, game));

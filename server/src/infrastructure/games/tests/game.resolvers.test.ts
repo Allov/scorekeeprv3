@@ -3,7 +3,7 @@ import {
   players,
   rounds,
 } from '../game.resolvers';
-import { mockGames } from './game.loader.mock';
+import { mockGames } from './game.repository.mock';
 
 const mockContext = new ScorekeeprContextMock();
 const mockGame = mockGames[0];

@@ -15,6 +15,7 @@ export interface IGameService {
   updateGame(id: string, input: any, returnNew?: boolean, publish?: boolean): Promise<IGameModel>;
   publishGame(game: IGame): Promise<void>;
   deleteGame(id: string): Promise<boolean>;
+  clearAll(): void;
 }
 
 export class GameService implements IGameService {
@@ -77,5 +78,9 @@ export class GameService implements IGameService {
 
   public async deleteGame(id: string): Promise<boolean> {
     return await this.gameRepository.delete(id);
+  }
+
+  public clearAll(): void {
+    this.gamesLoader.clearAll();
   }
 }
