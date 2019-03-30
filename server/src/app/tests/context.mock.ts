@@ -1,8 +1,8 @@
 
-import { GamesLoader } from 'infrastructure/games/game.loader';
-import { GameMockRepository } from 'infrastructure/games/tests/game.repository.mock';
 import eventListener from '../../app/eventListener';
+import { GamesLoader } from '../../infrastructure/games/game.loader';
 import { GameService, IGameService } from '../../infrastructure/games/game.service';
+import { GameMockRepository } from '../../infrastructure/games/tests/game.repository.mock';
 import { userLoaderMock } from '../../infrastructure/users/tests/user.loader.mock';
 import { IContext } from '../../types/graphql';
 

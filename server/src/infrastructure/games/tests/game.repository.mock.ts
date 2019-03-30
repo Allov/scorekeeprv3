@@ -1,8 +1,5 @@
-import DataLoader from 'dataloader';
-import { IContext } from 'types/graphql';
 import { IGameRepository, IGameSearchCriteria } from '../game.repository';
 import { IGame, IGameFilterInput, IGameInput } from '../game.types';
-
 
 export const mockGames: IGame[] = [
   {
@@ -121,7 +118,6 @@ export const mockGames: IGame[] = [
   },
 ];
 
-
 export class GameMockRepository implements IGameRepository {
   public async getAll(filter: IGameFilterInput): Promise<IGame[]> {
     return mockGames;
@@ -133,23 +129,36 @@ export class GameMockRepository implements IGameRepository {
     return mockGames.filter(x => ids.includes(x.id));
   }
   public async search(searchCriteria: IGameSearchCriteria): Promise<IGame[]> {
-    if(searchCriteria.shareIds){
-      return  mockGames.filter(x => searchCriteria.shareIds.includes(x.shareId));
+    if (searchCriteria.shareIds) {
+      return mockGames.filter(x => searchCriteria.shareIds.includes(x.shareId));
     }
-    if(searchCriteria.playerIds){
+    if (searchCriteria.playerIds) {
       return mockGames.filter(game => game.players.some(player => searchCriteria.playerIds.includes(player.id)));
     }
-    if(searchCriteria.roundIds){
+    if (searchCriteria.roundIds) {
       return mockGames.filter(game => game.rounds.some(round => searchCriteria.roundIds.includes(round.id)));
     }
   }
+
   public async create(input: IGameInput): Promise<IGame> {
-    throw new Error("Method not implemented.");
+    const game: IGame = {
+      createdBy: input.userId,
+      id: 'fakeIdC',
+      name: input.name,
+      players: [],
+      rounds: input.rounds,
+      shareId: 'shareId',
+    };
+    mockGames.push(game);
+    return game;
   }
   public async update(id: string, input: any, returnNew?: boolean): Promise<IGame> {
     throw new Error("Method not implemented.");
   }
   public async delete(id: string): Promise<boolean> {
-    throw new Error("Method not implemented.");
+    const index = mockGames.findIndex(x => x.id === id);
+    if (index === -1) { return false; }
+    mockGames.splice(index, 1);
+    return true;
   }
 }

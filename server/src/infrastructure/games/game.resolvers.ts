@@ -40,8 +40,8 @@ export async function createGame(_: any, { input }: { input: IGameInput }) {
   return game;
 }
 
-export async function deleteGame(_: any, { id }: { id: any }) {
-  return await Game.findByIdAndRemove(id);
+export async function deleteGame(_: any, { id }: { id: any }, { gameService }: { gameService?: IGameService }) {
+  return await gameService.deleteGame(id);
 }
 
 export async function editGame(_: any, { id, input }: { id: any, input: IGameInput }, { gameService }: { gameService?: IGameService }): Promise<IGameModel> {
