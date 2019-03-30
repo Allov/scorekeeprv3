@@ -1,74 +1,68 @@
 import { PubSub } from 'graphql-subscriptions';
-import { Model } from 'mongoose';
-import sillyname from 'sillyname';
 import { Events } from '../../app/eventListener';
 import { IGamesLoader } from './game.loader';
 import { IGameModel } from './game.model';
+import { IGameRepository } from './game.repository';
 import { IGame, IGameFilterInput, IGameInput } from './game.types';
 
 export interface IGameService {
-  gamesLoader: IGamesLoader;
-  eventListener: PubSub;
-  games: Model<IGameModel, {}>;
-  getAll(filter: IGameFilterInput): Promise<IGameModel[]>;
+  getAll(filter: IGameFilterInput): Promise<IGame[]>;
   getById(id: string): Promise<IGame>;
   getByPlayerId(id: string): Promise<IGame>;
   getByRoundId(id: string): Promise<IGame>;
   getByShareId(id: string): Promise<IGame>;
-  createGame(input: IGameInput): Promise<IGameModel>;
+  createGame(input: IGameInput): Promise<IGame>;
   updateGame(id: string, input: any, returnNew?: boolean, publish?: boolean): Promise<IGameModel>;
   publishGame(game: IGame): Promise<void>;
   deleteGame(id: string): Promise<boolean>;
-  prime(games: IGame[]): void;
-  clearAll(): void;
 }
 
 export class GameService implements IGameService {
-  public gamesLoader: IGamesLoader;
-  public eventListener: PubSub;
-  public games: Model<IGameModel, {}>;
-  public name = sillyname();
+  private readonly gamesLoader: IGamesLoader;
+  private readonly eventListener: PubSub;
+  private readonly gameRepository: IGameRepository;
 
   constructor(
     gamesLoader: IGamesLoader,
     eventListener: PubSub,
-    games: Model<IGameModel, {}>
+    gameRepository: IGameRepository
   ) {
     this.gamesLoader = gamesLoader;
     this.eventListener = eventListener;
-    this.games = games;
+    this.gameRepository = gameRepository;
   }
 
-  public async getAll(filter: IGameFilterInput): Promise<IGameModel[]> {
-    return await this.games.find({}, null, filter);
+  public async getAll(filter: IGameFilterInput): Promise<IGame[]> {
+    return await this.gameRepository.getAll(filter);
   }
 
   public async getById(id: string): Promise<IGame> {
-    return await this.gamesLoader.byId.load(id);
+    const games = await this.gamesLoader.getById(id);
+    return games;
   }
 
   public async getByPlayerId(id: string): Promise<IGame> {
-    return await this.gamesLoader.byPlayerId.load(id);
+    return await this.gamesLoader.getByPlayerId(id);
   }
 
   public async getByRoundId(id: string): Promise<IGame> {
-    return await this.gamesLoader.byRoundId.load(id);
+    return await this.gamesLoader.getByRoundId(id);
   }
 
   public async getByShareId(id: string): Promise<IGame> {
-    return await this.gamesLoader.byShareId.load(id);
+    return await this.gamesLoader.getByShareId(id);
   }
 
-  public async createGame(input: IGameInput): Promise<IGameModel> {
-    return await this.games.create(input);
+  public async createGame(input: IGameInput): Promise<IGame> {
+    return await this.gameRepository.create(input);
   }
 
   public async updateGame(id: string, input: any, returnNew: boolean = false, publish: boolean = true): Promise<IGameModel> {
-    const updatedGame = await this.games.findByIdAndUpdate(id, input, { new: returnNew });
+    const updatedGame = await this.gameRepository.update(id, input, returnNew);
 
     const game = returnNew ? updatedGame : input;
 
-    this.clearAll();
+    this.gamesLoader.clearAll();
 
     if (publish) {
       await this.publishGame(game);
@@ -82,23 +76,6 @@ export class GameService implements IGameService {
   }
 
   public async deleteGame(id: string): Promise<boolean> {
-    await this.games.findByIdAndRemove(id);
-    return true;
-  }
-
-  public prime(games: IGame[]): void {
-    for (const game of games) {
-      this.gamesLoader.byId.prime(game.shareId, game);
-      this.gamesLoader.byShareId.prime(game.shareId, game);
-      game.players.forEach(player => this.gamesLoader.byPlayerId.prime(player.id, game));
-      game.rounds.forEach(round => this.gamesLoader.byRoundId.prime(round.id, game));
-    }
-  }
-
-  public clearAll(): void {
-    this.gamesLoader.byId.clearAll();
-    this.gamesLoader.byShareId.clearAll();
-    this.gamesLoader.byPlayerId.clearAll();
-    this.gamesLoader.byRoundId.clearAll();
+    return await this.gameRepository.delete(id);
   }
 }

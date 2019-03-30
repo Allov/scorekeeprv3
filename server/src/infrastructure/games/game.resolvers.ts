@@ -4,7 +4,6 @@ import { IPlayer } from 'infrastructure/players/player.types';
 import { IRound } from 'infrastructure/rounds/round.types';
 import { IUser } from 'infrastructure/users/user.types';
 import sillyname from 'sillyname';
-import { IResolverMap } from 'types/graphql';
 import eventListener, { Events } from '../../app/eventListener';
 import { User as UserRepository } from '../users/user.model';
 import { Game, IGameModel } from './game.model';
@@ -57,8 +56,7 @@ export async function gameByShareId(_: any, { shareId }: { shareId: string }, { 
   return await gameService.getByShareId(shareId);
 }
 
-// TODO: Return IGame[] and not IGameModel[]
-export async function games(_: any, { filter }: { filter: IGameFilterInput }, { gameService }: { gameService?: IGameService }): Promise<IGameModel[]> {
+export async function games(_: any, { filter }: { filter: IGameFilterInput }, { gameService }: { gameService?: IGameService }): Promise<IGame[]> {
   return await gameService.getAll(filter);
 }
 
