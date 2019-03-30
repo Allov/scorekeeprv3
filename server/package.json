@@ -6,7 +6,8 @@
     "build": "tsc",
     "start": "nodemon",
     "prod": "npm run build && npm run start",
-    "test": "jest --env=node"
+    "test": "jest --env=node",
+    "test-coverage": "jest --env=node --coverage"
   },
   "dependencies": {
     "@types/express": "^4.16.0",
