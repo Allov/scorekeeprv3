@@ -1,21 +1,18 @@
 import eventListener from '../app/eventListener';
-import { gamesByIdsLoader, gamesByPlayerIdsLoader, gamesByRoundIdsLoader, gamesByShareIdsLoader, IGamesLoader } from '../infrastructure/games/game.loader';
+import { GamesLoader } from '../infrastructure/games/game.loader';
 import { Game } from '../infrastructure/games/game.model';
-import { GameRepository } from '../infrastructure/games/game.repository';
+import { GameMongooseRepository } from '../infrastructure/games/game.repository';
+import { GameService, IGameService } from '../infrastructure/games/game.service';
 import { userLoader } from '../infrastructure/users/user.loader';
 import { IContext } from '../types/graphql';
 
 export default class ScorekeeprContext implements IContext {
-  public gameRepository: GameRepository = null;
+  public gameService: IGameService;
   public userLoader = userLoader();
 
   constructor() {
-    const gamesLoader = {
-      byId: gamesByIdsLoader(this),
-      byPlayerId: gamesByPlayerIdsLoader(this),
-      byRoundId: gamesByRoundIdsLoader(this),
-      byShareId: gamesByShareIdsLoader(this),
-    }
-    this.gameRepository = new GameRepository(gamesLoader, eventListener, Game);
+    const gameRepository = new GameMongooseRepository(Game);
+    const gamesLoader = new GamesLoader(gameRepository);
+    this.gameService = new GameService(gamesLoader, eventListener, gameRepository);
   }
 }

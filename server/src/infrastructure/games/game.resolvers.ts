@@ -4,18 +4,17 @@ import { IPlayer } from 'infrastructure/players/player.types';
 import { IRound } from 'infrastructure/rounds/round.types';
 import { IUser } from 'infrastructure/users/user.types';
 import sillyname from 'sillyname';
-import { IResolverMap } from 'types/graphql';
 import eventListener, { Events } from '../../app/eventListener';
 import { User as UserRepository } from '../users/user.model';
 import { Game, IGameModel } from './game.model';
-import { IGameRepository } from './game.repository';
+import { IGameService } from './game.service';
 import { IGame, IGameFilterInput, IGameInput } from './game.types';
 
 export async function createdBy(game: IGame, _, { userLoader }: { userLoader: DataLoader<string, IUser> }) {
   return await userLoader.load(game.createdBy);
 }
 
-export async function players(game: IGame) {
+export function players(game: IGame) : IPlayer[] {
   return game.players.filter((player: IPlayer) => !player.archived);
 }
 
@@ -41,34 +40,32 @@ export async function createGame(_: any, { input }: { input: IGameInput }) {
   return game;
 }
 
-export async function deleteGame(_: any, { id }: { id: any }) {
-  return await Game.findByIdAndRemove(id);
-}
-// TODO: Support PubSub
-export async function editGame(_: any, { id, input }: { id: any, input: IGameInput }, { gameRepository }: { gameRepository?: IGameRepository }): Promise<IGameModel> {
-  return await gameRepository.updateGame(id, input);
+export async function deleteGame(_: any, { id }: { id: any }, { gameService }: { gameService?: IGameService }) {
+  return await gameService.deleteGame(id);
 }
 
-export async function gamebyId(_: any, { id }: { id: any }, { gameRepository }: { gameRepository?: IGameRepository }): Promise<IGame> {
-  return await gameRepository.getById(id);
+export async function editGame(_: any, { id, input }: { id: any, input: IGameInput }, { gameService }: { gameService?: IGameService }): Promise<IGameModel> {
+  return await gameService.updateGame(id, input);
 }
 
-export async function gameByShareId(_: any, { shareId }: { shareId: string }, { gameRepository }: { gameRepository?: IGameRepository }): Promise<IGame> {
-  return await gameRepository.getByShareId(shareId);
+export async function gamebyId(_: any, { id }: { id: any }, { gameService }: { gameService?: IGameService }): Promise<IGame> {
+  return await gameService.getById(id);
 }
 
-// TODO: Return IGame[] and not IGameModel[]
-export async function games(_: any, { filter }: { filter: IGameFilterInput }, { gameRepository }: { gameRepository?: IGameRepository }): Promise<IGameModel[]> {
-  return await gameRepository.getAll(filter);
+export async function gameByShareId(_: any, { shareId }: { shareId: string }, { gameService }: { gameService?: IGameService }): Promise<IGame> {
+  return await gameService.getByShareId(shareId);
+}
+
+export async function games(_: any, { filter }: { filter: IGameFilterInput }, { gameService }: { gameService?: IGameService }): Promise<IGame[]> {
+  return await gameService.getAll(filter);
 }
 
 export function rounds(game: IGame, { roundNumber }: { roundNumber: number | undefined }): IRound[] {
   return roundNumber ? game.rounds.filter(round => round.roundNumber === roundNumber) : game.rounds;
 }
 
-
-export function resolveGameUpdated(payload: any, variables: any, { gameRepository }: { gameRepository: IGameRepository }) {
-  gameRepository.clearAll();
+export function resolveGameUpdated(payload: any, variables: any, { gameService }: { gameService: IGameService }) {
+  gameService.clearAll();
   return payload.gameUpdated;
 }
 
