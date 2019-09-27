@@ -1,6 +1,7 @@
 import { RouterState } from 'connected-react-router';
 import { IGamePage } from '../containers/Pages/Game/reducer';
 import { Notifications } from './constants';
+import { ICreateGamePage } from '../containers/Pages/Create/reducer';
 
 // todo: split this... probably.
 
@@ -25,6 +26,7 @@ export interface INotification {
 // this needs to be shared between client and backend.
 export interface IGameInput {
   name: string;
+  numberOfPlayers: number;
   userId?: string;
 }
 
@@ -61,6 +63,7 @@ export interface IUser {
 
 // mm
 export interface IPages {
+  createGame: ICreateGamePage;
   game: IGamePage;
 }
 

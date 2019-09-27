@@ -48,8 +48,7 @@ const FETCH_GAME_BY_SHAREID = gql`
 export function* fetchGame(action: IFetchGameAction) {
   const result = yield safeQuery(FETCH_GAME_BY_SHAREID, {
     shareId: action.shareId,
-  },
-    'Could not fetch game');
+  }, 'Could not fetch game');
 
   if (!result.gameByShareId) {
     yield put(notify(Notifications.Error, `Could not find game: ${action.shareId}`));

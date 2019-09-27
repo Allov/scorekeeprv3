@@ -21,7 +21,7 @@ export const makeSelectGameId = () => createSelector<IStore, IGamePage | undefin
 export const makeSelectGameTitle = () => createSelector<IStore, IGamePage | undefined, string>(
   getGameState,
   (state: IGamePage) => {
-    return state.title;
+    return state.game.name;
   }
 );
 

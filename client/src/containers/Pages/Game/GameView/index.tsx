@@ -18,7 +18,7 @@ interface IGameViewProps extends RouteComponentProps<{ shareId: string }> {
 
 export class GameView extends React.Component<IGameViewProps, {}> {
   public componentDidMount() {
-    // don't know how to do better, connected-router doesn't export the selecors...
+    // don't know how to do better, connected-router doesn't export the selectors...
     // https://github.com/supasate/connected-react-router/issues/160
     const shareId = this.props.match.params.shareId;
     this.props.fetchGame(shareId)
@@ -26,7 +26,7 @@ export class GameView extends React.Component<IGameViewProps, {}> {
   }
 
   public render() {
-    if (!this.props.currentRound) { return null; }
+    if (!this.props.currentRound) { return <p>Loading...</p>; }
 
     return (
       <>

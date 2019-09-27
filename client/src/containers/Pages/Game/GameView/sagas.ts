@@ -78,8 +78,6 @@ export function* manageGameUpdateSubscription(action: ISubscribeToGameAction) {
   while (true) {
     try {
       const game = yield take(channel);
-      // tslint:disable-next-line:no-console
-      console.log(game);
       yield put(subscribedGameUpdated(game));
     } catch (error) {
       // tslint:disable-next-line:no-console

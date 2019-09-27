@@ -49,6 +49,7 @@ export const initialState: IGamePageRecord = Record<IGamePage>(defaultState)();
 
 
 const fetchedGameHandler = (state: IGamePageRecord, action: IFetchedGameAction) => {
+  console.log(action.game);
   return state.mergeIn(['game'], action.game);
 };
 

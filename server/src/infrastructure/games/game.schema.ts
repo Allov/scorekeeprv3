@@ -21,6 +21,7 @@ export const gameTypeDefs = gql`
 
   input GameInput {
     name: String
+    numberOfPlayers: Int
     userId: String
   }
   # Extending the root Mutation type.
