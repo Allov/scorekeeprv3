@@ -22,7 +22,7 @@
     "graphql-subscriptions": "^1.0.0",
     "graphql-tools": "^4.0.3",
     "http": "0.0.0",
-    "mongoose": "^5.4.1",
+    "mongoose": "^5.7.5",
     "morgan": "^1.9.1",
     "pg": "^7.8.0",
     "sillyname": "^0.1.0",
